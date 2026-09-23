@@ -1,5 +1,51 @@
 [
   {
+    "path": "actors/actor_head.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "head",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_head_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "head_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
     "path": "actors/actor_legs_00.png",
     "world_size": [
       56,
@@ -40,6 +86,2552 @@
     "tinted": false,
     "layer": "legs_detail",
     "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_01.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_01_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_02.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_02_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_03.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_03_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_04.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_04_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_05.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_05_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_06.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_06_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_07.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "legs",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_legs_07_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "legs_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_torso.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "torso",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/actor_torso_detail.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "torso_detail",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "actors/armour_heavy.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "armour",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "actors/armour_light.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "armour",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "actors/armour_medium.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "armour",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "actors/body_prone_0.png",
+    "world_size": [
+      28,
+      28
+    ],
+    "texture_size": [
+      112,
+      112
+    ],
+    "pivot": [
+      14.0,
+      14.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "body_prone",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "actors/body_prone_1.png",
+    "world_size": [
+      28,
+      28
+    ],
+    "texture_size": [
+      112,
+      112
+    ],
+    "pivot": [
+      14.0,
+      14.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "body_prone",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "actors/body_prone_2.png",
+    "world_size": [
+      28,
+      28
+    ],
+    "texture_size": [
+      112,
+      112
+    ],
+    "pivot": [
+      14.0,
+      14.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "body_prone",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "actors/body_prone_3.png",
+    "world_size": [
+      28,
+      28
+    ],
+    "texture_size": [
+      112,
+      112
+    ],
+    "pivot": [
+      14.0,
+      14.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "body_prone",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_100.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_101.png",
+    "world_size": [
+      60,
+      40
+    ],
+    "texture_size": [
+      240,
+      160
+    ],
+    "pivot": [
+      30.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_102.png",
+    "world_size": [
+      80,
+      40
+    ],
+    "texture_size": [
+      320,
+      160
+    ],
+    "pivot": [
+      40.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_103.png",
+    "world_size": [
+      80,
+      40
+    ],
+    "texture_size": [
+      320,
+      160
+    ],
+    "pivot": [
+      40.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_104.png",
+    "world_size": [
+      100,
+      60
+    ],
+    "texture_size": [
+      400,
+      240
+    ],
+    "pivot": [
+      50.0,
+      30.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_105.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_106.png",
+    "world_size": [
+      80,
+      40
+    ],
+    "texture_size": [
+      320,
+      160
+    ],
+    "pivot": [
+      40.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_107.png",
+    "world_size": [
+      60,
+      40
+    ],
+    "texture_size": [
+      240,
+      160
+    ],
+    "pivot": [
+      30.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_108.png",
+    "world_size": [
+      100,
+      40
+    ],
+    "texture_size": [
+      400,
+      160
+    ],
+    "pivot": [
+      50.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_109.png",
+    "world_size": [
+      100,
+      60
+    ],
+    "texture_size": [
+      400,
+      240
+    ],
+    "pivot": [
+      50.0,
+      30.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_110.png",
+    "world_size": [
+      80,
+      40
+    ],
+    "texture_size": [
+      320,
+      160
+    ],
+    "pivot": [
+      40.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_111.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_112.png",
+    "world_size": [
+      100,
+      40
+    ],
+    "texture_size": [
+      400,
+      160
+    ],
+    "pivot": [
+      50.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_201.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_202.png",
+    "world_size": [
+      60,
+      40
+    ],
+    "texture_size": [
+      240,
+      160
+    ],
+    "pivot": [
+      30.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_203.png",
+    "world_size": [
+      60,
+      60
+    ],
+    "texture_size": [
+      240,
+      240
+    ],
+    "pivot": [
+      30.0,
+      30.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_301.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_302.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_303.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_311.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_312.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_313.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_321.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_322.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_323.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_331.png",
+    "world_size": [
+      20,
+      40
+    ],
+    "texture_size": [
+      80,
+      160
+    ],
+    "pivot": [
+      10.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_332.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_333.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_341.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_342.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_343.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_351.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_352.png",
+    "world_size": [
+      60,
+      20
+    ],
+    "texture_size": [
+      240,
+      80
+    ],
+    "pivot": [
+      30.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_401.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_402.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_501.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_502.png",
+    "world_size": [
+      60,
+      40
+    ],
+    "texture_size": [
+      240,
+      160
+    ],
+    "pivot": [
+      30.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_503.png",
+    "world_size": [
+      60,
+      60
+    ],
+    "texture_size": [
+      240,
+      240
+    ],
+    "pivot": [
+      30.0,
+      30.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_601.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_602.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_701.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_702.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_801.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_802.png",
+    "world_size": [
+      40,
+      20
+    ],
+    "texture_size": [
+      160,
+      80
+    ],
+    "pivot": [
+      20.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_900.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_901.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_902.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_903.png",
+    "world_size": [
+      40,
+      60
+    ],
+    "texture_size": [
+      160,
+      240
+    ],
+    "pivot": [
+      20.0,
+      30.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "items/item_unknown.png",
+    "world_size": [
+      20,
+      20
+    ],
+    "texture_size": [
+      80,
+      80
+    ],
+    "pivot": [
+      10.0,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "item",
+    "source": "render_items.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/cache_full.png",
+    "world_size": [
+      16,
+      16
+    ],
+    "texture_size": [
+      64,
+      64
+    ],
+    "pivot": [
+      8.0,
+      8.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/cache_taken.png",
+    "world_size": [
+      16,
+      16
+    ],
+    "texture_size": [
+      64,
+      64
+    ],
+    "pivot": [
+      8.0,
+      8.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/chest_full.png",
+    "world_size": [
+      20,
+      16
+    ],
+    "texture_size": [
+      80,
+      64
+    ],
+    "pivot": [
+      10.0,
+      8.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/chest_open.png",
+    "world_size": [
+      20,
+      16
+    ],
+    "texture_size": [
+      80,
+      64
+    ],
+    "pivot": [
+      10.0,
+      8.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/door_jamb.png",
+    "world_size": [
+      3,
+      20
+    ],
+    "texture_size": [
+      12,
+      80
+    ],
+    "pivot": [
+      1.5,
+      10.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "door",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/door_leaf_2.png",
+    "world_size": [
+      34,
+      10
+    ],
+    "texture_size": [
+      136,
+      40
+    ],
+    "pivot": [
+      17.0,
+      5.0
+    ],
+    "anchors": {
+      "hinge": [
+        0,
+        5
+      ]
+    },
+    "tinted": false,
+    "layer": "door",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/door_leaf_3.png",
+    "world_size": [
+      54,
+      10
+    ],
+    "texture_size": [
+      216,
+      40
+    ],
+    "pivot": [
+      27.0,
+      5.0
+    ],
+    "anchors": {
+      "hinge": [
+        0,
+        5
+      ]
+    },
+    "tinted": false,
+    "layer": "door",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/grenade.png",
+    "world_size": [
+      12,
+      12
+    ],
+    "texture_size": [
+      48,
+      48
+    ],
+    "pivot": [
+      6.0,
+      6.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/ground_bag.png",
+    "world_size": [
+      22,
+      18
+    ],
+    "texture_size": [
+      88,
+      72
+    ],
+    "pivot": [
+      11.0,
+      9.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/objective_case.png",
+    "world_size": [
+      20,
+      16
+    ],
+    "texture_size": [
+      80,
+      64
+    ],
+    "pivot": [
+      10.0,
+      8.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "props/objective_site_empty.png",
+    "world_size": [
+      20,
+      16
+    ],
+    "texture_size": [
+      80,
+      64
+    ],
+    "pivot": [
+      10.0,
+      8.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "prop",
+    "source": "render_props.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "surfaces/floor_tile.png",
+    "world_size": [
+      80,
+      80
+    ],
+    "texture_size": [
+      320,
+      320
+    ],
+    "pivot": [
+      40.0,
+      40.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "surface",
+    "source": "render_surfaces.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "surfaces/wall_tile.png",
+    "world_size": [
+      40,
+      40
+    ],
+    "texture_size": [
+      160,
+      160
+    ],
+    "pivot": [
+      20.0,
+      20.0
+    ],
+    "anchors": {},
+    "tinted": false,
+    "layer": "surface",
+    "source": "render_surfaces.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_ak47.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_ak47_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_arc_lance.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_arc_lance_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_awm.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_awm_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_frag.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_frag_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_glock.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_glock_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_mp7.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_mp7_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_photon.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_photon_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_remington.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_remington_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_saw.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_saw_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_tesla.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_tesla_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_vss.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_vss_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_vulcan.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_vulcan_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  },
+  {
+    "path": "weapons/held_welrod.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {
+      "muzzle": [
+        50,
+        28
+      ]
+    },
+    "tinted": false,
+    "layer": "held",
+    "source": "render_weapons.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729
+  },
+  {
+    "path": "weapons/held_welrod_arms.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "arms",
+    "source": "render_weapons.py",
     "alpha": "straight",
     "blender_version": "4.5.3",
     "seed": 1729,

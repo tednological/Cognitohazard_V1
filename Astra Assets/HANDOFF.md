@@ -1,5 +1,47 @@
 # Cognitohazard — 3090 cluster handoff
 
+## Current status — Linux continuation, 2026-09-23
+
+**All 115 production PNGs are rendered, validated, and visually approved by the user on 2026-09-23.**
+The historical Mac handoff below and the transfer archive describe the earlier
+two-PNG state; they are retained as history, not as the current delivery.
+
+- Blender 4.5.3 LTS ran headless EEVEE on the RTX 3090 with driver 595.84.
+- Fixed wall contrast by retaining the procedural image in floating-point
+  linear storage. The final output remains RGBA 8-bit PNG.
+- Disabled Blender stamp metadata, whose date and render-duration fields
+  made otherwise identical PNGs differ between runs.
+- Full batch validation passes; all 11 validator fault-injection cases pass.
+- Two final full batches have identical manifests and byte-identical PNGs.
+  `previews/reproducibility.json` records all 115 SHA-256 hashes;
+  `scripts/check_reproducibility.py` repeats the comparison.
+- Four contact sheets now exist at the paths listed below. The user reviewed
+  the art and approved publishing the assets: "I like it, push those assets".
+- Game integration, Godot import, and game build remain pending. The approved
+  asset set is ready for the integration step under art-contract §9.
+
+Runtime paths (temporary, may disappear on reboot):
+
+```sh
+export BLENDER=/tmp/cognitohazard-runtime/blender-4.5.3-linux-x64/blender
+export PYTHON=/tmp/cognitohazard-runtime/venv/bin/python
+bash cluster_render.sh
+```
+
+Final evidence: `previews/cluster_preflight.log`, `cluster_render.log`,
+`cluster_validation.log`, `cluster_validator_tests.log`, and
+`cluster_repro_render.log`. Freestyle reports corrected degenerate triangles
+from some primitive meshes; both batches completed and passed the checks.
+
+Review at 100% image size:
+
+- `previews/contact_world_1.00x.png`
+- `previews/contact_world_1.35x.png`
+- `previews/contact_all_1.00x.png`
+- `previews/contact_all_1.35x.png`
+
+## Historical Mac transfer handoff
+
 Saved 2026-09-23. The user moved production from the Intel Mac to a cluster
 with an RTX 3090. **The asset batch is not complete or visually approved.**
 

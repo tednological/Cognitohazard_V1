@@ -54,6 +54,11 @@ def setup(w,h,outline=True):
     s.render.resolution_percentage=100; s.render.film_transparent=True
     s.render.image_settings.file_format='PNG'; s.render.image_settings.color_mode='RGBA'
     s.render.image_settings.color_depth='8'; s.render.image_settings.compression=15
+    # Blender writes stamp fields into PNG metadata even without visible text.
+    # Date/time and render duration otherwise break byte-identical rebuilds.
+    for prop in s.render.bl_rna.properties:
+        if prop.identifier.startswith('use_stamp') and prop.type == 'BOOLEAN':
+            setattr(s.render,prop.identifier,False)
     s.render.filter_size=1.5; s.render.use_file_extension=True
     s.view_settings.view_transform='Standard'; s.view_settings.look='None'
     s.view_settings.exposure=0; s.view_settings.gamma=1

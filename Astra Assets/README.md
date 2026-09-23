@@ -1,6 +1,6 @@
 # Cognitohazard sprite sources
 
-**Cluster handoff:** read [HANDOFF.md](HANDOFF.md) for exact partial status and
+**Cluster handoff:** read [HANDOFF.md](HANDOFF.md) for current status and
 run `bash cluster_render.sh` with Blender 4.5.3 on the allocated GPU node.
 
 The contract is [cognitohazard_art_pipeline.md](cognitohazard_art_pipeline.md).
@@ -54,6 +54,24 @@ PNG IHDR, straight-alpha renderer provenance, and low-alpha fringe evidence;
 it does not pretend this proves association for every possible arbitrary PNG.
 The common rig writes Blender PNGs directly, with no image postprocessing.
 
-Human visual approval is pending. Game sprite drawing, procedural fallback
+Human visual approval was received on 2026-09-23. Game sprite drawing, procedural fallback
 wiring, mipmap import configuration and integration harness changes belong to
 the subsequent integration step described in contract §9.
+
+## Reproducibility
+
+The shared renderer disables stamp metadata (including timestamps) so that
+PNG bytes can be compared across runs. The surface shader keeps its intermediate
+linear-light image in floating-point storage to preserve the dark-wall contrast
+budget. Neither fix postprocesses delivered PNGs.
+
+After a full production batch, render a second output and compare it:
+
+```sh
+COG_OUTPUT=/tmp/cog-repro "$BLENDER" -b -t 4 --python-exit-code 1 -P scripts/render_all.py
+python3 scripts/check_reproducibility.py ../cognitohazard-v-1/assets /tmp/cog-repro --report previews/reproducibility.json
+```
+
+On the Linux continuation host, the temporary runtime is
+`/tmp/cognitohazard-runtime/blender-4.5.3-linux-x64/blender` and validation Python
+is `/tmp/cognitohazard-runtime/venv/bin/python`. These may disappear on reboot.

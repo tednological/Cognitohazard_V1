@@ -7,7 +7,9 @@ import bpy
 
 def surface(size,wall=False):
     # Analytic periodic value field. One-pixel edge guard makes edge matching exact.
-    n=size*4; im=bpy.data.images.new('Periodic concrete',width=n,height=n,alpha=True)
+    # Keep linear-light values in float storage: 8-bit linear quantization at
+    # these dark wall values exceeds the contrast budget after sRGB conversion.
+    n=size*4; im=bpy.data.images.new('Periodic concrete',width=n,height=n,alpha=True,float_buffer=True)
     im.colorspace_settings.name='Non-Color'
     pixels=[]
     base=(.161,.180,.220) if wall else (.965,.965,.965)
