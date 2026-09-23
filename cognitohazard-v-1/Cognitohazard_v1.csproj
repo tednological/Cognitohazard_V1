@@ -1,0 +1,19 @@
+<Project Sdk="Godot.NET.Sdk/4.6.2">
+
+  <!-- The Godot-side assembly. It compiles sim/ and (from milestone 2) any C#
+       that game/ needs. tests/ is excluded: it is a standalone console harness
+       that must stay runnable without the engine. -->
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Cognitohazard</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+    <None Remove="tests/**" />
+  </ItemGroup>
+
+</Project>

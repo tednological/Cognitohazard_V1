@@ -1,0 +1,12 @@
+Blender 4.2.3 LTS (hash 0e22e4fcea03 built 2024-10-14 23:41:24)
+Traceback (most recent call last):
+  File "/Users/theodorelieber/Cognitohazard/Attempt_1/Astra Assets/scripts/render_probe.py", line 6, in <module>
+    c.setup(56,56)
+  File "/Users/theodorelieber/Cognitohazard/Attempt_1/Astra Assets/scripts/cog_common.py", line 76, in setup
+    ls.linestyle.color=(linear(.35),)*3; ls.linestyle.thickness=4
+    ^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'color'
+
+Error: script failed, file: 'scripts/render_probe.py', exiting.
+
+Blender quit

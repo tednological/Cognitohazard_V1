@@ -1,0 +1,187 @@
+[
+  {
+    "path": "Astra Assets/.gitignore",
+    "bytes": 33,
+    "sha256": "0f823dce0dcc1ec03a7daf9c50663bbcb1cf984f6425da641634b45982e3ee68"
+  },
+  {
+    "path": "Astra Assets/HANDOFF.md",
+    "bytes": 5670,
+    "sha256": "2ebd3fcb5f0fc5c7eca967ae71ad840ad71d191a798d1b8690f5c65f57699983"
+  },
+  {
+    "path": "Astra Assets/README.md",
+    "bytes": 3053,
+    "sha256": "8465773bf4bb71c38f2086b2a515481e7d01cc3428db9790a23f63a06fa72b2e"
+  },
+  {
+    "path": "Astra Assets/cluster_render.sh",
+    "bytes": 821,
+    "sha256": "4a09a75a979cb1f16347622aaedc01ec8e1026f6e593085236bb0c852afe81a9"
+  },
+  {
+    "path": "Astra Assets/cognitohazard_art_pipeline.md",
+    "bytes": 31643,
+    "sha256": "9d62da5282adb53ef2a9c5f20487a4053e4000bbfb7ab44df2e76003757731fb"
+  },
+  {
+    "path": "Astra Assets/previews/api_probe.log",
+    "bytes": 240,
+    "sha256": "8f2fbfa0deaf789d6d1d9577750ecc467ac4008574c4ae7f1df8544c0fdee8e5"
+  },
+  {
+    "path": "Astra Assets/previews/fresh_process.log",
+    "bytes": 4701,
+    "sha256": "5f5d5c9dc45bb83cfabb07068df98cf1a1d6fdb27733adb34bc99dcd2d562b46"
+  },
+  {
+    "path": "Astra Assets/previews/godot_check.log",
+    "bytes": 78,
+    "sha256": "9fbd7527fee6241e65d6ba580800f02067445e96827e8ea2b28b4c33d9ba9cfc"
+  },
+  {
+    "path": "Astra Assets/previews/intel_metal_driver_sample.txt",
+    "bytes": 236626,
+    "sha256": "28e836f138cb5488fd8db89f24acfee0d10653205a123eb5da474d0bf943bc53"
+  },
+  {
+    "path": "Astra Assets/previews/opengl_proof.log",
+    "bytes": 79,
+    "sha256": "598f3ab4a1859897f9244c5003cbceb34603688e5768d38c28856e631507972b"
+  },
+  {
+    "path": "Astra Assets/previews/probe_423.log",
+    "bytes": 567,
+    "sha256": "1228cbfefcf11a2a7dcc59965b892b9a9af64e526238c4bdfc437def0fc40d1e"
+  },
+  {
+    "path": "Astra Assets/previews/proof/actors/actor_torso.png",
+    "bytes": 14447,
+    "sha256": "f6c2f7b9710c0619764586046ad39803ef7ea3a1a4e4cc7cd1e5f5334ef1deb1"
+  },
+  {
+    "path": "Astra Assets/previews/proof/manifest.json",
+    "bytes": 390,
+    "sha256": "9f376bcb21a02b6e56f38dc6e117cbccf01e7404f7701e64d01f9a17354376ad"
+  },
+  {
+    "path": "Astra Assets/previews/proof.log",
+    "bytes": 4686,
+    "sha256": "05dac1d0dd6d32aa09e8a1494866760adc5b703f8e530bd9a74ef5aa1e74dae8"
+  },
+  {
+    "path": "Astra Assets/previews/render_all.log",
+    "bytes": 13703,
+    "sha256": "0d898aefa3be4e383b10607bc0992e74b65c706974d775e36a243eb4e370a44e"
+  },
+  {
+    "path": "Astra Assets/scripts/check_assets.py",
+    "bytes": 11639,
+    "sha256": "a3b62d6443236a2a98c5c92f6d82514ff3e5ea4b1e34b2b7cbfbdcd479c0c413"
+  },
+  {
+    "path": "Astra Assets/scripts/cog_common.py",
+    "bytes": 7203,
+    "sha256": "cdf8ea96966de5c90810004ebe01796239044ba23291a54426d84af0355d1f46"
+  },
+  {
+    "path": "Astra Assets/scripts/proof.py",
+    "bytes": 262,
+    "sha256": "b20e1933464eb68500ae50253099801e583da027686b64bfc200addc8b5bef38"
+  },
+  {
+    "path": "Astra Assets/scripts/render_actors.py",
+    "bytes": 3027,
+    "sha256": "cd8d0f660e35db353e6a832c90223a3b10a3b4ee8b05edc8afd8e8464e206d60"
+  },
+  {
+    "path": "Astra Assets/scripts/render_all.py",
+    "bytes": 459,
+    "sha256": "ccce7311a69e77e8af486290978c3e010403429c8f6f51ea07fe5b106b322432"
+  },
+  {
+    "path": "Astra Assets/scripts/render_items.py",
+    "bytes": 5313,
+    "sha256": "9d6528f9aaf15a048d315bac82e3ffa599e6c55cf896de70d369f34635b0b6b1"
+  },
+  {
+    "path": "Astra Assets/scripts/render_probe.py",
+    "bytes": 288,
+    "sha256": "1a671ff3f7e04a6a0f3bc91221d863dcd18b1de08c26d0b5cd2cb43879aa18c5"
+  },
+  {
+    "path": "Astra Assets/scripts/render_props.py",
+    "bytes": 2930,
+    "sha256": "1e94f4e9e81c3896f2bb264579f5f59840e24a8468991979f611c22e5a3e9dea"
+  },
+  {
+    "path": "Astra Assets/scripts/render_surfaces.py",
+    "bytes": 2052,
+    "sha256": "411e75c54bf7eaa92719edf414cd6d2a3fe713ede673ec6f0cc6941b4eacca2b"
+  },
+  {
+    "path": "Astra Assets/scripts/render_weapons.py",
+    "bytes": 4212,
+    "sha256": "2114a4766bb91673e604bfd359a6e777538e3d9b2f35997b059d8bd188eefb7f"
+  },
+  {
+    "path": "Astra Assets/scripts/run_batch.py",
+    "bytes": 2707,
+    "sha256": "2a6d027b84d4e70f71ef111bca04acdde1eaeb647c11750990d527c4c48cba18"
+  },
+  {
+    "path": "Astra Assets/scripts/test_validator.py",
+    "bytes": 2455,
+    "sha256": "fc49c2f752434cea6672ba2a5474d8437dd7c23f12865d90586edf918c82e661"
+  },
+  {
+    "path": "Astra Assets/scripts/verify_runtime.py",
+    "bytes": 776,
+    "sha256": "d7686c73027d2586ba25d1238c6107f2d5a0f55e036a98dd8b67bd8e8023b689"
+  },
+  {
+    "path": "cognitohazard-v-1/sim/GearCatalog.cs",
+    "bytes": 16645,
+    "sha256": "e1ad638ab5470a3976c832891ef2ad51f5de4f324ec1d8ea331b424bfaab0bdf"
+  },
+  {
+    "path": "cognitohazard-v-1/tools/check_assets.py",
+    "bytes": 11639,
+    "sha256": "a3b62d6443236a2a98c5c92f6d82514ff3e5ea4b1e34b2b7cbfbdcd479c0c413"
+  },
+  {
+    "path": "CLAUDE.md",
+    "bytes": 71564,
+    "sha256": "9959c4f0fcd9dcdc7402b2413441dd215071ea1d9fc529f2f224b5380978bdec"
+  },
+  {
+    "path": "cognitohazard_port_spec.md",
+    "bytes": 26814,
+    "sha256": "834372bfe4d63fcb2631c15e00954ef0830b5970c69901597986ea127b8dc72e"
+  },
+  {
+    "path": "cognitohazard_art_pipeline.md",
+    "bytes": 31643,
+    "sha256": "9d62da5282adb53ef2a9c5f20487a4053e4000bbfb7ab44df2e76003757731fb"
+  },
+  {
+    "path": "cognitohazard-v-1/game/main.gd",
+    "bytes": 126049,
+    "sha256": "6089a511a9d91f1a5589bec25e11c5a63d0ed0808c862f8c2b819f4f0be45395"
+  },
+  {
+    "path": "cognitohazard-v-1/assets/actors/actor_legs_00.png",
+    "bytes": 15282,
+    "sha256": "30b8f21c00055133f149483b90aff0981a7b930be1125ef9d4e4ba92b8dfc4e7"
+  },
+  {
+    "path": "cognitohazard-v-1/assets/actors/actor_legs_00_detail.png",
+    "bytes": 13803,
+    "sha256": "9ff9ea180e144b5790ddcf765b3b5b1b942e06688964b0b3735b6a339cf75db3"
+  },
+  {
+    "path": "cognitohazard-v-1/assets/manifest.json",
+    "bytes": 794,
+    "sha256": "78ac8ac2e2ee11e9d5004f99110f28fe793737170bad94d69ec2dbe7477c63d7"
+  }
+]

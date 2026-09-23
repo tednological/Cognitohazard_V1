@@ -1,0 +1,25 @@
+[
+  {
+    "path": "actors/actor_torso.png",
+    "world_size": [
+      56,
+      56
+    ],
+    "texture_size": [
+      224,
+      224
+    ],
+    "pivot": [
+      28.0,
+      28.0
+    ],
+    "anchors": {},
+    "tinted": true,
+    "layer": "torso",
+    "source": "render_actors.py",
+    "alpha": "straight",
+    "blender_version": "4.5.3",
+    "seed": 1729,
+    "body_circle_radius": 11
+  }
+]

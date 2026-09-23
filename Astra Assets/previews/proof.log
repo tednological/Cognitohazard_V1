@@ -1,0 +1,59 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:30:49)
+Fra:1 Mem:41.39M (Peak 41.39M) | Time:00:00.83 | Rendering 1 / 64 samples
+Fra:1 Mem:41.62M (Peak 41.62M) | Time:00:04.17 | Rendering 25 / 64 samples
+Fra:1 Mem:41.63M (Peak 41.63M) | Time:00:04.56 | Rendering 50 / 64 samples
+Fra:1 Mem:41.63M (Peak 41.63M) | Time:00:04.76 | Rendering 64 / 64 samples
+Fra:1 Mem:12.40M (Peak 41.63M) | Time:00:05.11 | Freestyle: Mesh loading
+Fra:1 Mem:14.72M (Peak 41.63M) | Time:00:05.12 | Freestyle: View map creation
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 0%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 2%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 5%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 7%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 10%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 12%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 15%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 17%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 20%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 22%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 25%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 27%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 30%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 32%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 35%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 37%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 40%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 42%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 45%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 47%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 50%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 52%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 55%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 57%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 60%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 62%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 65%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 67%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 70%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 72%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 75%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 77%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 80%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 82%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 85%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 87%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 90%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 92%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 95%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 97%
+Fra:1 Mem:14.96M (Peak 41.63M) | Time:00:05.12 | Freestyle: Visibility computations 100%
+Fra:1 Mem:14.45M (Peak 41.63M) | Time:00:05.12 | Freestyle: Stroke rendering
+Fra:1 Mem:44.86M (Peak 44.86M) | Time:00:00.04 | Rendering 1 / 64 samples
+Fra:1 Mem:44.80M (Peak 44.86M) | Time:00:03.65 | Rendering 25 / 64 samples
+Fra:1 Mem:44.86M (Peak 44.86M) | Time:00:04.02 | Rendering 50 / 64 samples
+Fra:1 Mem:44.86M (Peak 44.86M) | Time:00:04.23 | Rendering 64 / 64 samples
+Saved: '/Users/theodorelieber/Cognitohazard/Attempt_1/Astra Assets/previews/proof/actors/actor_torso.png'
+Time: 00:09.73 (Saving: 00:00.02)
+
+COG_RENDERED actors/actor_torso.png
+
+Blender quit

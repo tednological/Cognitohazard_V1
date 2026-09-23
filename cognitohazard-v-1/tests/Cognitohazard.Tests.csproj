@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Headless harness (spec §4.3). Deliberately NOT a Godot project: sim/ has
+       zero Node dependencies, so it compiles and runs as plain .NET. That keeps
+       the tests fast, windowless, audio-free, and independent of the engine. -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>Cognitohazard.Tests</RootNamespace>
+    <AssemblyName>Cognitohazard.Tests</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- TFM matches what Godot 4.6 targets, so sim/ compiles identically in both
+         projects. Only the .NET 10 runtime is installed locally, so roll forward
+         rather than pinning the harness to a second TFM. -->
+    <RollForward>LatestMajor</RollForward>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <Compile Include="../sim/*.cs" />
+  </ItemGroup>
+
+</Project>

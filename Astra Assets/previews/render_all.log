@@ -1,0 +1,198 @@
+COG_STAGE render_actors
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:30:49)
+Fra:1 Mem:41.86M (Peak 41.86M) | Time:00:00.38 | Rendering 1 / 64 samples
+Fra:1 Mem:42.08M (Peak 42.08M) | Time:00:04.00 | Rendering 25 / 64 samples
+Fra:1 Mem:42.09M (Peak 42.09M) | Time:00:04.46 | Rendering 50 / 64 samples
+Fra:1 Mem:42.09M (Peak 42.09M) | Time:00:04.66 | Rendering 64 / 64 samples
+Fra:1 Mem:12.95M (Peak 42.09M) | Time:00:05.04 | Freestyle: Mesh loading
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Warning: degenerated triangle detected, correcting
+Fra:1 Mem:15.61M (Peak 42.09M) | Time:00:05.05 | Freestyle: View map creation
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 0%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 1%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 2%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 3%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 4%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 5%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 6%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 7%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 9%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 10%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 11%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 12%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 13%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 14%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 15%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 17%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 18%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 19%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 20%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 21%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 22%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 23%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 25%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 26%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 27%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 28%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 29%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 30%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 31%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 33%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 34%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 35%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 36%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 37%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 38%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 39%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 41%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 42%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 43%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 44%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 45%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 46%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 47%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 49%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 50%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 51%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 52%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 53%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 54%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 55%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 56%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 58%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 59%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 60%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 61%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 62%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 63%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 64%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 66%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 67%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 68%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 69%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 70%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 71%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 72%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 74%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 75%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 76%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 77%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 78%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 79%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 80%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 82%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 83%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 84%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 85%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 86%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 87%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 88%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 90%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 91%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 92%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 93%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 94%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 95%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 96%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 98%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 99%
+Fra:1 Mem:16.27M (Peak 42.09M) | Time:00:05.06 | Freestyle: Visibility computations 100%
+Fra:1 Mem:15.21M (Peak 42.09M) | Time:00:05.06 | Freestyle: Stroke rendering
+Fra:1 Mem:45.39M (Peak 45.39M) | Time:00:00.05 | Rendering 1 / 64 samples
+Fra:1 Mem:45.33M (Peak 45.39M) | Time:00:03.77 | Rendering 25 / 64 samples
+Fra:1 Mem:45.39M (Peak 45.39M) | Time:00:04.19 | Rendering 50 / 64 samples
+Fra:1 Mem:45.39M (Peak 45.39M) | Time:00:04.47 | Rendering 64 / 64 samples
+Saved: '/Users/theodorelieber/Cognitohazard/Attempt_1/cognitohazard-v-1/assets/actors/actor_legs_00.png'
+Time: 00:09.91 (Saving: 00:00.02)
+
+COG_RENDERED actors/actor_legs_00.png
+Fra:1 Mem:43.77M (Peak 43.77M) | Time:00:00.13 | Rendering 1 / 64 samples
+Fra:1 Mem:43.77M (Peak 43.77M) | Time:00:20.91 | Rendering 25 / 64 samples
+Fra:1 Mem:43.78M (Peak 43.78M) | Time:01:43.26 | Rendering 50 / 64 samples
+Fra:1 Mem:43.78M (Peak 43.78M) | Time:02:29.28 | Rendering 64 / 64 samples
