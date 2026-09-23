@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cognitohazard · Tileset lighting study</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1016;color:#dce5ec;font:15px system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:28px}h1{font-size:28px;margin:6px 0}p{color:#94a8b9;line-height:1.5}label{display:flex;align-items:center;gap:10px}header{margin-bottom:20px}.controls{display:flex;gap:24px;flex-wrap:wrap;padding:18px;background:#17212b;border-radius:8px;margin:18px 0}select,button{font:inherit;background:#243443;color:#eaf3fc;border:1px solid #52697b;border-radius:4px;padding:8px}input{accent-color:#65bac7}canvas{display:block;width:100%;height:auto;background:#0d1116;border:1px solid #30404e;border-radius:8px;touch-action:none}small{color:#99adbc}footer{padding:14px 0}a{color:#9bd3df}
+</style>
+<main><header><small>COGNITOHAZARD / ENVIRONMENT ASSETS</small><h1>Two sectors. One lighting system.</h1><p>Move over the room to aim the light. Adjust the ambient level to inspect the normal maps and luminous fittings.</p></header>
+<div class="controls"><label>Sector <select id="theme"><option value="industrial">Industrial</option><option value="scientific">Scientific</option></select></label><label>Ambient <input id="ambient" aria-label="Ambient light" type="range" min="0" max="1" step=".01" value=".35"></label><label>Light power <input id="power" aria-label="Point light power" type="range" min="0" max="4" step=".05" value="2.4"></label><label><input id="emission" type="checkbox" checked> Emission</label><label>View <select id="pass"><option value="lit">Lighting</option><option value="albedo">Color</option><option value="normal">Normals</option><option value="emission">Emission</option></select></label></div>
+<canvas id="room" width="960" height="640" aria-label="Interactive top-down room lighting preview"></canvas>
+<footer><small>110 authored assets · 330 Blender renders · 20 world-pixel grid · 4× textures<br>This is an asset review scene. Light occlusion and gameplay visibility are not simulated here.</small></footer></main>
+<script>
+const data=__ASSET_DATA__;
+const canvas=document.querySelector('#room'),ctx=canvas.getContext('2d'),controls=['theme','ambient','power','emission','pass'].map(id=>document.getElementById(id));
+const [theme,ambient,power,emission,pass]=controls;const loaded={};let lx=480,ly=240,scheduled=false;
+async function decode(src){const im=new Image();im.src=src;await im.decode();const c=document.createElement('canvas');c.width=960;c.height=640;const x=c.getContext('2d');x.drawImage(im,0,0);return x.getImageData(0,0,960,640)}
+function render(){scheduled=false;const maps=loaded[theme.value];if(!maps)return;if(pass.value!=='lit'){ctx.putImageData(maps[pass.value],0,0);return}
+ const a=maps.albedo.data,n=maps.normal.data,e=maps.emission.data,out=ctx.createImageData(960,640),dst=out.data;const amb=+ambient.value,pow=+power.value,on=emission.checked;const tint=theme.value==='industrial'?[1,.78,.52]:[.58,.86,1];
+ for(let y=0;y<640;y++)for(let x=0;x<960;x++){const i=(y*960+x)*4,dx=lx-x,dy=y-ly,z=110,dist=Math.sqrt(dx*dx+dy*dy+z*z);const nx=n[i]/127.5-1,ny=n[i+1]/127.5-1,nz=n[i+2]/127.5-1,norm=Math.hypot(nx,ny,nz)||1;const diffuse=Math.max(0,(nx*dx+ny*dy+nz*z)/(dist*norm));const light=pow*diffuse/(1+(dist/280)**2);for(let c=0;c<3;c++)dst[i+c]=Math.min(255,a[i+c]*(amb+light*tint[c])+(on?e[i+c]*e[i+3]/255:0));dst[i+3]=255}ctx.putImageData(out,0,0)}
+function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(render)}}
+canvas.addEventListener('pointermove',event=>{const r=canvas.getBoundingClientRect();lx=(event.clientX-r.left)*960/r.width;ly=(event.clientY-r.top)*640/r.height;schedule()});controls.forEach(c=>c.addEventListener('input',schedule));
+(async()=>{for(const name of Object.keys(data)){loaded[name]={};for(const mode of Object.keys(data[name]))loaded[name][mode]=await decode(data[name][mode])}schedule()})().catch(error=>{document.querySelector('footer').textContent='Preview failed: '+error.message});
+</script></html>

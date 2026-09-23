@@ -149,3 +149,22 @@ def render(path,w,h,source,tinted=False,layer='prop',anchors=None,body_circle=Fa
     data=[e for e in data if e['path']!=path]+[entry]
     manifest.write_text(json.dumps(sorted(data,key=lambda e:e['path']),indent=2)+'\n')
     print('COG_RENDERED',path,flush=True)
+
+
+def tileset_camera(w, h):
+    """Companion-map rig: geometry borders instead of Freestyle on data passes."""
+    s=bpy.context.scene
+    s.camera.data.ortho_scale=w
+    s.render.resolution_x=round(w*SCALE); s.render.resolution_y=round(h*SCALE)
+    s.render.use_freestyle=False
+    s.camera.location.x=0; s.camera.location.y=0
+    s.render.dither_intensity=0
+
+
+def tileset_render(target, mode):
+    """Normal vectors bypass sRGB; beauty/emission retain the production transform."""
+    s=bpy.context.scene
+    s.view_settings.view_transform='Raw' if mode=='normal' else 'Standard'
+    s.render.filepath=str(target)
+    bpy.ops.render.render(write_still=True)
+    s.view_settings.view_transform='Standard'

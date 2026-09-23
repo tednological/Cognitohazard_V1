@@ -1,0 +1,2424 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:38:15)
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:13.30 | Rendering 1 / 64 samples
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:13.31 | Rendering 25 / 64 samples
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:13.32 | Rendering 50 / 64 samples
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:13.33 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_plain.png'
+Time: 00:13.38 (Saving: 00:00.01)
+
+Fra:1 Mem:41.44M (Peak 41.44M) | Time:00:00.18 | Rendering 1 / 64 samples
+Fra:1 Mem:41.44M (Peak 41.44M) | Time:00:00.19 | Rendering 25 / 64 samples
+Fra:1 Mem:41.44M (Peak 41.44M) | Time:00:00.19 | Rendering 50 / 64 samples
+Fra:1 Mem:41.44M (Peak 41.44M) | Time:00:00.20 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_plain.png'
+Time: 00:00.24 (Saving: 00:00.00)
+
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:41.51M (Peak 41.51M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_plain.png'
+Time: 00:00.13 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_plain
+Fra:1 Mem:43.49M (Peak 43.49M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:43.49M (Peak 43.49M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:43.49M (Peak 43.49M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:43.49M (Peak 43.49M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_plates.png'
+Time: 00:00.10 (Saving: 00:00.00)
+
+Fra:1 Mem:43.34M (Peak 43.34M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:43.34M (Peak 43.34M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:43.34M (Peak 43.34M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:43.34M (Peak 43.34M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_plates.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:43.30M (Peak 43.30M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:43.30M (Peak 43.30M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:43.30M (Peak 43.30M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:43.30M (Peak 43.30M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_plates.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_plates
+Fra:1 Mem:45.26M (Peak 45.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:45.26M (Peak 45.26M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:45.26M (Peak 45.26M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:45.26M (Peak 45.26M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_grate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:45.08M (Peak 45.08M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:45.08M (Peak 45.08M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:45.08M (Peak 45.08M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:45.08M (Peak 45.08M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_grate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:45.04M (Peak 45.04M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:45.04M (Peak 45.04M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:45.04M (Peak 45.04M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:45.04M (Peak 45.04M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_grate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_grate
+Fra:1 Mem:47.04M (Peak 47.04M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:47.04M (Peak 47.04M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:47.04M (Peak 47.04M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:47.04M (Peak 47.04M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_drain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.75M (Peak 46.75M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.75M (Peak 46.75M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:46.75M (Peak 46.75M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.75M (Peak 46.75M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_drain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.71M (Peak 46.71M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.71M (Peak 46.71M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:46.71M (Peak 46.71M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:46.71M (Peak 46.71M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_drain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_drain
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_conduit.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.14M (Peak 46.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.14M (Peak 46.14M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.14M (Peak 46.14M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.14M (Peak 46.14M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_conduit.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.10M (Peak 46.10M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.10M (Peak 46.10M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:46.10M (Peak 46.10M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.10M (Peak 46.10M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_conduit.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_conduit
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_inset.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.49M (Peak 46.49M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.49M (Peak 46.49M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.49M (Peak 46.49M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.49M (Peak 46.49M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_inset.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.44M (Peak 46.44M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.44M (Peak 46.44M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.44M (Peak 46.44M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.44M (Peak 46.44M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_inset.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_inset
+Fra:1 Mem:50.09M (Peak 50.77M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.09M (Peak 50.77M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:50.09M (Peak 50.77M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:50.09M (Peak 50.77M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_worn.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:49.77M (Peak 49.77M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:49.77M (Peak 49.77M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:49.77M (Peak 49.77M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:49.77M (Peak 49.77M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_worn.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:49.72M (Peak 49.72M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:49.72M (Peak 49.72M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:49.72M (Peak 49.72M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:49.72M (Peak 49.72M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_worn.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_worn
+Fra:1 Mem:55.73M (Peak 55.85M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:55.73M (Peak 55.85M) | Time:00:00.03 | Rendering 25 / 64 samples
+Fra:1 Mem:55.73M (Peak 55.85M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:55.73M (Peak 55.85M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/floor_raised.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+Fra:1 Mem:55.02M (Peak 55.02M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:55.02M (Peak 55.02M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:55.02M (Peak 55.02M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:55.02M (Peak 55.02M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/floor_raised.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+Fra:1 Mem:54.98M (Peak 54.98M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:54.98M (Peak 54.98M) | Time:00:00.03 | Rendering 25 / 64 samples
+Fra:1 Mem:54.98M (Peak 54.98M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:54.98M (Peak 54.98M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/floor_raised.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial floor_raised
+Fra:1 Mem:50.44M (Peak 50.44M) | Time:00:00.28 | Rendering 1 / 64 samples
+Fra:1 Mem:50.44M (Peak 50.44M) | Time:00:00.29 | Rendering 25 / 64 samples
+Fra:1 Mem:50.44M (Peak 50.44M) | Time:00:00.29 | Rendering 50 / 64 samples
+Fra:1 Mem:50.44M (Peak 50.44M) | Time:00:00.30 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_00.png'
+Time: 00:00.30 (Saving: 00:00.00)
+
+Fra:1 Mem:50.38M (Peak 50.38M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.38M (Peak 50.38M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:50.38M (Peak 50.38M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:50.38M (Peak 50.38M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_00.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:50.33M (Peak 50.33M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.33M (Peak 50.33M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:50.33M (Peak 50.33M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:50.33M (Peak 50.33M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_00.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_00
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_01.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.06M (Peak 51.06M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.06M (Peak 51.06M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.06M (Peak 51.06M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.06M (Peak 51.06M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_01.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.02M (Peak 51.02M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.02M (Peak 51.02M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:51.02M (Peak 51.02M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.02M (Peak 51.02M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_01.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_01
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_02.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.43M (Peak 51.43M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_02.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.38M (Peak 51.38M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.38M (Peak 51.38M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.38M (Peak 51.38M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.38M (Peak 51.38M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_02.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_02
+Fra:1 Mem:52.03M (Peak 52.03M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.03M (Peak 52.03M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.03M (Peak 52.03M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.03M (Peak 52.03M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_03.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.05M (Peak 52.05M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.05M (Peak 52.05M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.05M (Peak 52.05M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.05M (Peak 52.05M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_03.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.01M (Peak 52.01M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.01M (Peak 52.01M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.01M (Peak 52.01M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.01M (Peak 52.01M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_03.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_03
+Fra:1 Mem:52.27M (Peak 52.27M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.27M (Peak 52.27M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.27M (Peak 52.27M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.27M (Peak 52.27M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_04.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.26M (Peak 52.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.26M (Peak 52.26M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.26M (Peak 52.26M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.26M (Peak 52.26M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_04.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.22M (Peak 52.22M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.22M (Peak 52.22M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.22M (Peak 52.22M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.22M (Peak 52.22M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_04.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_04
+Fra:1 Mem:52.87M (Peak 52.87M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.87M (Peak 52.87M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.87M (Peak 52.87M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.87M (Peak 52.87M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_05.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.89M (Peak 52.89M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.89M (Peak 52.89M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.89M (Peak 52.89M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.89M (Peak 52.89M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_05.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.84M (Peak 52.84M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.84M (Peak 52.84M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.84M (Peak 52.84M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.84M (Peak 52.84M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_05.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_05
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_06.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_06.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:53.31M (Peak 53.31M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:53.31M (Peak 53.31M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:53.31M (Peak 53.31M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:53.31M (Peak 53.31M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_06.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_06
+Fra:1 Mem:54.18M (Peak 54.18M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.18M (Peak 54.18M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.18M (Peak 54.18M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.18M (Peak 54.18M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_07.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_07.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_07.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_07
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.20M (Peak 54.20M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_08.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_08.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.15M (Peak 54.15M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.15M (Peak 54.15M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:54.15M (Peak 54.15M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.15M (Peak 54.15M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_08.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_08
+Fra:1 Mem:54.80M (Peak 54.80M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.80M (Peak 54.80M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.80M (Peak 54.80M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.80M (Peak 54.80M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_09.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.82M (Peak 54.82M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.82M (Peak 54.82M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.82M (Peak 54.82M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.82M (Peak 54.82M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_09.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.77M (Peak 54.77M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.77M (Peak 54.77M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.77M (Peak 54.77M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.77M (Peak 54.77M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_09.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_09
+Fra:1 Mem:55.26M (Peak 55.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:55.26M (Peak 55.26M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:55.26M (Peak 55.26M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:55.26M (Peak 55.26M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_10.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:55.28M (Peak 55.28M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:55.28M (Peak 55.28M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:55.28M (Peak 55.28M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:55.28M (Peak 55.28M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_10.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:55.24M (Peak 55.24M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:55.24M (Peak 55.24M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:55.24M (Peak 55.24M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:55.24M (Peak 55.24M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_10.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_10
+Fra:1 Mem:56.10M (Peak 56.10M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.10M (Peak 56.10M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.10M (Peak 56.10M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.10M (Peak 56.10M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_11.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.12M (Peak 56.12M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.12M (Peak 56.12M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.12M (Peak 56.12M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.12M (Peak 56.12M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_11.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.08M (Peak 56.08M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.08M (Peak 56.08M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:56.08M (Peak 56.08M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.08M (Peak 56.08M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_11.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_11
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_12.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.36M (Peak 56.36M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.36M (Peak 56.36M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.36M (Peak 56.36M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.36M (Peak 56.36M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_12.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.31M (Peak 56.31M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.31M (Peak 56.31M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:56.31M (Peak 56.31M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.31M (Peak 56.31M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_12.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_12
+Fra:1 Mem:57.24M (Peak 57.24M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.24M (Peak 57.24M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.24M (Peak 57.24M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.24M (Peak 57.24M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_13.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.26M (Peak 57.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.26M (Peak 57.26M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.26M (Peak 57.26M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.26M (Peak 57.26M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_13.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.22M (Peak 57.22M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.22M (Peak 57.22M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:57.22M (Peak 57.22M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.22M (Peak 57.22M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_13.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_13
+Fra:1 Mem:57.87M (Peak 57.87M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.87M (Peak 57.87M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.87M (Peak 57.87M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.87M (Peak 57.87M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_14.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.89M (Peak 57.89M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.89M (Peak 57.89M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.89M (Peak 57.89M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.89M (Peak 57.89M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_14.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.85M (Peak 57.85M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.85M (Peak 57.85M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:57.85M (Peak 57.85M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.85M (Peak 57.85M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_14.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_14
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/wall_15.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/wall_15.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.83M (Peak 58.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.83M (Peak 58.83M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.83M (Peak 58.83M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.83M (Peak 58.83M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/wall_15.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial wall_15
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pipe_straight.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.81M (Peak 58.81M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.81M (Peak 58.81M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:58.81M (Peak 58.81M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.81M (Peak 58.81M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pipe_straight.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.76M (Peak 58.76M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.76M (Peak 58.76M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.76M (Peak 58.76M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.76M (Peak 58.76M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pipe_straight.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pipe_straight
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pipe_elbow.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:59.35M (Peak 59.35M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pipe_elbow.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:59.30M (Peak 59.30M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:59.30M (Peak 59.30M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:59.30M (Peak 59.30M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:59.30M (Peak 59.30M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pipe_elbow.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pipe_elbow
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pipe_tee.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:60.18M (Peak 60.18M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pipe_tee.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:60.13M (Peak 60.13M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:60.13M (Peak 60.13M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:60.13M (Peak 60.13M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:60.13M (Peak 60.13M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pipe_tee.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pipe_tee
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pipe_cross.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:61.16M (Peak 61.16M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pipe_cross.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:61.12M (Peak 61.12M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:61.12M (Peak 61.12M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:61.12M (Peak 61.12M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:61.12M (Peak 61.12M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pipe_cross.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pipe_cross
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pipe_valve.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.23M (Peak 62.23M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.23M (Peak 62.23M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.23M (Peak 62.23M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.23M (Peak 62.23M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pipe_valve.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.19M (Peak 62.19M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.19M (Peak 62.19M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.19M (Peak 62.19M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:62.19M (Peak 62.19M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pipe_valve.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pipe_valve
+Fra:1 Mem:62.67M (Peak 62.67M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.67M (Peak 62.67M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.67M (Peak 62.67M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.67M (Peak 62.67M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/door_closed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/door_closed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.60M (Peak 62.60M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/door_closed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial door_closed
+Fra:1 Mem:62.88M (Peak 62.88M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.88M (Peak 62.88M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:62.88M (Peak 62.88M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.88M (Peak 62.88M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/door_open.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/door_open.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.81M (Peak 62.81M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/door_open.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial door_open
+Fra:1 Mem:64.12M (Peak 64.28M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.12M (Peak 64.28M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.12M (Peak 64.28M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.12M (Peak 64.28M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/door_sealed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/door_sealed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.03M (Peak 64.03M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/door_sealed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial door_sealed
+Fra:1 Mem:64.86M (Peak 64.86M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.86M (Peak 64.86M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.86M (Peak 64.86M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.86M (Peak 64.86M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/light_strip.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/light_strip.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:64.79M (Peak 64.79M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/light_strip.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial light_strip
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/light_off.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:65.54M (Peak 65.54M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:65.54M (Peak 65.54M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:65.54M (Peak 65.54M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:65.54M (Peak 65.54M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/light_off.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:65.49M (Peak 65.49M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:65.49M (Peak 65.49M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:65.49M (Peak 65.49M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:65.49M (Peak 65.49M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/light_off.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial light_off
+Fra:1 Mem:66.54M (Peak 66.54M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.54M (Peak 66.54M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.54M (Peak 66.54M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:66.54M (Peak 66.54M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/light_broken.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:66.50M (Peak 66.50M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.50M (Peak 66.50M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.50M (Peak 66.50M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.50M (Peak 66.50M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/light_broken.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.45M (Peak 66.45M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.45M (Peak 66.45M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.45M (Peak 66.45M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:66.45M (Peak 66.45M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/light_broken.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial light_broken
+Fra:1 Mem:66.37M (Peak 66.37M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.37M (Peak 66.37M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.37M (Peak 66.37M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.37M (Peak 66.37M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/light_beacon.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/light_beacon.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:66.30M (Peak 66.30M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/light_beacon.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial light_beacon
+Fra:1 Mem:67.84M (Peak 67.84M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.84M (Peak 67.84M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.84M (Peak 67.84M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.84M (Peak 67.84M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/light_flood.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:67.60M (Peak 67.60M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.60M (Peak 67.60M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.60M (Peak 67.60M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.60M (Peak 67.60M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/light_flood.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.74M (Peak 67.74M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.74M (Peak 67.74M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.74M (Peak 67.74M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:67.74M (Peak 67.74M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/light_flood.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial light_flood
+Fra:1 Mem:67.14M (Peak 67.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.14M (Peak 67.14M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.14M (Peak 67.14M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.14M (Peak 67.14M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/marking_lane.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/marking_lane.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/marking_lane.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial marking_lane
+Fra:1 Mem:67.19M (Peak 67.19M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.19M (Peak 67.19M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.19M (Peak 67.19M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.19M (Peak 67.19M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/marking_corner.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.24M (Peak 67.24M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.24M (Peak 67.24M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.24M (Peak 67.24M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.24M (Peak 67.24M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/marking_corner.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/marking_corner.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial marking_corner
+Fra:1 Mem:67.75M (Peak 67.75M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.75M (Peak 67.75M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.75M (Peak 67.75M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.75M (Peak 67.75M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/marking_chevron.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.80M (Peak 67.80M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.80M (Peak 67.80M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.80M (Peak 67.80M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.80M (Peak 67.80M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/marking_chevron.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/marking_chevron.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial marking_chevron
+Fra:1 Mem:68.14M (Peak 68.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:68.14M (Peak 68.14M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:68.14M (Peak 68.14M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:68.14M (Peak 68.14M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/marking_boundary.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:68.19M (Peak 68.19M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:68.19M (Peak 68.19M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:68.19M (Peak 68.19M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:68.19M (Peak 68.19M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/marking_boundary.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/marking_boundary.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial marking_boundary
+Fra:1 Mem:71.74M (Peak 71.74M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:71.74M (Peak 71.74M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:71.74M (Peak 71.74M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:71.74M (Peak 71.74M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/generator.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:71.52M (Peak 71.52M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:71.52M (Peak 71.52M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:71.52M (Peak 71.52M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:71.52M (Peak 71.52M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/generator.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:71.61M (Peak 71.61M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:71.61M (Peak 71.61M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:71.61M (Peak 71.61M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:71.61M (Peak 71.61M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/generator.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial generator
+Fra:1 Mem:71.72M (Peak 71.72M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:71.72M (Peak 71.72M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:71.72M (Peak 71.72M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:71.72M (Peak 71.72M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/compressor.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:71.68M (Peak 71.68M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:71.68M (Peak 71.68M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:71.68M (Peak 71.68M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:71.68M (Peak 71.68M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/compressor.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:71.64M (Peak 71.64M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:71.64M (Peak 71.64M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:71.64M (Peak 71.64M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:71.64M (Peak 71.64M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/compressor.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial compressor
+Fra:1 Mem:74.29M (Peak 74.80M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:74.29M (Peak 74.80M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:74.29M (Peak 74.80M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:74.29M (Peak 74.80M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/transformer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:74.25M (Peak 74.25M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:74.25M (Peak 74.25M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:74.25M (Peak 74.25M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:74.25M (Peak 74.25M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/transformer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:74.20M (Peak 74.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:74.20M (Peak 74.20M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:74.20M (Peak 74.20M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:74.20M (Peak 74.20M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/transformer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial transformer
+Fra:1 Mem:75.73M (Peak 76.17M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.73M (Peak 76.17M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.73M (Peak 76.17M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:75.73M (Peak 76.17M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/control_console.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:75.52M (Peak 75.52M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.52M (Peak 75.52M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.52M (Peak 75.52M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:75.52M (Peak 75.52M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/control_console.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:75.61M (Peak 75.61M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.61M (Peak 75.61M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.61M (Peak 75.61M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:75.61M (Peak 75.61M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/control_console.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial control_console
+Fra:1 Mem:75.73M (Peak 75.73M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.73M (Peak 75.73M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.73M (Peak 75.73M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:75.73M (Peak 75.73M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/electrical_cabinet.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:75.69M (Peak 75.69M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.69M (Peak 75.69M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.69M (Peak 75.69M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:75.69M (Peak 75.69M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/electrical_cabinet.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:75.64M (Peak 75.64M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.64M (Peak 75.64M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.64M (Peak 75.64M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:75.64M (Peak 75.64M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/electrical_cabinet.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial electrical_cabinet
+Fra:1 Mem:76.32M (Peak 76.32M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:76.32M (Peak 76.32M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:76.32M (Peak 76.32M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:76.32M (Peak 76.32M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/barrel_cluster.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/barrel_cluster.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:76.26M (Peak 76.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:76.26M (Peak 76.26M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:76.26M (Peak 76.26M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:76.26M (Peak 76.26M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/barrel_cluster.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial barrel_cluster
+Fra:1 Mem:76.29M (Peak 76.29M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:76.29M (Peak 76.29M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:76.29M (Peak 76.29M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:76.29M (Peak 76.29M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pallet.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:76.31M (Peak 76.31M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pallet.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:76.27M (Peak 76.27M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:76.27M (Peak 76.27M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:76.27M (Peak 76.27M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:76.27M (Peak 76.27M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pallet.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pallet
+Fra:1 Mem:77.57M (Peak 77.73M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:77.57M (Peak 77.73M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:77.57M (Peak 77.73M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:77.57M (Peak 77.73M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/cargo_crate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:77.52M (Peak 77.52M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:77.52M (Peak 77.52M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:77.52M (Peak 77.52M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:77.52M (Peak 77.52M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/cargo_crate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:77.48M (Peak 77.48M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:77.48M (Peak 77.48M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:77.48M (Peak 77.48M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:77.48M (Peak 77.48M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/cargo_crate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial cargo_crate
+Fra:1 Mem:78.34M (Peak 78.34M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.34M (Peak 78.34M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.34M (Peak 78.34M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:78.34M (Peak 78.34M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/workbench.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:78.30M (Peak 78.30M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.30M (Peak 78.30M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.30M (Peak 78.30M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:78.30M (Peak 78.30M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/workbench.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:78.25M (Peak 78.25M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.25M (Peak 78.25M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.25M (Peak 78.25M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:78.25M (Peak 78.25M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/workbench.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial workbench
+Fra:1 Mem:79.62M (Peak 79.89M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:79.62M (Peak 79.89M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:79.62M (Peak 79.89M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:79.62M (Peak 79.89M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/vent_fan.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:79.58M (Peak 79.58M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:79.58M (Peak 79.58M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:79.58M (Peak 79.58M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:79.58M (Peak 79.58M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/vent_fan.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:79.54M (Peak 79.54M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:79.54M (Peak 79.54M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:79.54M (Peak 79.54M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:79.54M (Peak 79.54M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/vent_fan.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial vent_fan
+Fra:1 Mem:102.90M (Peak 105.82M) | Time:00:00.04 | Rendering 1 / 64 samples
+Fra:1 Mem:102.90M (Peak 105.82M) | Time:00:00.06 | Rendering 25 / 64 samples
+Fra:1 Mem:102.90M (Peak 105.82M) | Time:00:00.07 | Rendering 50 / 64 samples
+Fra:1 Mem:102.90M (Peak 105.82M) | Time:00:00.08 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/cable_reel.png'
+Time: 00:00.09 (Saving: 00:00.00)
+
+Fra:1 Mem:102.86M (Peak 105.80M) | Time:00:00.04 | Rendering 1 / 64 samples
+Fra:1 Mem:102.86M (Peak 105.80M) | Time:00:00.05 | Rendering 25 / 64 samples
+Fra:1 Mem:102.86M (Peak 105.80M) | Time:00:00.07 | Rendering 50 / 64 samples
+Fra:1 Mem:102.86M (Peak 105.80M) | Time:00:00.08 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/cable_reel.png'
+Time: 00:00.09 (Saving: 00:00.00)
+
+Fra:1 Mem:102.82M (Peak 105.75M) | Time:00:00.04 | Rendering 1 / 64 samples
+Fra:1 Mem:102.82M (Peak 105.75M) | Time:00:00.05 | Rendering 25 / 64 samples
+Fra:1 Mem:102.82M (Peak 105.75M) | Time:00:00.07 | Rendering 50 / 64 samples
+Fra:1 Mem:102.82M (Peak 105.75M) | Time:00:00.08 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/cable_reel.png'
+Time: 00:00.09 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial cable_reel
+Fra:1 Mem:91.23M (Peak 91.23M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:91.23M (Peak 91.23M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:91.23M (Peak 91.23M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:91.23M (Peak 91.23M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pump.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:91.18M (Peak 91.18M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:91.18M (Peak 91.18M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:91.18M (Peak 91.18M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:91.18M (Peak 91.18M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pump.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:91.14M (Peak 91.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:91.14M (Peak 91.14M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:91.14M (Peak 91.14M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:91.14M (Peak 91.14M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pump.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pump
+Fra:1 Mem:92.58M (Peak 92.87M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:92.58M (Peak 92.87M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:92.58M (Peak 92.87M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:92.58M (Peak 92.87M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/tool_cart.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:92.53M (Peak 92.53M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:92.53M (Peak 92.53M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:92.53M (Peak 92.53M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:92.53M (Peak 92.53M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/tool_cart.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:92.49M (Peak 92.49M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:92.49M (Peak 92.49M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:92.49M (Peak 92.49M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:92.49M (Peak 92.49M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/tool_cart.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial tool_cart
+Fra:1 Mem:92.83M (Peak 92.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:92.83M (Peak 92.83M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:92.83M (Peak 92.83M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:92.83M (Peak 92.83M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/albedo/pressure_tank.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:92.79M (Peak 92.79M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:92.79M (Peak 92.79M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:92.79M (Peak 92.79M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:92.79M (Peak 92.79M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/normal/pressure_tank.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:92.75M (Peak 92.75M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:92.75M (Peak 92.75M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:92.75M (Peak 92.75M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:92.75M (Peak 92.75M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/industrial/emission/pressure_tank.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED industrial pressure_tank
+Fra:1 Mem:41.64M (Peak 41.64M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:41.64M (Peak 41.64M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:41.64M (Peak 41.64M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:41.64M (Peak 41.64M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_plain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:41.57M (Peak 41.57M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:41.57M (Peak 41.57M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:41.57M (Peak 41.57M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:41.57M (Peak 41.57M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_plain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:41.53M (Peak 41.53M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:41.53M (Peak 41.53M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:41.53M (Peak 41.53M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:41.53M (Peak 41.53M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_plain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_plain
+Fra:1 Mem:43.51M (Peak 43.51M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:43.51M (Peak 43.51M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:43.51M (Peak 43.51M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:43.51M (Peak 43.51M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_plates.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:43.36M (Peak 43.36M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:43.36M (Peak 43.36M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:43.36M (Peak 43.36M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:43.36M (Peak 43.36M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_plates.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:43.32M (Peak 43.32M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:43.32M (Peak 43.32M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:43.32M (Peak 43.32M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:43.32M (Peak 43.32M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_plates.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_plates
+Fra:1 Mem:45.28M (Peak 45.28M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:45.28M (Peak 45.28M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:45.28M (Peak 45.28M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:45.28M (Peak 45.28M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_grate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:45.10M (Peak 45.10M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:45.10M (Peak 45.10M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:45.10M (Peak 45.10M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:45.10M (Peak 45.10M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_grate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:45.05M (Peak 45.05M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:45.05M (Peak 45.05M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:45.05M (Peak 45.05M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:45.05M (Peak 45.05M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_grate.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_grate
+Fra:1 Mem:47.06M (Peak 47.06M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:47.06M (Peak 47.06M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:47.06M (Peak 47.06M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:47.06M (Peak 47.06M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_drain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.77M (Peak 46.77M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.77M (Peak 46.77M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:46.77M (Peak 46.77M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:46.77M (Peak 46.77M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_drain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.73M (Peak 46.73M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.73M (Peak 46.73M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:46.73M (Peak 46.73M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.73M (Peak 46.73M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_drain.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_drain
+Fra:1 Mem:46.48M (Peak 46.48M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.48M (Peak 46.48M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.48M (Peak 46.48M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.48M (Peak 46.48M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_conduit.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.16M (Peak 46.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.16M (Peak 46.16M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:46.16M (Peak 46.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.16M (Peak 46.16M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_conduit.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.12M (Peak 46.12M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.12M (Peak 46.12M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.12M (Peak 46.12M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.12M (Peak 46.12M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_conduit.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_conduit
+Fra:1 Mem:46.85M (Peak 46.85M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.85M (Peak 46.85M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.85M (Peak 46.85M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.85M (Peak 46.85M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_inset.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.50M (Peak 46.50M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.50M (Peak 46.50M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.50M (Peak 46.50M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.50M (Peak 46.50M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_inset.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:46.46M (Peak 46.46M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_inset.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_inset
+Fra:1 Mem:50.11M (Peak 50.79M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.11M (Peak 50.79M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:50.11M (Peak 50.79M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:50.11M (Peak 50.79M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_worn.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:49.78M (Peak 49.78M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:49.78M (Peak 49.78M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:49.78M (Peak 49.78M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:49.78M (Peak 49.78M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_worn.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:49.74M (Peak 50.41M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:49.74M (Peak 50.41M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:49.74M (Peak 50.41M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:49.74M (Peak 50.41M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_worn.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_worn
+Fra:1 Mem:55.75M (Peak 55.87M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:55.75M (Peak 55.87M) | Time:00:00.03 | Rendering 25 / 64 samples
+Fra:1 Mem:55.75M (Peak 55.87M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:55.75M (Peak 55.87M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/floor_raised.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+Fra:1 Mem:55.04M (Peak 55.04M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:55.04M (Peak 55.04M) | Time:00:00.03 | Rendering 25 / 64 samples
+Fra:1 Mem:55.04M (Peak 55.04M) | Time:00:00.04 | Rendering 50 / 64 samples
+Fra:1 Mem:55.04M (Peak 55.04M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/floor_raised.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+Fra:1 Mem:55.00M (Peak 55.00M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:55.00M (Peak 55.00M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:55.00M (Peak 55.00M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:55.00M (Peak 55.00M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/floor_raised.png'
+Time: 00:00.07 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific floor_raised
+Fra:1 Mem:50.48M (Peak 50.48M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.48M (Peak 50.48M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:50.48M (Peak 50.48M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:50.48M (Peak 50.48M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_00.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:50.39M (Peak 50.39M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.39M (Peak 50.39M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:50.39M (Peak 50.39M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:50.39M (Peak 50.39M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_00.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_00.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_00
+Fra:1 Mem:51.08M (Peak 51.08M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.08M (Peak 51.08M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.08M (Peak 51.08M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.08M (Peak 51.08M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_01.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.07M (Peak 51.07M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_01.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.03M (Peak 51.03M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.03M (Peak 51.03M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.03M (Peak 51.03M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.03M (Peak 51.03M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_01.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_01
+Fra:1 Mem:51.45M (Peak 51.45M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.45M (Peak 51.45M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.45M (Peak 51.45M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.45M (Peak 51.45M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_02.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.44M (Peak 51.44M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.44M (Peak 51.44M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:51.44M (Peak 51.44M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.44M (Peak 51.44M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_02.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:51.40M (Peak 51.40M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:51.40M (Peak 51.40M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:51.40M (Peak 51.40M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:51.40M (Peak 51.40M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_02.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_02
+Fra:1 Mem:52.04M (Peak 52.04M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.04M (Peak 52.04M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.04M (Peak 52.04M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.04M (Peak 52.04M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_03.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.07M (Peak 52.07M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.07M (Peak 52.07M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.07M (Peak 52.07M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.07M (Peak 52.07M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_03.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.02M (Peak 52.02M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.02M (Peak 52.02M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.02M (Peak 52.02M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.02M (Peak 52.02M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_03.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_03
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_04.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.28M (Peak 52.28M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_04.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.23M (Peak 52.23M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.23M (Peak 52.23M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.23M (Peak 52.23M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.23M (Peak 52.23M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_04.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_04
+Fra:1 Mem:52.88M (Peak 52.88M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.88M (Peak 52.88M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.88M (Peak 52.88M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.88M (Peak 52.88M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_05.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.90M (Peak 52.90M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.90M (Peak 52.90M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.90M (Peak 52.90M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.90M (Peak 52.90M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_05.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:52.86M (Peak 52.86M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:52.86M (Peak 52.86M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:52.86M (Peak 52.86M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:52.86M (Peak 52.86M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_05.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_05
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:53.35M (Peak 53.35M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_06.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:53.37M (Peak 53.37M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:53.37M (Peak 53.37M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:53.37M (Peak 53.37M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:53.37M (Peak 53.37M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_06.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:53.33M (Peak 53.33M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_06.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_06
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.19M (Peak 54.19M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_07.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_07.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.17M (Peak 54.17M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.17M (Peak 54.17M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.17M (Peak 54.17M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.17M (Peak 54.17M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_07.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_07
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_08.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.21M (Peak 54.21M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_08.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.16M (Peak 54.16M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_08.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_08
+Fra:1 Mem:54.81M (Peak 54.81M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.81M (Peak 54.81M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.81M (Peak 54.81M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.81M (Peak 54.81M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_09.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.83M (Peak 54.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.83M (Peak 54.83M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:54.83M (Peak 54.83M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.83M (Peak 54.83M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_09.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:54.79M (Peak 54.79M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:54.79M (Peak 54.79M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:54.79M (Peak 54.79M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:54.79M (Peak 54.79M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_09.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_09
+Fra:1 Mem:55.27M (Peak 55.27M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:55.27M (Peak 55.27M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:55.27M (Peak 55.27M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:55.27M (Peak 55.27M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_10.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:55.29M (Peak 55.29M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:55.29M (Peak 55.29M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:55.29M (Peak 55.29M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:55.29M (Peak 55.29M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_10.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:55.25M (Peak 55.25M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:55.25M (Peak 55.25M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:55.25M (Peak 55.25M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:55.25M (Peak 55.25M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_10.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_10
+Fra:1 Mem:56.11M (Peak 56.11M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.11M (Peak 56.11M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.11M (Peak 56.11M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.11M (Peak 56.11M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_11.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.14M (Peak 56.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.14M (Peak 56.14M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.14M (Peak 56.14M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.14M (Peak 56.14M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_11.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.09M (Peak 56.09M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.09M (Peak 56.09M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.09M (Peak 56.09M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.09M (Peak 56.09M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_11.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_11
+Fra:1 Mem:56.34M (Peak 56.34M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.34M (Peak 56.34M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.34M (Peak 56.34M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.34M (Peak 56.34M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_12.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.37M (Peak 56.37M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.37M (Peak 56.37M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:56.37M (Peak 56.37M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.37M (Peak 56.37M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_12.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:56.33M (Peak 56.33M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_12.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_12
+Fra:1 Mem:57.25M (Peak 57.25M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.25M (Peak 57.25M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.25M (Peak 57.25M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.25M (Peak 57.25M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_13.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.27M (Peak 57.27M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.27M (Peak 57.27M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:57.27M (Peak 57.27M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.27M (Peak 57.27M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_13.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.23M (Peak 57.23M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.23M (Peak 57.23M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.23M (Peak 57.23M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.23M (Peak 57.23M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_13.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_13
+Fra:1 Mem:57.88M (Peak 57.88M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.88M (Peak 57.88M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:57.88M (Peak 57.88M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.88M (Peak 57.88M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_14.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.91M (Peak 57.91M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.91M (Peak 57.91M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:57.91M (Peak 57.91M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.91M (Peak 57.91M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_14.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:57.86M (Peak 57.86M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:57.86M (Peak 57.86M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:57.86M (Peak 57.86M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:57.86M (Peak 57.86M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_14.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_14
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/wall_15.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.89M (Peak 58.89M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.89M (Peak 58.89M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.89M (Peak 58.89M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.89M (Peak 58.89M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/wall_15.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.85M (Peak 58.85M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.85M (Peak 58.85M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.85M (Peak 58.85M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.85M (Peak 58.85M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/wall_15.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific wall_15
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.86M (Peak 58.86M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/pipe_straight.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.82M (Peak 58.82M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.82M (Peak 58.82M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:58.82M (Peak 58.82M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.82M (Peak 58.82M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/pipe_straight.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:58.78M (Peak 58.78M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:58.78M (Peak 58.78M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:58.78M (Peak 58.78M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:58.78M (Peak 58.78M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/pipe_straight.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific pipe_straight
+Fra:1 Mem:59.37M (Peak 59.37M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:59.37M (Peak 59.37M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:59.37M (Peak 59.37M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:59.37M (Peak 59.37M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/pipe_elbow.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:59.36M (Peak 59.36M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:59.36M (Peak 59.36M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:59.36M (Peak 59.36M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:59.36M (Peak 59.36M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/pipe_elbow.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:59.32M (Peak 59.32M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:59.32M (Peak 59.32M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:59.32M (Peak 59.32M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:59.32M (Peak 59.32M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/pipe_elbow.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific pipe_elbow
+Fra:1 Mem:60.20M (Peak 60.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:60.20M (Peak 60.20M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:60.20M (Peak 60.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:60.20M (Peak 60.20M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/pipe_tee.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:60.19M (Peak 60.19M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:60.19M (Peak 60.19M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:60.19M (Peak 60.19M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:60.19M (Peak 60.19M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/pipe_tee.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:60.15M (Peak 60.15M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:60.15M (Peak 60.15M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:60.15M (Peak 60.15M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:60.15M (Peak 60.15M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/pipe_tee.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific pipe_tee
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/pipe_cross.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:61.18M (Peak 61.18M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/pipe_cross.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:61.13M (Peak 61.13M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:61.13M (Peak 61.13M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:61.13M (Peak 61.13M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:61.13M (Peak 61.13M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/pipe_cross.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific pipe_cross
+Fra:1 Mem:62.25M (Peak 62.25M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.25M (Peak 62.25M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.25M (Peak 62.25M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.25M (Peak 62.25M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/pipe_valve.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:62.24M (Peak 62.24M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/pipe_valve.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.20M (Peak 62.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.20M (Peak 62.20M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.20M (Peak 62.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.20M (Peak 62.20M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/pipe_valve.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific pipe_valve
+Fra:1 Mem:62.68M (Peak 62.68M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.68M (Peak 62.68M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.68M (Peak 62.68M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.68M (Peak 62.68M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/door_closed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/door_closed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.62M (Peak 62.62M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/door_closed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific door_closed
+Fra:1 Mem:62.90M (Peak 62.90M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.90M (Peak 62.90M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:62.90M (Peak 62.90M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.90M (Peak 62.90M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/door_open.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/door_open.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:62.83M (Peak 62.83M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/door_open.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific door_open
+Fra:1 Mem:64.14M (Peak 64.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.14M (Peak 64.14M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.14M (Peak 64.14M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.14M (Peak 64.14M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/door_sealed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/door_sealed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.04M (Peak 64.04M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/door_sealed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific door_sealed
+Fra:1 Mem:64.88M (Peak 64.88M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.88M (Peak 64.88M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.88M (Peak 64.88M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.88M (Peak 64.88M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/light_strip.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/light_strip.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:64.81M (Peak 64.81M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/light_strip.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific light_strip
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/light_off.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:65.55M (Peak 65.55M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:65.55M (Peak 65.55M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:65.55M (Peak 65.55M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:65.55M (Peak 65.55M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/light_off.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:65.51M (Peak 65.51M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:65.51M (Peak 65.51M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:65.51M (Peak 65.51M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:65.51M (Peak 65.51M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/light_off.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific light_off
+Fra:1 Mem:66.55M (Peak 66.55M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.55M (Peak 66.55M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.55M (Peak 66.55M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.55M (Peak 66.55M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/light_broken.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.51M (Peak 66.51M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.51M (Peak 66.51M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.51M (Peak 66.51M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:66.51M (Peak 66.51M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/light_broken.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.47M (Peak 66.47M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.47M (Peak 66.47M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.47M (Peak 66.47M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.47M (Peak 66.47M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/light_broken.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific light_broken
+Fra:1 Mem:66.38M (Peak 66.38M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.38M (Peak 66.38M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.38M (Peak 66.38M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.38M (Peak 66.38M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/light_beacon.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/light_beacon.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:66.32M (Peak 66.32M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/light_beacon.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific light_beacon
+Fra:1 Mem:67.86M (Peak 67.86M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.86M (Peak 67.86M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.86M (Peak 67.86M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.86M (Peak 67.86M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/light_flood.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.62M (Peak 67.62M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.62M (Peak 67.62M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.62M (Peak 67.62M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:67.62M (Peak 67.62M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/light_flood.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.76M (Peak 67.76M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/light_flood.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific light_flood
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.16M (Peak 67.16M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/marking_lane.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/marking_lane.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.17M (Peak 67.17M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.17M (Peak 67.17M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.17M (Peak 67.17M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.17M (Peak 67.17M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/marking_lane.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific marking_lane
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.20M (Peak 67.20M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/marking_corner.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.26M (Peak 67.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.26M (Peak 67.26M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.26M (Peak 67.26M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.26M (Peak 67.26M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/marking_corner.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.21M (Peak 67.21M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/marking_corner.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific marking_corner
+Fra:1 Mem:67.77M (Peak 67.77M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.77M (Peak 67.77M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.77M (Peak 67.77M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.77M (Peak 67.77M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/marking_chevron.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.82M (Peak 67.82M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.82M (Peak 67.82M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.82M (Peak 67.82M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.82M (Peak 67.82M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/marking_chevron.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:67.78M (Peak 67.78M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:67.78M (Peak 67.78M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:67.78M (Peak 67.78M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:67.78M (Peak 67.78M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/marking_chevron.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific marking_chevron
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:68.15M (Peak 68.15M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/marking_boundary.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:68.20M (Peak 68.20M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:68.20M (Peak 68.20M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:68.20M (Peak 68.20M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:68.20M (Peak 68.20M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/marking_boundary.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:68.16M (Peak 68.16M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:68.16M (Peak 68.16M) | Time:00:00.01 | Rendering 25 / 64 samples
+Fra:1 Mem:68.16M (Peak 68.16M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:68.16M (Peak 68.16M) | Time:00:00.02 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/marking_boundary.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific marking_boundary
+Fra:1 Mem:69.95M (Peak 69.95M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:69.95M (Peak 69.95M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:69.95M (Peak 69.95M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:69.95M (Peak 69.95M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/lab_bench.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:69.91M (Peak 69.91M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:69.91M (Peak 69.91M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:69.91M (Peak 69.91M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:69.91M (Peak 69.91M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/lab_bench.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:69.87M (Peak 69.87M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:69.87M (Peak 69.87M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:69.87M (Peak 69.87M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:69.87M (Peak 69.87M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/lab_bench.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific lab_bench
+Fra:1 Mem:70.15M (Peak 70.15M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:70.15M (Peak 70.15M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:70.15M (Peak 70.15M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:70.15M (Peak 70.15M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/microscope.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:70.11M (Peak 70.11M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:70.11M (Peak 70.11M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:70.11M (Peak 70.11M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:70.11M (Peak 70.11M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/microscope.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:70.06M (Peak 70.06M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:70.06M (Peak 70.06M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:70.06M (Peak 70.06M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:70.06M (Peak 70.06M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/microscope.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific microscope
+Fra:1 Mem:73.03M (Peak 73.03M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:73.03M (Peak 73.03M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:73.03M (Peak 73.03M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:73.03M (Peak 73.03M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/centrifuge.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:72.83M (Peak 72.83M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:72.83M (Peak 72.83M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:72.83M (Peak 72.83M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:72.83M (Peak 72.83M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/centrifuge.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:72.91M (Peak 72.91M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:72.91M (Peak 72.91M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:72.91M (Peak 72.91M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:72.91M (Peak 72.91M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/centrifuge.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific centrifuge
+Fra:1 Mem:73.88M (Peak 73.88M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:73.88M (Peak 73.88M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:73.88M (Peak 73.88M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:73.88M (Peak 73.88M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/cryopod.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:73.56M (Peak 73.56M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:73.56M (Peak 73.56M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:73.56M (Peak 73.56M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:73.56M (Peak 73.56M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/cryopod.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:73.73M (Peak 73.73M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:73.73M (Peak 73.73M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:73.73M (Peak 73.73M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:73.73M (Peak 73.73M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/cryopod.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific cryopod
+Fra:1 Mem:75.21M (Peak 75.21M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.21M (Peak 75.21M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.21M (Peak 75.21M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:75.21M (Peak 75.21M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/containment_chamber.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:74.95M (Peak 74.95M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:74.95M (Peak 74.95M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:74.95M (Peak 74.95M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:74.95M (Peak 74.95M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/containment_chamber.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:75.08M (Peak 75.08M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:75.08M (Peak 75.08M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:75.08M (Peak 75.08M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:75.08M (Peak 75.08M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/containment_chamber.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific containment_chamber
+Fra:1 Mem:78.14M (Peak 78.14M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.14M (Peak 78.14M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.14M (Peak 78.14M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:78.14M (Peak 78.14M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/server_rack.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:77.84M (Peak 77.84M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:77.84M (Peak 77.84M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:77.84M (Peak 77.84M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:77.84M (Peak 77.84M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/server_rack.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:78.02M (Peak 78.02M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.02M (Peak 78.02M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.02M (Peak 78.02M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:78.02M (Peak 78.02M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/server_rack.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific server_rack
+Fra:1 Mem:78.84M (Peak 78.84M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.84M (Peak 78.84M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.84M (Peak 78.84M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:78.84M (Peak 78.84M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/analysis_console.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:78.63M (Peak 78.63M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.63M (Peak 78.63M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.63M (Peak 78.63M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:78.63M (Peak 78.63M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/analysis_console.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:78.72M (Peak 78.72M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:78.72M (Peak 78.72M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:78.72M (Peak 78.72M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:78.72M (Peak 78.72M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/analysis_console.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific analysis_console
+Fra:1 Mem:81.13M (Peak 81.73M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:81.13M (Peak 81.73M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:81.13M (Peak 81.73M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:81.13M (Peak 81.73M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/sample_rack.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:81.09M (Peak 81.09M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:81.09M (Peak 81.09M) | Time:00:00.03 | Rendering 25 / 64 samples
+Fra:1 Mem:81.09M (Peak 81.09M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:81.09M (Peak 81.09M) | Time:00:00.04 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/sample_rack.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:81.05M (Peak 81.05M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:81.05M (Peak 81.05M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:81.05M (Peak 81.05M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:81.05M (Peak 81.05M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/sample_rack.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific sample_rack
+Fra:1 Mem:80.67M (Peak 80.67M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:80.67M (Peak 80.67M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:80.67M (Peak 80.67M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:80.67M (Peak 80.67M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/medical_bed.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:80.64M (Peak 80.64M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:80.64M (Peak 80.64M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:80.64M (Peak 80.64M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:80.64M (Peak 80.64M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/medical_bed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:80.59M (Peak 80.59M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:80.59M (Peak 80.59M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:80.59M (Peak 80.59M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:80.59M (Peak 80.59M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/medical_bed.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific medical_bed
+Fra:1 Mem:82.04M (Peak 82.31M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:82.04M (Peak 82.31M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:82.04M (Peak 82.31M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:82.04M (Peak 82.31M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/fume_hood.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/fume_hood.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:81.94M (Peak 81.94M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/fume_hood.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific fume_hood
+Fra:1 Mem:83.10M (Peak 83.10M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.10M (Peak 83.10M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.10M (Peak 83.10M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:83.10M (Peak 83.10M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/sterilizer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:82.89M (Peak 82.89M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:82.89M (Peak 82.89M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:82.89M (Peak 82.89M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:82.89M (Peak 82.89M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/sterilizer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:82.97M (Peak 82.97M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:82.97M (Peak 82.97M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:82.97M (Peak 82.97M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:82.97M (Peak 82.97M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/sterilizer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific sterilizer
+Fra:1 Mem:83.35M (Peak 83.35M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.35M (Peak 83.35M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.35M (Peak 83.35M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:83.35M (Peak 83.35M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/gas_cylinders.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:83.31M (Peak 83.31M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.31M (Peak 83.31M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.31M (Peak 83.31M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:83.31M (Peak 83.31M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/gas_cylinders.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:83.26M (Peak 83.26M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.26M (Peak 83.26M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.26M (Peak 83.26M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:83.26M (Peak 83.26M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/gas_cylinders.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific gas_cylinders
+Fra:1 Mem:83.64M (Peak 83.64M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.64M (Peak 83.64M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.64M (Peak 83.64M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:83.64M (Peak 83.64M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/robot_arm.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:83.60M (Peak 83.60M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.60M (Peak 83.60M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.60M (Peak 83.60M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:83.60M (Peak 83.60M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/robot_arm.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:83.56M (Peak 83.56M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:83.56M (Peak 83.56M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:83.56M (Peak 83.56M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:83.56M (Peak 83.56M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/robot_arm.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific robot_arm
+Fra:1 Mem:85.36M (Peak 85.36M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:85.36M (Peak 85.36M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:85.36M (Peak 85.36M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:85.36M (Peak 85.36M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/albedo/specimen_freezer.png'
+Time: 00:00.06 (Saving: 00:00.00)
+
+Fra:1 Mem:85.15M (Peak 85.15M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:85.15M (Peak 85.15M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:85.15M (Peak 85.15M) | Time:00:00.02 | Rendering 50 / 64 samples
+Fra:1 Mem:85.15M (Peak 85.15M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/normal/specimen_freezer.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+Fra:1 Mem:85.23M (Peak 85.23M) | Time:00:00.01 | Rendering 1 / 64 samples
+Fra:1 Mem:85.23M (Peak 85.23M) | Time:00:00.02 | Rendering 25 / 64 samples
+Fra:1 Mem:85.23M (Peak 85.23M) | Time:00:00.03 | Rendering 50 / 64 samples
+Fra:1 Mem:85.23M (Peak 85.23M) | Time:00:00.03 | Rendering 64 / 64 samples
+Saved: '/tmp/cog-tileset-repro/scientific/emission/specimen_freezer.png'
+Time: 00:00.05 (Saving: 00:00.00)
+
+TILESET_RENDERED scientific specimen_freezer
+TILESETS_COMPLETE
+
+Blender quit

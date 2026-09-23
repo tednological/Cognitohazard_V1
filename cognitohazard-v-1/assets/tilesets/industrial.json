@@ -1,0 +1,2363 @@
+{
+  "schema": 1,
+  "theme": "industrial",
+  "cell_world": 20,
+  "texture_scale": 4,
+  "normal_convention": "OpenGL +Y up; linear data",
+  "emission_usage": "Add emission.rgb * emission.a after diffuse lighting; no baked light spill.",
+  "assets": [
+    {
+      "id": "floor_plain",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_plain.png",
+        "normal": "industrial/normal/floor_plain.png",
+        "emission": "industrial/emission/floor_plain.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_plates",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_plates.png",
+        "normal": "industrial/normal/floor_plates.png",
+        "emission": "industrial/emission/floor_plates.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_grate",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_grate.png",
+        "normal": "industrial/normal/floor_grate.png",
+        "emission": "industrial/emission/floor_grate.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_drain",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_drain.png",
+        "normal": "industrial/normal/floor_drain.png",
+        "emission": "industrial/emission/floor_drain.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_conduit",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_conduit.png",
+        "normal": "industrial/normal/floor_conduit.png",
+        "emission": "industrial/emission/floor_conduit.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_inset",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_inset.png",
+        "normal": "industrial/normal/floor_inset.png",
+        "emission": "industrial/emission/floor_inset.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_worn",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_worn.png",
+        "normal": "industrial/normal/floor_worn.png",
+        "emission": "industrial/emission/floor_worn.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_raised",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/floor_raised.png",
+        "normal": "industrial/normal/floor_raised.png",
+        "emission": "industrial/emission/floor_raised.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "wall_00",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_00.png",
+        "normal": "industrial/normal/wall_00.png",
+        "emission": "industrial/emission/wall_00.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 0,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_01",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_01.png",
+        "normal": "industrial/normal/wall_01.png",
+        "emission": "industrial/emission/wall_01.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 1,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_02",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_02.png",
+        "normal": "industrial/normal/wall_02.png",
+        "emission": "industrial/emission/wall_02.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 2,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_03",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_03.png",
+        "normal": "industrial/normal/wall_03.png",
+        "emission": "industrial/emission/wall_03.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 3,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_04",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_04.png",
+        "normal": "industrial/normal/wall_04.png",
+        "emission": "industrial/emission/wall_04.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 4,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_05",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_05.png",
+        "normal": "industrial/normal/wall_05.png",
+        "emission": "industrial/emission/wall_05.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 5,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_06",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_06.png",
+        "normal": "industrial/normal/wall_06.png",
+        "emission": "industrial/emission/wall_06.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 6,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_07",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_07.png",
+        "normal": "industrial/normal/wall_07.png",
+        "emission": "industrial/emission/wall_07.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 7,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_08",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_08.png",
+        "normal": "industrial/normal/wall_08.png",
+        "emission": "industrial/emission/wall_08.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 8,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_09",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_09.png",
+        "normal": "industrial/normal/wall_09.png",
+        "emission": "industrial/emission/wall_09.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 9,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_10",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_10.png",
+        "normal": "industrial/normal/wall_10.png",
+        "emission": "industrial/emission/wall_10.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 10,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_11",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_11.png",
+        "normal": "industrial/normal/wall_11.png",
+        "emission": "industrial/emission/wall_11.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 11,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_12",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_12.png",
+        "normal": "industrial/normal/wall_12.png",
+        "emission": "industrial/emission/wall_12.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 12,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_13",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_13.png",
+        "normal": "industrial/normal/wall_13.png",
+        "emission": "industrial/emission/wall_13.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 13,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_14",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_14.png",
+        "normal": "industrial/normal/wall_14.png",
+        "emission": "industrial/emission/wall_14.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 14,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_15",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/wall_15.png",
+        "normal": "industrial/normal/wall_15.png",
+        "emission": "industrial/emission/wall_15.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 15,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "pipe_straight",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pipe_straight.png",
+        "normal": "industrial/normal/pipe_straight.png",
+        "emission": "industrial/emission/pipe_straight.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 5
+    },
+    {
+      "id": "pipe_elbow",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pipe_elbow.png",
+        "normal": "industrial/normal/pipe_elbow.png",
+        "emission": "industrial/emission/pipe_elbow.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 3
+    },
+    {
+      "id": "pipe_tee",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pipe_tee.png",
+        "normal": "industrial/normal/pipe_tee.png",
+        "emission": "industrial/emission/pipe_tee.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 7
+    },
+    {
+      "id": "pipe_cross",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pipe_cross.png",
+        "normal": "industrial/normal/pipe_cross.png",
+        "emission": "industrial/emission/pipe_cross.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 15
+    },
+    {
+      "id": "pipe_valve",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pipe_valve.png",
+        "normal": "industrial/normal/pipe_valve.png",
+        "emission": "industrial/emission/pipe_valve.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 5
+    },
+    {
+      "id": "door_closed",
+      "category": "door",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/door_closed.png",
+        "normal": "industrial/normal/door_closed.png",
+        "emission": "industrial/emission/door_closed.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true,
+      "suggested_occluder_rects": [
+        [
+          4,
+          4,
+          32,
+          12
+        ]
+      ]
+    },
+    {
+      "id": "door_open",
+      "category": "door",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/door_open.png",
+        "normal": "industrial/normal/door_open.png",
+        "emission": "industrial/emission/door_open.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true,
+      "suggested_occluder_rects": []
+    },
+    {
+      "id": "door_sealed",
+      "category": "door",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/door_sealed.png",
+        "normal": "industrial/normal/door_sealed.png",
+        "emission": "industrial/emission/door_sealed.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true,
+      "suggested_occluder_rects": [
+        [
+          4,
+          4,
+          32,
+          12
+        ]
+      ]
+    },
+    {
+      "id": "light_strip",
+      "category": "light",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/light_strip.png",
+        "normal": "industrial/normal/light_strip.png",
+        "emission": "industrial/emission/light_strip.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": true,
+      "light_anchor": [
+        20.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          1,
+          0.66,
+          0.27
+        ],
+        "radius_world": 140,
+        "enabled": true
+      },
+      "state_group": "strip"
+    },
+    {
+      "id": "light_off",
+      "category": "light",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/light_off.png",
+        "normal": "industrial/normal/light_off.png",
+        "emission": "industrial/emission/light_off.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "light_anchor": [
+        20.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          1,
+          0.66,
+          0.27
+        ],
+        "radius_world": 140,
+        "enabled": false
+      },
+      "state_group": "strip"
+    },
+    {
+      "id": "light_broken",
+      "category": "light",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/light_broken.png",
+        "normal": "industrial/normal/light_broken.png",
+        "emission": "industrial/emission/light_broken.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "light_anchor": [
+        20.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          1,
+          0.66,
+          0.27
+        ],
+        "radius_world": 140,
+        "enabled": false
+      },
+      "state_group": "strip"
+    },
+    {
+      "id": "light_beacon",
+      "category": "light",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/light_beacon.png",
+        "normal": "industrial/normal/light_beacon.png",
+        "emission": "industrial/emission/light_beacon.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": true,
+      "light_anchor": [
+        10.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          1,
+          0.66,
+          0.27
+        ],
+        "radius_world": 80,
+        "enabled": true
+      },
+      "state_group": "beacon"
+    },
+    {
+      "id": "light_flood",
+      "category": "light",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/light_flood.png",
+        "normal": "industrial/normal/light_flood.png",
+        "emission": "industrial/emission/light_flood.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": true,
+      "light_anchor": [
+        10.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          1,
+          0.66,
+          0.27
+        ],
+        "radius_world": 140,
+        "enabled": true
+      },
+      "state_group": "flood"
+    },
+    {
+      "id": "marking_lane",
+      "category": "decal",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/marking_lane.png",
+        "normal": "industrial/normal/marking_lane.png",
+        "emission": "industrial/emission/marking_lane.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "marking_corner",
+      "category": "decal",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/marking_corner.png",
+        "normal": "industrial/normal/marking_corner.png",
+        "emission": "industrial/emission/marking_corner.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "marking_chevron",
+      "category": "decal",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/marking_chevron.png",
+        "normal": "industrial/normal/marking_chevron.png",
+        "emission": "industrial/emission/marking_chevron.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "marking_boundary",
+      "category": "decal",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/marking_boundary.png",
+        "normal": "industrial/normal/marking_boundary.png",
+        "emission": "industrial/emission/marking_boundary.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "generator",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/generator.png",
+        "normal": "industrial/normal/generator.png",
+        "emission": "industrial/emission/generator.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "compressor",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/compressor.png",
+        "normal": "industrial/normal/compressor.png",
+        "emission": "industrial/emission/compressor.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "transformer",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/transformer.png",
+        "normal": "industrial/normal/transformer.png",
+        "emission": "industrial/emission/transformer.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "control_console",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/control_console.png",
+        "normal": "industrial/normal/control_console.png",
+        "emission": "industrial/emission/control_console.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "electrical_cabinet",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/electrical_cabinet.png",
+        "normal": "industrial/normal/electrical_cabinet.png",
+        "emission": "industrial/emission/electrical_cabinet.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "barrel_cluster",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/barrel_cluster.png",
+        "normal": "industrial/normal/barrel_cluster.png",
+        "emission": "industrial/emission/barrel_cluster.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "pallet",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pallet.png",
+        "normal": "industrial/normal/pallet.png",
+        "emission": "industrial/emission/pallet.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "cargo_crate",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/cargo_crate.png",
+        "normal": "industrial/normal/cargo_crate.png",
+        "emission": "industrial/emission/cargo_crate.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "workbench",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/workbench.png",
+        "normal": "industrial/normal/workbench.png",
+        "emission": "industrial/emission/workbench.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "vent_fan",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/vent_fan.png",
+        "normal": "industrial/normal/vent_fan.png",
+        "emission": "industrial/emission/vent_fan.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "cable_reel",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/cable_reel.png",
+        "normal": "industrial/normal/cable_reel.png",
+        "emission": "industrial/emission/cable_reel.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "pump",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pump.png",
+        "normal": "industrial/normal/pump.png",
+        "emission": "industrial/emission/pump.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "tool_cart",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/tool_cart.png",
+        "normal": "industrial/normal/tool_cart.png",
+        "emission": "industrial/emission/tool_cart.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "pressure_tank",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "industrial",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "industrial/albedo/pressure_tank.png",
+        "normal": "industrial/normal/pressure_tank.png",
+        "emission": "industrial/emission/pressure_tank.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    }
+  ]
+}

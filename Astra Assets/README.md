@@ -75,3 +75,12 @@ python3 scripts/check_reproducibility.py ../cognitohazard-v-1/assets /tmp/cog-re
 On the Linux continuation host, the temporary runtime is
 `/tmp/cognitohazard-runtime/blender-4.5.3-linux-x64/blender` and validation Python
 is `/tmp/cognitohazard-runtime/venv/bin/python`. These may disappear on reboot.
+
+## Industrial and scientific map kits
+
+The new [map-kit delivery](TILESETS.md) contains 110 modular assets with color,
+normal and emission maps, two editable Blender libraries, and an
+[interactive lighting review](previews/tilesets/lighting_preview.html).
+Rebuild it separately with `scripts/render_tilesets.py`; verify and regenerate
+its review sheets with `scripts/check_tilesets.py`. The original sprite set
+and its manifest are preserved.

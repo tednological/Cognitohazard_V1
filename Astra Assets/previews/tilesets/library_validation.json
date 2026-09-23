@@ -1,0 +1,12 @@
+{
+  "industrial": {
+    "collections": 55,
+    "geometry_objects": 773,
+    "asset_marks_and_pivots": "pass"
+  },
+  "scientific": {
+    "collections": 55,
+    "geometry_objects": 610,
+    "asset_marks_and_pivots": "pass"
+  }
+}

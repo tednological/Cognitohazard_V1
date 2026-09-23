@@ -1,0 +1,2363 @@
+{
+  "schema": 1,
+  "theme": "scientific",
+  "cell_world": 20,
+  "texture_scale": 4,
+  "normal_convention": "OpenGL +Y up; linear data",
+  "emission_usage": "Add emission.rgb * emission.a after diffuse lighting; no baked light spill.",
+  "assets": [
+    {
+      "id": "floor_plain",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_plain.png",
+        "normal": "scientific/normal/floor_plain.png",
+        "emission": "scientific/emission/floor_plain.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_plates",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_plates.png",
+        "normal": "scientific/normal/floor_plates.png",
+        "emission": "scientific/emission/floor_plates.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_grate",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_grate.png",
+        "normal": "scientific/normal/floor_grate.png",
+        "emission": "scientific/emission/floor_grate.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_drain",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_drain.png",
+        "normal": "scientific/normal/floor_drain.png",
+        "emission": "scientific/emission/floor_drain.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_conduit",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_conduit.png",
+        "normal": "scientific/normal/floor_conduit.png",
+        "emission": "scientific/emission/floor_conduit.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_inset",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_inset.png",
+        "normal": "scientific/normal/floor_inset.png",
+        "emission": "scientific/emission/floor_inset.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_worn",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_worn.png",
+        "normal": "scientific/normal/floor_worn.png",
+        "emission": "scientific/emission/floor_worn.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "floor_raised",
+      "category": "floor",
+      "world_size": [
+        80,
+        80
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        320,
+        320
+      ],
+      "pivot": [
+        40.0,
+        40.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/floor_raised.png",
+        "normal": "scientific/normal/floor_raised.png",
+        "emission": "scientific/emission/floor_raised.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": true,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "wall_00",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_00.png",
+        "normal": "scientific/normal/wall_00.png",
+        "emission": "scientific/emission/wall_00.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 0,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_01",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_01.png",
+        "normal": "scientific/normal/wall_01.png",
+        "emission": "scientific/emission/wall_01.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 1,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_02",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_02.png",
+        "normal": "scientific/normal/wall_02.png",
+        "emission": "scientific/emission/wall_02.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 2,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_03",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_03.png",
+        "normal": "scientific/normal/wall_03.png",
+        "emission": "scientific/emission/wall_03.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 3,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_04",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_04.png",
+        "normal": "scientific/normal/wall_04.png",
+        "emission": "scientific/emission/wall_04.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 4,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_05",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_05.png",
+        "normal": "scientific/normal/wall_05.png",
+        "emission": "scientific/emission/wall_05.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 5,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_06",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_06.png",
+        "normal": "scientific/normal/wall_06.png",
+        "emission": "scientific/emission/wall_06.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 6,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_07",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_07.png",
+        "normal": "scientific/normal/wall_07.png",
+        "emission": "scientific/emission/wall_07.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 7,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "wall_08",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_08.png",
+        "normal": "scientific/normal/wall_08.png",
+        "emission": "scientific/emission/wall_08.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 8,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_09",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_09.png",
+        "normal": "scientific/normal/wall_09.png",
+        "emission": "scientific/emission/wall_09.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 9,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_10",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_10.png",
+        "normal": "scientific/normal/wall_10.png",
+        "emission": "scientific/emission/wall_10.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 10,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_11",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_11.png",
+        "normal": "scientific/normal/wall_11.png",
+        "emission": "scientific/emission/wall_11.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 11,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_12",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_12.png",
+        "normal": "scientific/normal/wall_12.png",
+        "emission": "scientific/emission/wall_12.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 12,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_13",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_13.png",
+        "normal": "scientific/normal/wall_13.png",
+        "emission": "scientific/emission/wall_13.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 13,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_14",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_14.png",
+        "normal": "scientific/normal/wall_14.png",
+        "emission": "scientific/emission/wall_14.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 14,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "wall_15",
+      "category": "wall",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/wall_15.png",
+        "normal": "scientific/normal/wall_15.png",
+        "emission": "scientific/emission/wall_15.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false,
+      "connection_mask": 15,
+      "suggested_occluder_rects": [
+        [
+          3,
+          3,
+          14,
+          14
+        ],
+        [
+          3,
+          0,
+          14,
+          10
+        ],
+        [
+          10,
+          3,
+          10,
+          14
+        ],
+        [
+          3,
+          10,
+          14,
+          10
+        ],
+        [
+          0,
+          3,
+          10,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "pipe_straight",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/pipe_straight.png",
+        "normal": "scientific/normal/pipe_straight.png",
+        "emission": "scientific/emission/pipe_straight.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 5
+    },
+    {
+      "id": "pipe_elbow",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/pipe_elbow.png",
+        "normal": "scientific/normal/pipe_elbow.png",
+        "emission": "scientific/emission/pipe_elbow.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 3
+    },
+    {
+      "id": "pipe_tee",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/pipe_tee.png",
+        "normal": "scientific/normal/pipe_tee.png",
+        "emission": "scientific/emission/pipe_tee.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 7
+    },
+    {
+      "id": "pipe_cross",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/pipe_cross.png",
+        "normal": "scientific/normal/pipe_cross.png",
+        "emission": "scientific/emission/pipe_cross.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 15
+    },
+    {
+      "id": "pipe_valve",
+      "category": "pipe",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/pipe_valve.png",
+        "normal": "scientific/normal/pipe_valve.png",
+        "emission": "scientific/emission/pipe_valve.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "connection_mask": 5
+    },
+    {
+      "id": "door_closed",
+      "category": "door",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/door_closed.png",
+        "normal": "scientific/normal/door_closed.png",
+        "emission": "scientific/emission/door_closed.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true,
+      "suggested_occluder_rects": [
+        [
+          4,
+          4,
+          32,
+          12
+        ]
+      ]
+    },
+    {
+      "id": "door_open",
+      "category": "door",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/door_open.png",
+        "normal": "scientific/normal/door_open.png",
+        "emission": "scientific/emission/door_open.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true,
+      "suggested_occluder_rects": []
+    },
+    {
+      "id": "door_sealed",
+      "category": "door",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/door_sealed.png",
+        "normal": "scientific/normal/door_sealed.png",
+        "emission": "scientific/emission/door_sealed.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true,
+      "suggested_occluder_rects": [
+        [
+          4,
+          4,
+          32,
+          12
+        ]
+      ]
+    },
+    {
+      "id": "light_strip",
+      "category": "light",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/light_strip.png",
+        "normal": "scientific/normal/light_strip.png",
+        "emission": "scientific/emission/light_strip.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": true,
+      "light_anchor": [
+        20.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          0.38,
+          0.84,
+          1
+        ],
+        "radius_world": 140,
+        "enabled": true
+      },
+      "state_group": "strip"
+    },
+    {
+      "id": "light_off",
+      "category": "light",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/light_off.png",
+        "normal": "scientific/normal/light_off.png",
+        "emission": "scientific/emission/light_off.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "light_anchor": [
+        20.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          0.38,
+          0.84,
+          1
+        ],
+        "radius_world": 140,
+        "enabled": false
+      },
+      "state_group": "strip"
+    },
+    {
+      "id": "light_broken",
+      "category": "light",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/light_broken.png",
+        "normal": "scientific/normal/light_broken.png",
+        "emission": "scientific/emission/light_broken.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false,
+      "light_anchor": [
+        20.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          0.38,
+          0.84,
+          1
+        ],
+        "radius_world": 140,
+        "enabled": false
+      },
+      "state_group": "strip"
+    },
+    {
+      "id": "light_beacon",
+      "category": "light",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/light_beacon.png",
+        "normal": "scientific/normal/light_beacon.png",
+        "emission": "scientific/emission/light_beacon.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": true,
+      "light_anchor": [
+        10.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          0.38,
+          0.84,
+          1
+        ],
+        "radius_world": 80,
+        "enabled": true
+      },
+      "state_group": "beacon"
+    },
+    {
+      "id": "light_flood",
+      "category": "light",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/light_flood.png",
+        "normal": "scientific/normal/light_flood.png",
+        "emission": "scientific/emission/light_flood.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": true,
+      "light_anchor": [
+        10.0,
+        10.0
+      ],
+      "suggested_light": {
+        "color": [
+          0.38,
+          0.84,
+          1
+        ],
+        "radius_world": 140,
+        "enabled": true
+      },
+      "state_group": "flood"
+    },
+    {
+      "id": "marking_lane",
+      "category": "decal",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/marking_lane.png",
+        "normal": "scientific/normal/marking_lane.png",
+        "emission": "scientific/emission/marking_lane.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "marking_corner",
+      "category": "decal",
+      "world_size": [
+        20,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        80,
+        80
+      ],
+      "pivot": [
+        10.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/marking_corner.png",
+        "normal": "scientific/normal/marking_corner.png",
+        "emission": "scientific/emission/marking_corner.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "marking_chevron",
+      "category": "decal",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/marking_chevron.png",
+        "normal": "scientific/normal/marking_chevron.png",
+        "emission": "scientific/emission/marking_chevron.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "marking_boundary",
+      "category": "decal",
+      "world_size": [
+        40,
+        20
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        80
+      ],
+      "pivot": [
+        20.0,
+        10.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/marking_boundary.png",
+        "normal": "scientific/normal/marking_boundary.png",
+        "emission": "scientific/emission/marking_boundary.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "decoration",
+      "emits_light": false
+    },
+    {
+      "id": "lab_bench",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/lab_bench.png",
+        "normal": "scientific/normal/lab_bench.png",
+        "emission": "scientific/emission/lab_bench.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "microscope",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/microscope.png",
+        "normal": "scientific/normal/microscope.png",
+        "emission": "scientific/emission/microscope.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "centrifuge",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/centrifuge.png",
+        "normal": "scientific/normal/centrifuge.png",
+        "emission": "scientific/emission/centrifuge.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "cryopod",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/cryopod.png",
+        "normal": "scientific/normal/cryopod.png",
+        "emission": "scientific/emission/cryopod.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "containment_chamber",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/containment_chamber.png",
+        "normal": "scientific/normal/containment_chamber.png",
+        "emission": "scientific/emission/containment_chamber.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "server_rack",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/server_rack.png",
+        "normal": "scientific/normal/server_rack.png",
+        "emission": "scientific/emission/server_rack.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "analysis_console",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/analysis_console.png",
+        "normal": "scientific/normal/analysis_console.png",
+        "emission": "scientific/emission/analysis_console.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "sample_rack",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/sample_rack.png",
+        "normal": "scientific/normal/sample_rack.png",
+        "emission": "scientific/emission/sample_rack.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "medical_bed",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/medical_bed.png",
+        "normal": "scientific/normal/medical_bed.png",
+        "emission": "scientific/emission/medical_bed.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "fume_hood",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/fume_hood.png",
+        "normal": "scientific/normal/fume_hood.png",
+        "emission": "scientific/emission/fume_hood.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "sterilizer",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/sterilizer.png",
+        "normal": "scientific/normal/sterilizer.png",
+        "emission": "scientific/emission/sterilizer.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    },
+    {
+      "id": "gas_cylinders",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/gas_cylinders.png",
+        "normal": "scientific/normal/gas_cylinders.png",
+        "emission": "scientific/emission/gas_cylinders.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "robot_arm",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/robot_arm.png",
+        "normal": "scientific/normal/robot_arm.png",
+        "emission": "scientific/emission/robot_arm.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": false
+    },
+    {
+      "id": "specimen_freezer",
+      "category": "prop",
+      "world_size": [
+        40,
+        40
+      ],
+      "theme": "scientific",
+      "texture_size": [
+        160,
+        160
+      ],
+      "pivot": [
+        20.0,
+        20.0
+      ],
+      "maps": {
+        "albedo": "scientific/albedo/specimen_freezer.png",
+        "normal": "scientific/normal/specimen_freezer.png",
+        "emission": "scientific/emission/specimen_freezer.png"
+      },
+      "alpha": "straight",
+      "source": "render_tilesets.py",
+      "blender_version": "4.5.3",
+      "seed": 1729,
+      "tileable": false,
+      "rotation_degrees": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "placement": "requires matching map collision",
+      "emits_light": true
+    }
+  ]
+}

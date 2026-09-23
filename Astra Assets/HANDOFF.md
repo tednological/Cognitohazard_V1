@@ -1,5 +1,15 @@
 # Cognitohazard — 3090 cluster handoff
 
+## Map-kit extension — 2026-09-23
+
+Industrial and scientific map kits are now built: 55 assets each, with 330
+color/normal/emission PNGs and two editable Blender libraries. See
+[TILESETS.md](TILESETS.md) for files, rebuild commands and lighting conventions.
+All 330 PNGs and both manifests reproduce byte-for-byte. The original 115
+sprites are unchanged. The map kits are an asset delivery, not yet connected
+to the live map renderer or level editor. Review the assembled rooms and
+interactive lighting viewer in `previews/tilesets/`.
+
 ## Current status — Linux continuation, 2026-09-23
 
 **All 115 production PNGs are rendered, validated, and visually approved by the user on 2026-09-23.**

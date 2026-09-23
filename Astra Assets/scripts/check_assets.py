@@ -38,7 +38,15 @@ def validate(entries):
     expected|={f'items/item_{i}.png' for i in list(catalog)+['unknown']}
     for p in sorted(expected-paths): fail(p,'missing required manifest entry')
     disk={str(p.relative_to(ASSETS)) for p in ASSETS.rglob('*.png')}
-    for p in disk-paths: fail(p,'PNG not in manifest')
+    supplemental=set()
+    if (ASSETS/'tilesets').exists():
+        try:
+            from check_tilesets import validate as validate_tilesets
+            tileset_report=validate_tilesets(ASSETS/'tilesets')
+            supplemental={'tilesets/'+p for p in tileset_report['sha256']}
+        except (AssertionError, OSError, ValueError, KeyError) as error:
+            fail('tilesets',f'supplemental validation failed: {error}')
+    for p in disk-paths-supplemental: fail(p,'PNG not in manifest')
     if len(entries)!=len(paths): fail('manifest','duplicate paths')
     reserved=[colorsys.rgb_to_hsv(*(v/255 for v in rgb(h)))[0] for h in ['#E65247','#EBB240','#66C2D9','#8CD9F2','#40B87A','#5CD166','#5799FF','#B86BFA','#FF9929']]
     for e in entries:

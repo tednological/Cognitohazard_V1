@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "summary": {
+    "industrial": {
+      "assets": 55,
+      "textures": 165,
+      "emissive_assets": 8,
+      "walls": 16,
+      "floors": 8
+    },
+    "scientific": {
+      "assets": 55,
+      "textures": 165,
+      "emissive_assets": 14,
+      "walls": 16,
+      "floors": 8
+    }
+  },
+  "reproducibility": "330 PNGs and both manifests byte-identical"
+}

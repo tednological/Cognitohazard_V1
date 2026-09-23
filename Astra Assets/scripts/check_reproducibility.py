@@ -15,6 +15,12 @@ def compare(first, second):
         raise SystemExit('FAIL: empty manifest')
     for root in (first, second):
         actual = {path.relative_to(root).as_posix() for path in root.rglob('*.png')}
+        # The map kits have their own manifests and reproducibility command.
+        # Exempt only registered, fully validated companion-kit files.
+        if (root / 'tilesets').exists():
+            from check_tilesets import validate
+            supplemental = validate(root / 'tilesets')['sha256']
+            actual -= {'tilesets/' + path for path in supplemental}
         if actual != expected:
             raise SystemExit(f'FAIL: PNG inventory differs from manifest: {root}')
     hashes = {}
