@@ -106,7 +106,11 @@ Platform gotchas, each cost an hour once:
 - `tests/Fuzz.cs` — thousands of RANDOM input streams, invariants checked EVERY
   tick: player in the level, health/magazines in range, guards neither created
   nor destroyed, pack always a valid packing, hash pure. Plus determinism,
-  replay round-trip, and item conservation (loot/drop only MOVE items).
+  replay round-trip, and item conservation: loot, drop and EQUIP only MOVE
+  items, counting what is worn (raw rails included) as a place items live.
+  Those streams start with random gear in the bag and assert they really moved
+  items: before that they began empty-handed and moved NOTHING, so the
+  invariant held vacuously for as long as it existed.
 - `tests/Robustness.cs` — adversarial text: every parser truncated at 120
   offsets, byte-flipped, fed every printable char as a grid, handed numbers at
   every integer boundary. The bar is not "does not throw" but "the result can
@@ -195,7 +199,9 @@ Boot goes to the TITLE (`title_screen.gd`), not into a mission:
 
 - TITLE: Continue is DISABLED, not hidden, without `user://campaign.txt` — a
   menu whose rows move with state cannot be learned. New Game wipes money,
-  stash and mission history in ONE place (`main.gd:_wipe_campaign`).
+  stash and mission history in ONE place (`main.gd:_wipe_campaign`), and over
+  an existing save it takes TWO presses (the row arms, moving off disarms), as
+  the Options erase does.
 - STASH (`stash_screen.gd`): THREE columns -- the CHARACTER (paper doll +
   the rails of one gun), the STASH (grid, and the bag you pack under it), and
   MISSION SELECT. The whole inventory is on one screen; what you carry and
@@ -251,12 +257,12 @@ A spawn saves the stash on the spot. `KIND_SINGULAR` is indexed by sim
 "all" tab; `inventory_check.gd` asserts every sim kind has a tab AND a row tag.
 
 # Equipment, the stash and looting
-Eight worn slots: helmet, vest, backpack, footware, shirt/chest, arms, primary
-weapon, secondary weapon (supersedes rpg_extension_plan §4's seven). Only FOUR
-reach the sim, because only four have a reader there: the two weapons, the vest
-(armour) and the backpack (pack size). Helmet, footware, shirt and arms are
-worn, saved and drawn, change no stat, and are labelled "cosmetic". Do not give
-them effects until sim/ can read them.
+Nine worn slots: helmet, vest, backpack, footware, shirt/chest, arms, primary
+weapon, secondary weapon, legs (supersedes rpg_extension_plan §4's seven). Only
+FOUR change a stat, because only four have a reader there: the two weapons, the
+vest (armour) and the backpack (pack size). Helmet, footware, shirt, arms and
+legs are worn, saved, drawn and carried by the sim, change no stat, and are
+labelled "cosmetic". Do not give them effects until sim/ can read them.
 
 E SHOWS A DIFFERENT SCREEN IN THE FIELD. `stash_screen.gd` has two modes;
 `main.gd:_open_mission_inventory` picks on `SimBridge.RunLive`:
@@ -315,10 +321,13 @@ re-gridded. `SimBridge.BackpackWouldHold` exposes that same test, so the screen
 can say "your kit will not fit that bag" rather than letting the tick refuse in
 silence.
 
-APPAREL (helmet, footware, shirt, arms) lives in `Loadout` as four item ids and
-is HASHED. Inert is not absent: an item moving onto the player is sim state
-whether or not it does anything, so it must be recorded or the replay diverges.
-`Loadout.ToText` carries them; older kits parse them as 0.
+APPAREL (helmet, footware, shirt, arms, legs) lives in `Loadout` as five item
+ids and is HASHED. Inert is not absent: an item moving onto the player is sim
+state whether or not it does anything, so it must be recorded or the replay
+diverges. `Loadout.ToText` carries them; older kits parse them as 0. LEGS came
+late: `GearSlot.Legs` was appended with no `Loadout` field, so trousers equipped
+in the field left the pack and went nowhere. It is hashed and written (`legs=`)
+ONLY WHEN WORN, so goldens and older kit texts did not move.
 
 EVERY `Loadout.With*` must carry EVERY field through. It is a readonly struct,
 so each mutator rebuilds the whole thing; a field added without visiting all
@@ -413,6 +422,10 @@ Worn gear cannot be taken OFF in the field: the sim models no unarmed state.
   - `stash.gd` otherwise touches the sim only in `apply_to`; `_sync_carry` is
     the stated exception, because "will this fit" is a packing question, the
     sim owns the packing, and the answer depends on the bag.
+  - The bag cannot CHANGE under what is packed in it: `stash.bag_would_hold`
+    refuses a smaller bag, or taking it off, while the list will not fit. It
+    used to be accepted, and the next `apply_to` pushed what the new bag refused
+    back into the grid -- or, with the grid full, nowhere at all.
 - IN THE FIELD the pack panel is read-only except for DROPPING: the pack is sim
   state that rides in replays, and a drag cannot be recorded into an
   InputFrame. The sim auto-places what you take; spatial decisions happen in
@@ -448,6 +461,11 @@ Worn gear cannot be taken OFF in the field: the sim models no unarmed state.
   the held left button then read as fire. Nothing leaves a body unless the
   player named it. Anything too big for the room left is refused and reported.
   No backpack worn means nothing can be carried at all.
+- The pick names a row of the kit ON SCREEN, so the tick resolves the target
+  (`NearestLootTarget`) at its TOP, from the state the panel read, before the
+  player's move. Resolved after it, a step in the same tick could hand the
+  click to the next body over (loot flow §6.3; `Economy` "the loot pick takes
+  from the kit on screen").
 - The choice is recorded: `InputFrame.LootPick` is 0 for none, else the kit
   index + 1, hashed and written as a `pN` token (prefixed so it cannot be
   confused with the `xN` run length; absent from older replays, which still
@@ -458,15 +476,15 @@ Worn gear cannot be taken OFF in the field: the sim models no unarmed state.
 - The world keeps running while the panel is up — rummaging a corpse is not
   free — so main.gd withholds the fire and aim flags for its duration; both are
   mouse buttons and a click would empty a magazine into the body.
-- `SimBridge.Step` takes NINE arguments (…, lootPick, moveTier, dropPick,
-  spawnItem, equipPick). C# defaults do NOT reach GDScript — Godot registers
+- `SimBridge.Step` takes TEN arguments (…, lootPick, moveTier, dropPick,
+  spawnItem, equipPick, doorPick). C# defaults do NOT reach GDScript — Godot registers
   every parameter as required — so a short call fails at RUNTIME with
   "Nonexistent function 'Step'" while `--check-only` passes and the build is
   clean. It has broken call sites FOUR times, once silently aborting a whole
   test function while still reporting zero failures.
   `editor_check.gd:_check_step_arity` now reads the expected count out of
-  SimBridge.cs and counts arguments at every `.Step(` in every .gd file; a
-  tenth argument needs no lint change, only the call sites it names.
+  SimBridge.cs and counts arguments at every `.Step(` in every .gd file; an
+  eleventh argument needs no lint change, only the call sites it names.
 - Presets ISSUE gear: with no room to stage an item in the grid it is equipped
   directly (`stash.gd:_issue`), or a crowded stash deploys without its vest.
 - `sim/GearCatalog.cs` is the ONE item table, PRICES INCLUDED. game/ reads it
@@ -1135,6 +1153,18 @@ whose order affects state. Guards iterate by index, always.
 All hash-feeding state is integer: positions 1/256 px fixed point, angles BRAD,
 awareness in tenths, record charge in frames.
 
+The TEXT formats (level, replay, loadout) are CULTURE-INVARIANT: numbers parse
+through `sim/Invariant.cs` and format through an invariant `Append`, strings
+compare ordinally. The machine's culture writes a negative number without '-'
+in sv-SE (U+2212), fa-IR and ar-SA, so a replay recorded there dropped every
+left/up frame when read anywhere else. `.editorconfig` makes CA1304/1305/1310/
+1311 errors for sim/ (the harness builds with warnings as errors), and
+`SimLint` forbids `int.TryParse` & co. outside Invariant.cs, which CA1305 does
+not see. `Robustness` "cultures" round-trips every format through a BUILT
+hostile culture, so it has teeth on a machine with no locale data.
+`Replay.FromText` caps the frames it will expand at `Replay.MaxFrames` (a day
+at 60 Hz): one `x999999999` token used to allocate 16 GB.
+
 # Tuning constants (spec §0, §12.2)
 Every number in spec §5–§8 is load-bearing and browser-tuned. Port them
 exactly. If one feels wrong, say so in the milestone report — never change it
@@ -1157,6 +1187,16 @@ regression test as well as by the suite that caught it:
   so `MoveSlide` refused every step and he stood frozen from the port on. Moved
   one cell east. (`Navigation`: "every guard and the spawn start where a body
   can stand", and "every patrolling guard completes a lap".)
+- Trousers equipped in the field were DESTROYED: `GearSlot.Legs` had no
+  `Loadout` field, and `Exhaustive.EquipAgreement` looped slots 0..7 so the one
+  pair never ran. It loops `GearCatalog.SlotCount` and asserts no equip creates
+  or destroys an item. (`Exhaustive`, `Fuzz` conservation, `Economy`.)
+- `EquipAttachment` read the MASKED rail to decide what to hand back, so fitting
+  over a rail the gun in hand lacks overwrote what the last gun left there.
+  Reads the raw set. (`Economy` "fitting attachments in the field".)
+- `Replay.FromText` allocated whatever a run length asked for (OutOfMemory on
+  `x999999999` where the OS would not page it), and a walk-tier frame carrying
+  the legacy FSneak bit came back as stealth. (`Robustness`.)
 
 Deliberate deviations, each on request and each commented where it lives:
 - `Tune.AimLockTicks` is 30 (0.5 s), not the browser's 90, and is now exact —
@@ -1216,7 +1256,8 @@ LANDED:
 - `sim/Kit.cs` — nine slots, its own `PackGrid`, the attachment set, the active
   hand, hashing, `PackFullPercent()`, and `ToLoadout()`. Keep the layering:
   **Kit = what is worn, as item ids. Loadout = what that means, as specs.**
-  NOT WIRED IN YET — nothing constructs one.
+  NOT WIRED IN YET — nothing constructs one. It predates per-weapon rails: it
+  still has ONE attachment set, and needs the holster's second before wiring.
 - ATTACHMENTS CAN BE FITTED IN THE FIELD (`SimWorld.EquipAttachment`). The item
   names its own sub-slot via SimA/SimB but must still be dropped on a WEAPON
   slot — the sim read the item and ignored the destination, so a red dot

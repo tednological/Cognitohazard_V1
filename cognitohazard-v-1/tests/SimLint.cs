@@ -37,6 +37,12 @@ public static class SimLint
 		// boundary plus the explicit negative lookbehind below.
 		("unordered Dictionary", @"(?<!Sorted)\bDictionary\s*<"),
 		("HashSet",            @"\bHashSet\s*<"),
+		// The campaign lives OUTSIDE sim/ (rpg_extension_plan §1, promised at
+		// milestone 11): a sim that reads a save file stops reproducing a
+		// replay on any machine without that file. Money, the stash, unlocks
+		// and file I/O are game/'s business; the sim gets a Loadout.
+		("campaign state",     @"\b([Cc]ampaign|[Ss]tash|[Mm]oney|[Uu]nlock)\w*"),
+		("file I/O",           @"\bSystem\s*\.\s*IO\b|\b(File|Directory|FileAccess)\s*\."),
 	};
 
 	/// <summary>
@@ -108,6 +114,10 @@ public static class SimLint
 		string bad = Strip("var x = randf(); // randf in a comment is fine\nfloat y;");
 		H.Check("lint detects a planted violation",
 			Regex.IsMatch(bad, @"\brand[fi]\b") && Regex.IsMatch(bad, @"\bfloat\b"));
+		H.Check("lint detects planted campaign state and file I/O",
+			Regex.IsMatch(Strip("int m = campaign.Money;"), Forbidden[^2].Pattern)
+			&& Regex.IsMatch(Strip("var t = System.IO.File.ReadAllText(p);"),
+				Forbidden[^1].Pattern));
 		string good = Strip("// this comment says randf and float and delta\nint x = 1;");
 		H.Check("lint ignores comments",
 			!Regex.IsMatch(good, @"\brand[fi]\b") && !Regex.IsMatch(good, @"\bfloat\b"));

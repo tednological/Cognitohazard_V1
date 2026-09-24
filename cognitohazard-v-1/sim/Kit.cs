@@ -28,8 +28,11 @@ public sealed class Kit
 	/// <summary>Item ids by GearSlot, 0 for empty.</summary>
 	private readonly int[] _slots = new int[SlotCount];
 
-	/// <summary>Attachment OPTION ids by AttachSlot, 0 for none. One set, applied
-	/// to whichever weapon is in hand — the simplification Loadout documents.</summary>
+	/// <summary>Attachment OPTION ids by AttachSlot, 0 for none. ONE set, applied
+	/// to whichever weapon is in hand -- the simplification Loadout USED to make.
+	/// Loadout has since gone to one set PER WEAPON (primary and holster), so
+	/// this has to grow a second set, indexed by hand, before it is wired in;
+	/// ToLoadout below fills only the primary's.</summary>
 	private readonly int[] _attach = new int[AttachmentCatalog.SlotCount];
 
 	/// <summary>Which weapon is in hand: 0 primary, 1 secondary.</summary>

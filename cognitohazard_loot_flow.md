@@ -210,7 +210,13 @@ harness can reach a method on the stash and cannot reach `_settle_run`.
 `inventory_check.gd` now asserts the case is neither stashed nor owned after a
 completed run.
 
-### 6.3 SUSPECT — the panel's target and the tick's target can differ
+### 6.3 FIXED — the panel's target and the tick's target could differ
+
+Reproduced (two chests equidistant from the player, a pick sent while
+stepping toward the second took from the second) and fixed: `SimWorld.Step`
+resolves the loot target at the TOP of the tick, from the state `GetLootTarget`
+read, before the player's move. Pinned by `Economy` "the loot pick takes from
+the kit on screen". What follows is the original analysis.
 
 `_loot.show_for(lt[4], ...)` draws the kit of the target that was nearest LAST
 FRAME. `StepLoot` calls `NearestLootTarget()` again on the tick. A frame of
@@ -273,9 +279,19 @@ Both halves have to change together: count `Loadout` as a place items live, and
 then stop excluding equips. Done in that order, the fuzzer would have caught
 §6.1 on its first run.
 
+DONE, and it found two more ways to lose an item (trousers into the unwired
+legs slot, and an attachment fitted over a masked rail). It also found that the
+conservation streams had never moved an item at all: they began with an empty
+pack and the player never reached a body or a chest. They now start with
+random gear in the bag, and assert the streams really did loot, drop and
+equip.
+
 ---
 
 ## 8. Suggested order of work
+
+All four are DONE (§6.1 and §6.2 first; §7 and §6.3 in the review sweep that
+also fixed the two item losses §7 turned up).
 
 1. **§6.1** — reconcile `SimWorld.Loadout` into the stash at settle, so worn
    gear comes home and the displaced item is not duplicated. Data loss on every

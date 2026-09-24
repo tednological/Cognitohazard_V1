@@ -993,7 +993,15 @@ func _check_screens_start(b: RefCounted, host: Node) -> void:
 	ti.new_game_requested.connect(func() -> void: seen["new"] += 1)
 	ti.options_requested.connect(func() -> void: seen["options"] += 1)
 	ti.builder_requested.connect(func() -> void: seen["builder"] += 1)
+	# New Game over a save ARMS first: one press must not wipe a campaign.
 	ti._row = ti.ROW_NEW
+	ti.confirm()
+	_eq("New Game over a save does nothing on the first press", seen["new"], 0)
+	ti.move(1)
+	ti.move(-1)
+	_eq("fixture: back on New Game", ti._row, ti.ROW_NEW)
+	ti.confirm()
+	_eq("and moving off disarms it", seen["new"], 0)
 	ti.confirm()
 	ti._row = ti.ROW_OPTIONS
 	ti.confirm()
