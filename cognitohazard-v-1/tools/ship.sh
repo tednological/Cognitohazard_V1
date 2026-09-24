@@ -75,4 +75,4 @@ rm -f "$DIR/$ZIP"
 
 echo
 echo "built:  $DIR/$FILE"
-echo "send:   $DIR/$ZIP  ($(ls -lh "$DIR/$ZIP" | awk '{print $5}'))"
+echo "send:   $DIR/$ZIP  ($(du -h "$DIR/$ZIP" | cut -f1))"

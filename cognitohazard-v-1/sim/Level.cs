@@ -28,21 +28,6 @@ public sealed class GuardDef
 }
 
 /// <summary>
-/// The text level format (spec §2.1) plus the greedy wall merge (§2.2).
-///
-/// The parser is TOTAL: any input at all yields a playable level. It never
-/// throws. Missing '@' spawns at cell (1,1); missing 'X' puts a 2x2 exit at
-/// (W-3, H-3).
-///
-/// A level carries its OWN dimensions. GW/GH are the defaults for a new or
-/// empty level, not a fixed world size: <see cref="FromText"/> infers W and H
-/// from the grid text it is handed, so a 48x28 file still parses to exactly
-/// 48x28 and every replay recorded against one still verifies, while a larger
-/// file simply describes a larger floor. Everything downstream — the wall
-/// merge, the flood fill, the exit default — is written against the instance
-/// fields, never the constants.
-/// </summary>
-/// <summary>
 /// The two kinds of cell that change state during a run. Ordinals are hashed
 /// and cross the bridge, so new kinds go on the END.
 /// </summary>
@@ -80,6 +65,21 @@ public sealed class ChestDef
 	public bool Objective;
 }
 
+/// <summary>
+/// The text level format (spec §2.1) plus the greedy wall merge (§2.2).
+///
+/// The parser is TOTAL: any input at all yields a playable level. It never
+/// throws. Missing '@' spawns at cell (1,1); missing 'X' puts a 2x2 exit at
+/// (W-3, H-3).
+///
+/// A level carries its OWN dimensions. GW/GH are the defaults for a new or
+/// empty level, not a fixed world size: <see cref="FromText"/> infers W and H
+/// from the grid text it is handed, so a 48x28 file still parses to exactly
+/// 48x28 and every replay recorded against one still verifies, while a larger
+/// file simply describes a larger floor. Everything downstream — the wall
+/// merge, the flood fill, the exit default — is written against the instance
+/// fields, never the constants.
+/// </summary>
 public sealed class Level
 {
 	/// <summary>Default grid for a blank level. One screen at the design
@@ -89,12 +89,6 @@ public sealed class Level
 	public const int CellPx = 20;
 	public const int CellFx = CellPx * Fx.One;
 
-	/// <summary>
-	/// Bounds on an inferred grid. The parser is total, so a malformed file
-	/// claiming enormous dimensions must CLAMP rather than allocate — and one
-	/// claiming tiny ones must clamp up, or the default exit at (W-3, H-3)
-	/// lands outside the level.
-	/// </summary>
 	/// <summary>
 	/// The guard ALPHABET, in order: 'a' to 'z', then the 62 Latin-1 letters
 	/// 'À' to 'ÿ' (U+00C0..U+00FF without × and ÷). One glyph is one guard: his
@@ -181,6 +175,12 @@ public sealed class Level
 	/// </summary>
 	public const int DoorLeafCells = 3;
 
+	/// <summary>
+	/// Bounds on an inferred grid. The parser is total, so a malformed file
+	/// claiming enormous dimensions must CLAMP rather than allocate — and one
+	/// claiming tiny ones must clamp up, or the default exit at (W-3, H-3)
+	/// lands outside the level.
+	/// </summary>
 	public const int MinDim = 12;
 	public const int MaxDim = 512;
 	public const int MaxCells = GW * GH * 16;
@@ -433,7 +433,7 @@ public sealed class Level
 	/// the caller treats as "not authored".</summary>
 	private static int ParseAmount(string s)
 	{
-		if (!long.TryParse(s.Trim(), out long v)) return -1;
+		if (!Invariant.TryLong(s.Trim(), out long v)) return -1;
 		if (v < 0) return 0;
 		return v > MaxLoot ? MaxLoot : (int)v;
 	}
@@ -501,13 +501,13 @@ public sealed class Level
 			if (StartsWithNoCase(line, "grid:")) { mode = "grid"; row = 0; continue; }
 
 			string t = line.Trim();
-			if (t.StartsWith(">"))
+			if (t.StartsWith('>'))
 			{
 				mode = "routes";
 				ParseRoute(L, t);
 				continue;
 			}
-			if (t.StartsWith("#") && mode != "grid") continue;   // comment before the grid
+			if (t.StartsWith('#') && mode != "grid") continue;   // comment before the grid
 
 			if (mode == "grid")
 			{
@@ -543,8 +543,8 @@ public sealed class Level
 			}
 
 			string t = line.Trim();
-			if (t.StartsWith(">")) { mode = "routes"; continue; }
-			if (t.StartsWith("#") && mode != "grid") continue;
+			if (t.StartsWith('>')) { mode = "routes"; continue; }
+			if (t.StartsWith('#') && mode != "grid") continue;
 
 			if (mode == "grid")
 			{
@@ -602,8 +602,8 @@ public sealed class Level
 		{
 			string[] q = bits[i].Split(',');
 			if (q.Length < 2) continue;
-			if (!int.TryParse(q[0], out int cc)) continue;
-			if (!int.TryParse(q[1], out int rr)) continue;
+			if (!Invariant.TryInt(q[0], out int cc)) continue;
+			if (!Invariant.TryInt(q[1], out int rr)) continue;
 			pts.Add((cc, rr));
 		}
 		L.Routes[id] = pts;
@@ -621,11 +621,12 @@ public sealed class Level
 	public string ToText()
 	{
 		var sb = new StringBuilder();
+		var inv = System.Globalization.CultureInfo.InvariantCulture;   // see Invariant
 		sb.Append("name: ").Append(Name).Append('\n');
 		if (Theme.Length > 0) sb.Append("theme: ").Append(Theme).Append('\n');
-		if (LootBudget >= 0) sb.Append("loot: ").Append(LootBudget).Append('\n');
-		if (GuardLoot >= 0) sb.Append("guard_loot: ").Append(GuardLoot).Append('\n');
-		if (Ambient >= 0) sb.Append("ambient: ").Append(Ambient).Append('\n');
+		if (LootBudget >= 0) sb.Append(inv, $"loot: {LootBudget}\n");
+		if (GuardLoot >= 0) sb.Append(inv, $"guard_loot: {GuardLoot}\n");
+		if (Ambient >= 0) sb.Append(inv, $"ambient: {Ambient}\n");
 		sb.Append(HeaderComment).Append('\n');
 		sb.Append("grid:\n");
 		for (int r = 0; r < H; r++)
@@ -637,11 +638,11 @@ public sealed class Level
 		{
 			if (kv.Value.Count == 0) continue;
 			sb.Append("> ").Append(kv.Key);
-			foreach (var p in kv.Value) sb.Append(' ').Append(p.C).Append(',').Append(p.R);
+			foreach (var p in kv.Value) sb.Append(inv, $" {p.C},{p.R}");
 			sb.Append('\n');
 		}
 		foreach (var kv in KitPoints)       // SortedDictionary: stable id order
-			sb.Append("kit: ").Append(kv.Key).Append(' ').Append(kv.Value).Append('\n');
+			sb.Append(inv, $"kit: {kv.Key} {kv.Value}\n");
 		return sb.ToString();
 	}
 
@@ -912,8 +913,8 @@ public sealed class Level
 	/// ANY exit is reachable at all (<paramref name="which"/> -1), or one exit by
 	/// its index in <see cref="Exits"/>. Used by the editor to catch a sealed-off
 	/// exit at authoring time, and by the harness to assert the reference level
-	/// is completable. Guards steer rather than path-find (spec §10.1), so this
-	/// is a lower bound on playability, not a guarantee.
+	/// is completable. It asks about the player's route only, so it is a lower
+	/// bound on playability, not a guarantee.
 	///
 	/// Doors count as passable -- any door can be opened. Glass counts as
 	/// passable too unless <paramref name="glassBlocks"/>: a pane can always be

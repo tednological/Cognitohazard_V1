@@ -790,6 +790,26 @@ public static class Economy
 		w2.Step(Equip(pi3, GearSlot.Footware));
 		H.Eq("but they do go on your feet", w2.Loadout.Footware, 602);
 
+		// LEGS, the slot appended for the Kit revamp. Trousers were in the
+		// catalogue and the screen offered them the legs box, but Loadout had
+		// no field for them: the tick took them out of the pack, logged them as
+		// equipped, and WithApparel handed back the loadout unchanged. Gone.
+		var wl = With(503);
+		wl.Step(new InputFrame(0, 0, 0, 0, 0, -1, 0, 902));   // cargo trousers
+		int piL1 = FirstPlacement(wl, out _);
+		wl.Step(Equip(piL1, GearSlot.Legs));
+		H.Eq("trousers can be put on in the field", wl.Loadout.Legs, 902);
+		wl.Step(new InputFrame(0, 0, 0, 0, 0, -1, 0, 901));   // work trousers
+		int piL2 = FirstPlacement(wl, out _);
+		wl.Step(Equip(piL2, GearSlot.Legs));
+		H.Eq("a second pair displaces the first", wl.Loadout.Legs, 901);
+		bool trousersBack = false;
+		for (int i = 0; i < wl.Pack.Capacity; i++)
+			if (wl.Pack.IsLive(i) && wl.Pack.ItemOf(i) == 902) trousersBack = true;
+		H.Check("and the pair it replaced is in the pack", trousersBack);
+		H.Eq("and the legs ride in the loadout text",
+			Loadout.FromText(wl.Loadout.ToText()).Legs, 901);
+
 		// ---- the bag ----
 		// Small bag, big bag in the pack: the swap must re-grid and keep
 		// everything, including the bag that comes off.
@@ -903,6 +923,30 @@ public static class Economy
 		w2.Step(Equip(pi3, GearSlot.Primary));
 		H.Eq("but it does fit a weapon", w2.Loadout.Attachment(AttachSlot.Sight),
 			GearCatalog.Get(303).SimB);
+
+		// A rail the gun in hand LACKS still holds what the last gun had on it:
+		// the rails stay with the hand. Fitting over it has to hand THAT back.
+		// It read the masked slot, saw nothing fitted, and overwrote the stock
+		// the rifle had left there -- one item in, nothing out, one destroyed.
+		var w3 = new SimWorld(Level.FromText(text), 5,
+			new Loadout(WeaponId.Ak47, ArmourId.None, stock: 1, backpack: 503));
+		w3.Step(new InputFrame(0, 0, 0, 0, 0, -1, 0,
+			GearCatalog.WeaponItemId((int)WeaponId.Glock)));
+		w3.Step(Equip(FirstPlacement(w3, out _), GearSlot.Primary));
+		H.Eq("fixture: a Glock in hand, which takes no stock", (int)w3.Loadout.Held,
+			(int)WeaponId.Glock);
+		H.Eq("fixture: the rifle's stock is still on the hand's rails",
+			w3.Loadout.SetAt(0).Raw(AttachSlot.Stock), 1);
+		for (int i = 0; i < w3.Pack.Capacity; i++)          // the AK, out of the way
+			if (w3.Pack.IsLive(i)) w3.Pack.Remove(i);
+		w3.Step(new InputFrame(0, 0, 0, 0, 0, -1, 0, 352));   // a heavy stock
+		w3.Step(Equip(FirstPlacement(w3, out _), GearSlot.Primary));
+		H.Eq("fitting over a masked rail fits the new one",
+			w3.Loadout.SetAt(0).Raw(AttachSlot.Stock), GearCatalog.Get(352).SimB);
+		bool lightBack = false;
+		for (int i = 0; i < w3.Pack.Capacity; i++)
+			if (w3.Pack.IsLive(i) && w3.Pack.ItemOf(i) == 351) lightBack = true;
+		H.Check("and hands back the one the rail was holding", lightBack);
 	}
 
 	private static InputFrame Equip(int placement, GearSlot slot)
@@ -924,9 +968,45 @@ public static class Economy
 		return -1;
 	}
 
+	/// <summary>
+	/// The pick names a ROW of the kit the panel is SHOWING (loot flow §6.3).
+	/// game/ reads GetLootTarget before the tick and draws that target's kit;
+	/// the tick used to re-resolve the nearest target AFTER the player's move,
+	/// so a step in the same tick could hand the click to the next body over.
+	/// </summary>
+	private static void LootTargetHolds()
+	{
+		H.Group("the loot pick takes from the kit on screen");
+
+		var g = Room();
+		Put(g, 5, 5, 'C');
+		Put(g, 6, 5, '@');
+		Put(g, 7, 5, 'C');
+		Put(g, GW - 2, GH - 2, 'X');
+		var w = new SimWorld(Level.FromText(Text(g)), 11,
+			new Loadout(WeaponId.Glock, ArmourId.None, backpack: 503));
+		var a = w.Chests[0];
+		var b = w.Chests[1];
+		H.Check("fixture: the spawn is equidistant from two stocked chests",
+			a.Kit.Count > 0 && b.Kit.Count > 0
+			&& Fx.Dist(a.X, a.Y, w.Player.X, w.Player.Y)
+				== Fx.Dist(b.X, b.Y, w.Player.X, w.Player.Y));
+		int shown = w.NearestLootTarget();
+		H.Eq("fixture: the tie shows the first chest", shown, w.Guards.Count);
+
+		int aBefore = a.Kit.Count, bBefore = b.Kit.Count;
+		// Sprinting toward the SECOND chest while clicking the first row.
+		w.Step(new InputFrame(1, 0, 0, 0, 1, InputFrame.TierSprint));
+		H.Check("fixture: the step made the other chest the nearer",
+			w.NearestLootTarget() == w.Guards.Count + 1);
+		H.Eq("the item comes out of the chest that was on screen", a.Kit.Count, aBefore - 1);
+		H.Eq("and not out of the one the step moved toward", b.Kit.Count, bBefore);
+	}
+
 	public static void Run()
 	{
 		Scarcity();
+		LootTargetHolds();
 		Equipping();
 		EquippingTheRest();
 		FittingInTheField();

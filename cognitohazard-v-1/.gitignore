@@ -6,3 +6,7 @@
 bin/
 obj/
 *.user
+
+# Python bytecode (tools/*.py import levelkit)
+__pycache__/
+*.pyc

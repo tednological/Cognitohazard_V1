@@ -33,6 +33,12 @@ var _version: String = ""
 var _row: int = 0
 var _font: Font
 
+## New Game over an EXISTING campaign takes two presses: the row arms, and the
+## next ENTER wipes it. It was one, on the row beside Continue, for the one
+## action in the game that cannot be undone -- the Options erase already asked
+## twice. Moving off the row, or leaving the screen, disarms it.
+var _new_armed: bool = false
+
 ## Rows are fixed; "continue" is DISABLED rather than hidden when there is no
 ## save. A menu whose rows move depending on state is a menu you cannot learn.
 const ROW_CONTINUE: int = 0
@@ -53,6 +59,7 @@ const C_OFF := Color(0.26, 0.29, 0.34)
 const C_SEL := Color(1.0, 0.95, 0.55)
 const C_ROW := Color(0.07, 0.083, 0.10)
 const C_RULE := Color(0.20, 0.23, 0.29)
+const C_BAD := Color(0.95, 0.42, 0.36)
 
 
 func _ready() -> void:
@@ -66,6 +73,7 @@ func open_screen() -> void:
 	# Land on Continue when there is something to continue, and on New Game
 	# when there is not, so ENTER is always the sensible thing.
 	_row = ROW_CONTINUE if has_save() else ROW_NEW
+	_new_armed = false
 	active = true
 	visible = true
 	queue_redraw()
@@ -74,6 +82,7 @@ func open_screen() -> void:
 func close_screen() -> void:
 	active = false
 	visible = false
+	_new_armed = false
 
 
 ## A save is a campaign file on disk. The stash is not enough on its own -- it
@@ -87,6 +96,7 @@ func row_enabled(row: int) -> bool:
 
 
 func move(delta: int) -> void:
+	_new_armed = false
 	# Skip anything disabled rather than letting the cursor rest on it.
 	for _i in range(ROW_COUNT):
 		_row = (_row + delta + ROW_COUNT) % ROW_COUNT
@@ -100,7 +110,14 @@ func confirm() -> void:
 		return
 	match _row:
 		ROW_CONTINUE: continue_requested.emit()
-		ROW_NEW: new_game_requested.emit()
+		ROW_NEW:
+			# Nothing to lose without a save, so nothing to confirm.
+			if has_save() and not _new_armed:
+				_new_armed = true
+				queue_redraw()
+				return
+			_new_armed = false
+			new_game_requested.emit()
 		ROW_OPTIONS: options_requested.emit()
 		ROW_BUILDER: builder_requested.emit()
 
@@ -124,8 +141,9 @@ func _draw() -> void:
 	draw_line(Vector2(FIELD_W * 0.5 - 180, 236), Vector2(FIELD_W * 0.5 + 180, 236),
 		C_RULE, 1.0)
 
-	var labels := ["Continue previous save", "Start new game", "Options",
-		"Level Builder"]
+	var labels := ["Continue previous save",
+		"ENTER again to erase your campaign" if _new_armed else "Start new game",
+		"Options", "Level Builder"]
 	for i in range(ROW_COUNT):
 		_draw_row(i, labels[i])
 
@@ -155,6 +173,8 @@ func _draw_row(i: int, label: String) -> void:
 	var col: Color = C_OFF
 	if on:
 		col = C_SEL if i == _row else C_TEXT
+	if i == ROW_NEW and _new_armed:
+		col = C_BAD
 	draw_string(_font, box.position + Vector2(0, 25), label,
 		HORIZONTAL_ALIGNMENT_CENTER, box.size.x, 17, col)
 

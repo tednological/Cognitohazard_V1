@@ -28,7 +28,7 @@ public static class Program
 
 		bool record = Array.IndexOf(args, "--record") >= 0;
 
-		Console.WriteLine("Cognitohazard sim harness - milestone 0/1");
+		Console.WriteLine("Cognitohazard sim harness");
 		Console.WriteLine();
 
 		SimLint.Run();

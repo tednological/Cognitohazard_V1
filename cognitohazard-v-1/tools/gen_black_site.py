@@ -418,8 +418,8 @@ for gid, cell in SENTRIES.items():
 # LootTable.Buy can only spend on the top of the catalogue. Guards are paid
 # enough that almost every one carries a legendary gun and most wear plate;
 # the vault officers more than that.
-LOOT = 100_000
-GUARD_LOOT = 2_500
+LOOT = 1_000_000
+GUARD_LOOT = 7_000
 KITS = {'u': 14_000, 'v': 14_000, 'x': 14_000, 'w': 10_000, 's': 10_000}
 KITS.update({gid: 14_000 for gid in OFFICERS})
 

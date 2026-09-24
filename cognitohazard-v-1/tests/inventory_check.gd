@@ -545,6 +545,15 @@ func _check_stash_text(b: RefCounted) -> void:
 	_eq("unknown gear and rubbish are counted", skipped, 2)
 	_eq("and the known part survived", odd.equipped_in(CAT.SLOT_PRIMARY), 100)
 
+	# ...and gear in a slot it does not belong in. apply_to resolves a weapon
+	# slot through GearSimA, so a vest saved into the primary deployed as
+	# whatever weapon shares its ordinal.
+	var wrong: RefCounted = STASH.new(b, 1, 1)
+	_eq("gear saved into the wrong slot or rail is refused", wrong.from_text(
+		"stash 2\ngrid 3 3\nequip 6 201\nequip 0 102\nattach 0 311\nattach2 1 311\n"), 3)
+	_eq("the vest is not deployed as a weapon", wrong.equipped_in(CAT.SLOT_PRIMARY), STASH.NONE)
+	_eq("a grip on its own rail still loads", wrong.attached_at(1, 1), 311)
+
 
 ## First placement holding an item id, or GRID.NONE.
 func _find(s: RefCounted, item_id: int) -> int:
@@ -984,7 +993,15 @@ func _check_screens_start(b: RefCounted, host: Node) -> void:
 	ti.new_game_requested.connect(func() -> void: seen["new"] += 1)
 	ti.options_requested.connect(func() -> void: seen["options"] += 1)
 	ti.builder_requested.connect(func() -> void: seen["builder"] += 1)
+	# New Game over a save ARMS first: one press must not wipe a campaign.
 	ti._row = ti.ROW_NEW
+	ti.confirm()
+	_eq("New Game over a save does nothing on the first press", seen["new"], 0)
+	ti.move(1)
+	ti.move(-1)
+	_eq("fixture: back on New Game", ti._row, ti.ROW_NEW)
+	ti.confirm()
+	_eq("and moving off disarms it", seen["new"], 0)
 	ti.confirm()
 	ti._row = ti.ROW_OPTIONS
 	ti.confirm()
@@ -2915,6 +2932,26 @@ func _check_carrying(b: RefCounted) -> void:
 	_eq("and Restart puts every one of them in the pack",
 		PackedInt32Array(b.GetPackItems()).size(), stash.carried.size())
 
+	# ---- the bag cannot change under what is packed in it ----
+	# A smaller bag, or none, was accepted with the bag packed, and the next
+	# apply_to pushed what it refused back into the grid -- or, with the grid
+	# full, nowhere at all.
+	var carried_before: int = stash.carried.size()
+	var satchel: int = stash.add(501)
+	_check("fixture: a satchel in the stash", satchel != GRID.NONE)
+	_check("a packed bag cannot be swapped for one too small to hold it",
+		not stash.equip_from_grid(satchel, CAT.SLOT_BACKPACK))
+	_eq("the big bag stays on", stash.equipped_in(CAT.SLOT_BACKPACK), 503)
+	_eq("the satchel stays in the stash", stash.grid.item_of(satchel), 501)
+	_eq("and nothing packed moved", stash.carried.size(), carried_before)
+	_check("nor can a packed bag be taken off", not stash.unequip(CAT.SLOT_BACKPACK))
+	_eq("and asking left the sim on the bag that is worn", b.CurrentBackpackId, 503)
+	while stash.carried.size() > 0 and stash.uncarry(0):
+		pass
+	_eq("fixture: the bag is unpacked", stash.carried.size(), 0)
+	_check("an empty bag can be swapped for any other",
+		stash.equip_from_grid(ss_find(stash, 501), CAT.SLOT_BACKPACK))
+
 	# ---- a smaller bag cannot hold the kit packed for a bigger one ----
 	var small: RefCounted = STASH.new(b)
 	small.add(501)                                   # satchel, 4x3
@@ -3054,6 +3091,27 @@ func _check_field_equip_comes_home(b: RefCounted) -> void:
 		bare.reconcile_worn(bare_kit, STASH.sim_kit(b)), 0)
 	_eq("and mints no Glock", bare.count_of(100), 0)
 	_eq("and the empty hand stays empty", bare.equipped_in(CAT.SLOT_PRIMARY), STASH.NONE)
+
+	# LEGS, the ninth slot. It reached neither the sim nor GetWornSim (sized
+	# for eight), so trousers worn at base were invisible in the field and a
+	# pair equipped there was taken out of the pack and destroyed.
+	var legs: RefCounted = STASH.new(b)
+	legs.equip_from_grid(legs.add(503), CAT.SLOT_BACKPACK)
+	legs.equip_from_grid(legs.add(901), CAT.SLOT_LEGS)
+	legs.apply_to(b)
+	b.Restart(1)
+	var legs_kit: Array = STASH.sim_kit(b)
+	_eq("the sim reports every slot", legs_kit[0].size(), CAT.SLOT_COUNT)
+	_eq("trousers worn at base are worn in the field", legs_kit[0][CAT.SLOT_LEGS], 901)
+	b.Step(0, 0, 0, 0, 0, 1, 0, 902, 0, 0)
+	b.Step(0, 0, 0, 0, 0, 1, 0, 0,
+		b.MakeEquipPick(_pack_placement_of(b, 902), CAT.SLOT_LEGS), 0)
+	_eq("a pair can be changed in the field", b.GetWornSim()[CAT.SLOT_LEGS], 902)
+	_check("and the pair taken off is in the pack", _pack_placement_of(b, 901) >= 0)
+	_eq("the change comes home", legs.reconcile_worn(legs_kit, STASH.sim_kit(b)), 1)
+	legs.bank_recovered(PackedInt32Array(b.GetPackItems()))
+	_eq("worn", legs.equipped_in(CAT.SLOT_LEGS), 902)
+	_eq("and the old pair with it, once", legs.count_of(901), 1)
 
 
 func _pack_placement_of(b: RefCounted, item_id: int) -> int:

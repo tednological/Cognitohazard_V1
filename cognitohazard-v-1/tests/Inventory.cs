@@ -439,13 +439,6 @@ public static class Inventory
 	}
 
 	/// <summary>
-	/// game/main.gd mirrors these ordinals by hand as EV_LOOTED, EV_PACK_FULL and
-	/// EV_WEAPON_SWAPPED, because the bridge hands events over as plain ints. The
-	/// count is already checked at runtime, but a count check cannot catch a kind
-	/// INSERTED mid-enum -- that keeps the count and silently shifts every
-	/// ordinal, remapping the loot pop onto some other event. These pin them.
-	/// </summary>
-	/// <summary>
 	/// THE KIT THE PLAYER WALKS IN WITH: Loadout.Carried, placed in the pack at
 	/// Restart.
 	///
@@ -521,6 +514,13 @@ public static class Inventory
 		H.Eq("with no bag, nothing is carried at all", wb.Pack.UsedCells(), 0);
 	}
 
+	/// <summary>
+	/// game/main.gd mirrors these ordinals by hand as EV_LOOTED, EV_PACK_FULL and
+	/// EV_WEAPON_SWAPPED, because the bridge hands events over as plain ints. The
+	/// count is already checked at runtime, but a count check cannot catch a kind
+	/// INSERTED mid-enum -- that keeps the count and silently shifts every
+	/// ordinal, remapping the loot pop onto some other event. These pin them.
+	/// </summary>
 	private static void EventOrdinals()
 	{
 		H.Group("event ordinals mirrored by game/");

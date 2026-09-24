@@ -1,7 +1,7 @@
 extends RefCounted
 
-## The persistent stash and what is worn: a packing grid, the eight equipment
-## slots, the six weapon sub-slots, and a text save file.
+## The persistent stash and what is worn: a packing grid, the nine equipment
+## slots, two sets of six weapon sub-slots, and a text save file.
 ##
 ## This is the meta layer of rpg_extension_plan.md §1 -- it PRODUCES a resolved
 ## Loadout and the sim consumes one. It holds no sim state and feeds no hash.
@@ -34,7 +34,7 @@ var grid: RefCounted = null
 ## The bridge, for gear footprints and slot rules. The stash never steps the sim.
 var _bridge: RefCounted = null
 
-## Item id worn in each of the eight slots, or NONE.
+## Item id worn in each of the nine slots, or NONE.
 var _slots: PackedInt32Array = PackedInt32Array()
 
 ## Item id mounted on each weapon sub-slot, or NONE — TWO sets of six, the
@@ -140,9 +140,6 @@ static func presets() -> Array:
 	]
 
 
-## A sensible opening kit, worn rather than merely owned, so a fresh player can
-## strip a body on the first run without first having to find the equipment
-## screen. Only used when there is no save file to load instead.
 ## The kit a new campaign deploys in. A pistol and a satchel: armed, and able to
 ## carry something home, which is the minimum a run needs to be worth running.
 func equip_starting_kit() -> void:
@@ -286,12 +283,37 @@ func equip_from_grid(pi: int, slot: int = NONE, hand: int = 0) -> bool:
 	var want: int = slot if slot != NONE else default_slot_for(item_id)
 	if not _bridge.GearFitsSlot(item_id, want):
 		return false
+	if want == CAT.SLOT_BACKPACK and not bag_would_hold(item_id):
+		return false
 	return _swap_into(pi, item_id, _slots, want)
 
 
-## Returns gear to the grid. Refused, changing nothing, if it will not fit.
+## Returns gear to the grid. Refused, changing nothing, if it will not fit --
+## or if it is the bag and something is packed in it.
 func unequip(slot: int) -> bool:
+	if slot == CAT.SLOT_BACKPACK and not bag_would_hold(NONE):
+		return false
 	return _take_out(_slots, slot)
+
+
+## Would `bag` (an item id, or NONE for no bag) hold everything packed to
+## carry? Asked before the bag changes at base. A smaller bag, or none, used to
+## be accepted with the bag packed, and the next apply_to pushed whatever it
+## refused back into the grid -- or, with the grid full, nowhere at all.
+func bag_would_hold(bag: int) -> bool:
+	if carried.is_empty():
+		return true
+	if bag == NONE:
+		return false
+	_bridge.SetBackpack(bag)
+	_bridge.ClearCarried()
+	var fits: bool = true
+	for i in range(carried.size()):
+		if not _bridge.AddCarried(carried[i]):
+			fits = false
+			break
+	_sync_carry()
+	return fits
 
 
 ## EXCHANGES what is worn in two slots, which is what dragging one worn slot
@@ -329,10 +351,11 @@ func unequip_attach(sub: int, hand: int = 0) -> bool:
 ## Resolves what is worn into the sim's Loadout. The ONE place this layer speaks
 ## to sim/, through the bridge's setters.
 ##
-## Only four of the eight slots reach the sim, because only four have a reader:
+## Only four of the nine slots change a stat, because only four have a reader:
 ## Primary and Secondary are weapons, Vest is armour, and Backpack sizes the
-## mission pack. Helmet, footware, shirt and arms are carried, saved and shown,
-## and change no stat -- no invented effects until sim/ can honour them.
+## mission pack. Helmet, footware, shirt, arms and legs are pushed too (they
+## can be changed in the field, so the sim has to know what is worn) but change
+## no stat -- no invented effects until sim/ can honour them.
 ##
 ## An attachment is pushed only if the weapon in that hand actually carries the
 ## sub-slot, so a scope cannot resolve onto a pistol with no sight rail.
@@ -352,10 +375,11 @@ func apply_to(bridge: RefCounted) -> void:
 	var pack: int = _slots[CAT.SLOT_BACKPACK]
 	bridge.SetBackpack(pack if pack != NONE else 0)
 
-	# The four cosmetic slots. They change no stat, but they are worn, hashed
+	# The five cosmetic slots. They change no stat, but they are worn, hashed
 	# and now changeable in the field, so what you left base wearing has to be
 	# what the sim thinks you are wearing.
-	for slot in [CAT.SLOT_HELMET, CAT.SLOT_FOOTWARE, CAT.SLOT_CHEST, CAT.SLOT_ARMS]:
+	for slot in [CAT.SLOT_HELMET, CAT.SLOT_FOOTWARE, CAT.SLOT_CHEST, CAT.SLOT_ARMS,
+			CAT.SLOT_LEGS]:
 		var apparel: int = _slots[slot]
 		bridge.SetApparel(slot, apparel if apparel != NONE else 0)
 
@@ -506,8 +530,8 @@ func bank_recovered(items: PackedInt32Array) -> Array:
 ## in the field was destroyed on the way home and the item it replaced was
 ## duplicated (cognitohazard_loot_flow.md §6.1).
 ##
-## Only the slots the sim carries: the sim has no legs slot, so it is shorter
-## than _slots, and what it does not carry cannot have changed in the field.
+## Only the slots both kits carry, so a kit from an older bridge that reports
+## fewer slots reconciles what it has and leaves the rest alone.
 func reconcile_worn(deployed: Array, extracted: Array) -> int:
 	var changed: int = 0
 	var was: PackedInt32Array = deployed[0]
@@ -610,14 +634,22 @@ func from_text(text: String) -> int:
 		if f.size() >= 3 and f[0] == "equip":
 			var slot: int = int(f[1])
 			var item_id: int = int(f[2])
-			if slot >= 0 and slot < CAT.SLOT_COUNT and _bridge.GearExists(item_id):
+			# The item has to BELONG in the slot. apply_to resolves a weapon slot
+			# through GearSimA, so a hand-edited `equip 6 201` would otherwise
+			# deploy a vest as whatever weapon shares its ordinal.
+			if slot >= 0 and slot < CAT.SLOT_COUNT and _bridge.GearExists(item_id) \
+					and _bridge.GearFitsSlot(item_id, slot):
 				_slots[slot] = item_id
 			else:
 				skipped += 1
 		elif f.size() >= 3 and (f[0] == "attach" or f[0] == "attach2"):
-			var at: int = _rail_index(int(f[1]), 1 if f[0] == "attach2" else 0)
+			var sub: int = int(f[1])
+			var at: int = _rail_index(sub, 1 if f[0] == "attach2" else 0)
 			var item2: int = int(f[2])
-			if at >= 0 and _bridge.GearExists(item2):
+			# Likewise an attachment, on its OWN rail only.
+			if at >= 0 and _bridge.GearExists(item2) \
+					and _bridge.GearKindOf(item2) == CAT.KIND_ATTACHMENT \
+					and _bridge.GearSimA(item2) == sub:
 				_attach[at] = item2
 			else:
 				skipped += 1

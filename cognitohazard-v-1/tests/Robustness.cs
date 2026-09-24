@@ -268,6 +268,28 @@ public static class Robustness
 		}
 
 		Verdict("no replay text makes the parser throw or the world crash", before);
+
+		// A billion-frame run length used to be ALLOCATED: 16 GB for a 30-byte
+		// file. It passed where the OS would page it out and died of
+		// OutOfMemory where it would not.
+		var huge = Replay.FromText("frames:\n1 1 1 1 x999999999\n0 0 0 0 x999999999");
+		H.Check("a run length past MaxFrames is capped, not allocated",
+			huge.Inputs.Count == Replay.MaxFrames, $"{huge.Inputs.Count} frames");
+
+		// The m token is omitted at walk, and a frame with no m token derives
+		// its tier from the legacy FSneak bit. A WALK frame with that bit set
+		// therefore came back as a stealth frame: a different input, hashed.
+		var legacy = new Replay();
+		legacy.Inputs.Add(new InputFrame(0, 1, 0, InputFrame.FSneak, moveTier: InputFrame.TierWalk));
+		legacy.Inputs.Add(new InputFrame(0, 1, 0, InputFrame.FSneak));
+		legacy.Inputs.Add(new InputFrame(0, 1, 0, 0, moveTier: InputFrame.TierSprint));
+		var legacyBack = Replay.FromText(legacy.ToText());
+		bool tiersKept = legacyBack.Inputs.Count == legacy.Inputs.Count;
+		for (int i = 0; tiersKept && i < legacy.Inputs.Count; i++)
+			tiersKept = legacyBack.Inputs[i].MoveTier == legacy.Inputs[i].MoveTier
+				&& legacyBack.Inputs[i].Flags == legacy.Inputs[i].Flags;
+		H.Check("every frame's tier survives a round trip, FSneak bit or not", tiersKept,
+			"a frame came back on another tier");
 	}
 
 	// -------------------------------------------------------- the catalogues
@@ -383,6 +405,82 @@ public static class Robustness
 		Catalogues();
 		Inputs();
 		GuardAi();
+		Cultures();
+	}
+
+	/// <summary>
+	/// The file formats do not depend on the machine's culture. Several write a
+	/// negative number without '-' (sv-SE uses U+2212), and a replay records a
+	/// negative MoveX/MoveY on every left or up frame: written in one culture and
+	/// read in another, those frame lines failed to parse and were dropped, so
+	/// the replay diverged. Written in a hostile culture, read in the invariant
+	/// one, and the other way round; every format must come back identical.
+	/// The hostile culture is BUILT, not looked up, so the test has teeth on a
+	/// machine with no locale data at all.
+	/// </summary>
+	private static void Cultures()
+	{
+		H.Group("robustness / cultures");
+
+		var hostile = (System.Globalization.CultureInfo)
+			System.Globalization.CultureInfo.InvariantCulture.Clone();
+		hostile.NumberFormat.NegativeSign = "\u2212";
+
+		var rep = new Replay { Seed = 99, LevelText = Program.ReadLevel("substation_4.txt") };
+		rep.Loadout = new Loadout(WeaponId.Glock, ArmourId.None, backpack: 503);
+		rep.Inputs.Add(new InputFrame(-1, -1, 100, 0));
+		rep.Inputs.Add(new InputFrame(1, -1, 200, 0));
+		rep.Inputs.Add(new InputFrame(-1, 0, 300, 0));
+		rep.AddHash(3, 0xDEADBEEFUL);
+		var level = Level.FromText(rep.LevelText);
+		level.Routes['a'] = new List<(int C, int R)> { (-2, 3), (4, -5) };
+
+		var saved = System.Globalization.CultureInfo.CurrentCulture;
+		string repText, levelText, kitText;
+		Replay back;
+		try
+		{
+			System.Globalization.CultureInfo.CurrentCulture = hostile;
+			repText = rep.ToText();
+			levelText = level.ToText();
+			kitText = rep.Loadout.ToText();
+			System.Globalization.CultureInfo.CurrentCulture =
+				System.Globalization.CultureInfo.InvariantCulture;
+			back = Replay.FromText(repText);
+		}
+		finally { System.Globalization.CultureInfo.CurrentCulture = saved; }
+
+		H.Check("a replay written in any culture writes '-'", !repText.Contains('\u2212'),
+			"U+2212 in the replay text");
+		H.Eq("and every frame of it reads back elsewhere", back.Inputs.Count, rep.Inputs.Count);
+		bool same = back.Inputs.Count == rep.Inputs.Count;
+		for (int i = 0; same && i < rep.Inputs.Count; i++)
+			same = back.Inputs[i].MoveX == rep.Inputs[i].MoveX
+				&& back.Inputs[i].MoveY == rep.Inputs[i].MoveY;
+		H.Check("with its moves intact", same, "a frame came back with a different move");
+		H.Check("and its checkpoint", back.TryGetHash(3, out ulong hv) && hv == 0xDEADBEEFUL,
+			"checkpoint lost");
+		H.Check("a level and a loadout written in any culture write '-'",
+			!levelText.Contains('\u2212') && !kitText.Contains('\u2212'),
+			"U+2212 in the level or loadout text");
+
+		// And the other way: invariant text read on a hostile machine.
+		string plain = rep.ToText();
+		Replay there;
+		Level levelThere;
+		try
+		{
+			System.Globalization.CultureInfo.CurrentCulture = hostile;
+			there = Replay.FromText(plain);
+			levelThere = Level.FromText(level.ToText());
+		}
+		finally { System.Globalization.CultureInfo.CurrentCulture = saved; }
+		H.Eq("an invariant replay reads back in a hostile culture",
+			there.Inputs.Count, rep.Inputs.Count);
+		H.Check("as does a level's negative route point",
+			levelThere.Routes.TryGetValue('a', out var pts) && pts.Count == 2
+				&& pts[0] == (-2, 3) && pts[1] == (4, -5),
+			"route points lost");
 	}
 
 	/// <summary>

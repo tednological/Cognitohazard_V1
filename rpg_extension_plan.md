@@ -1,7 +1,12 @@
 # Cognitohazard — RPG Extension Plan
 
-**Status:** milestones 7, 8 and 9 complete and green. Milestone 10 (gear slots)
-is next.
+**Status:** milestones 7, 8 and 9 complete and green. 10 and 11 are BUILT in
+the form CLAUDE.md describes, which departs from this plan: nine worn slots,
+of which only the weapons, vest and backpack change a stat (the apparel is
+cosmetic until sim/ has a reader for it), and a campaign of contract pay, a
+shop, a stash and mission select (`cognitohazard_campaign_plan.md`). §1's
+SimLint rule keeping campaign state out of sim/ is in `tests/SimLint.cs`.
+Milestone 12 (the balance pass) is a measurement, and has not been done.
 **Relationship to `cognitohazard_port_spec.md`:** this document extends it. Where
 the two disagree, the amendments in §8 below are authoritative and the port spec
 is to be edited to match. Everything the port spec says about *architecture*

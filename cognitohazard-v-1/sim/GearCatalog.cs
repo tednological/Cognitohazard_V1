@@ -1,9 +1,9 @@
 namespace Cognitohazard.Sim;
 
 /// <summary>
-/// The eight equipment slots. This list supersedes rpg_extension_plan.md §4's
-/// seven: Helmet, Chest, Arms and Secondary are new, and §4's Optics and Implant
-/// are gone. Nothing was lost in the trade -- vision radius already comes from
+/// The nine equipment slots. This list supersedes rpg_extension_plan.md §4's
+/// seven: Helmet, Chest, Arms, Secondary and Legs are new, and §4's Optics and
+/// Implant are gone. Nothing was lost in the trade -- vision radius already comes from
 /// the rail attachment, and the Implant ladder was never built.
 ///
 /// The order is load-bearing. §4's rule still holds: two items touching one stat

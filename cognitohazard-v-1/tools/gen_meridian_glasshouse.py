@@ -21,7 +21,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from levelkit import Grid, WALL, GLASS, DOOR  # noqa: E402
+from levelkit import Grid, WALL, GLASS  # noqa: E402
 
 W, H = 64, 40
 L = Grid(W, H)

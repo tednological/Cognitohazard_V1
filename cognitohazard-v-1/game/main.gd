@@ -1232,7 +1232,11 @@ func _physics_process(_delta: float) -> void:
 			_shop.move(1)
 		elif Input.is_action_just_pressed("ui_accept"):
 			if _shop.buy():
+				# BOTH halves of the trade, now. The ledger used to be written
+				# only when the shop closed, so quitting with it open kept the
+				# item (the stash is saved here) and never charged for it.
 				_save_stash()
+				_campaign.save()
 		elif Input.is_action_just_pressed("shop") or Input.is_action_just_pressed("ui_cancel"):
 			_shop.close_screen()
 		return
@@ -1403,16 +1407,16 @@ func _physics_process(_delta: float) -> void:
 	# A drop the equipment screen staged this tick. Recorded intent like a loot
 	# pick, so it survives a replay; consumed here so it fires exactly once.
 	var drop: int = 0
-	var _dropping_item: int = -1
+	var dropping_item: int = -1
 	if _stash_screen != null and _stash_screen.pending_drop >= 0:
 		drop = _stash_screen.pending_drop + 1
-		_dropping_item = _stash_screen.pending_drop_item
+		dropping_item = _stash_screen.pending_drop_item
 		_stash_screen.pending_drop = -1
 
 	# What the player is about to put down is something they plainly recognise,
 	# so it needs no identify dwell when they pick it back up.
 	if drop > 0 and _loot != null:
-		_loot.mark_known(_dropping_item)
+		_loot.mark_known(dropping_item)
 
 	# One spawn per tick, because InputFrame carries ONE. The dev menu queues
 	# them while it is open (the sim is not stepping then) and the queue drains
@@ -1864,11 +1868,11 @@ func _settle_run(world: PackedInt32Array) -> void:
 	# must deploy what you now wear.
 	_stash.apply_to(_bridge)
 	var kept: int = banked[0]
-	var sold: int = banked[1]
-	var unsold: int = banked[2]
+	var fenced_n: int = banked[1]
+	var fenced_price: int = banked[2]
 	var handed: int = banked[3]
 
-	var fenced: int = _campaign.salvage_value(unsold)
+	var fenced: int = _campaign.salvage_value(fenced_price)
 
 	# Did the job get done? An extraction WITHOUT the objective is still an
 	# extraction -- you keep every item -- but it pays nothing at all.
@@ -1878,7 +1882,7 @@ func _settle_run(world: PackedInt32Array) -> void:
 	var mission_pay: int = MISSIONS.mission_payout(summary)
 
 	var paid: int = _campaign.settle(file, completed, mission_pay,
-		world[7], world[8], fenced, kept + sold)
+		world[7], world[8], fenced, kept + fenced_n)
 	_campaign.note_run(world[11], world[12], world[13], world[0],
 		world[7], world[8], world[9])
 	# THE WIN CONDITION: out of the Black Site with the objective. Recorded
@@ -1896,9 +1900,12 @@ func _settle_run(world: PackedInt32Array) -> void:
 	elif completed:
 		_notice = "MISSION COMPLETE — %s%d earned, %d item(s) recovered%s" % [
 			("case handed in  ·  " if handed > 0 else ""),
-			paid, kept, ("  ·  %d fenced for %d" % [sold, fenced]) if sold > 0 else ""]
+			paid, kept, ("  ·  %d fenced for %d" % [fenced_n, fenced]) if fenced_n > 0 else ""]
 	else:
-		_notice = "extracted without the objective — no pay, but %d item(s) kept" % kept
+		# No fence either (the fence is part of the pay), so what the stash had
+		# no room for is gone -- say so, rather than a count that hides it.
+		_notice = "extracted without the objective — no pay, but %d item(s) kept%s" % [
+			kept, ("  ·  %d lost, no room in the stash" % fenced_n) if fenced_n > 0 else ""]
 	_notice_t = 9.0
 	print("cognitohazard: %s — mission %d, records %d, salvage %d = %d  (balance %d)"
 		% ["COMPLETE" if completed else "no objective",
@@ -2341,7 +2348,7 @@ func _draw() -> void:
 	_draw_darkness()
 	_draw_lamps()
 	_draw_torch_beams()
-	_draw_guards(ppos)
+	_draw_guards()
 	_draw_footsteps()
 	_draw_ai_debug()
 	_draw_bullets()
@@ -2382,7 +2389,7 @@ func _draw() -> void:
 		draw_string(_font, p["pos"], p["text"], HORIZONTAL_ALIGNMENT_CENTER, -1, 11, col)
 
 	_screen_pass()
-	_draw_offscreen_markers(ppos)
+	_draw_offscreen_markers()
 	_draw_ai_debug_header()
 	_draw_hud(player, world)
 	_draw_loot_prompt()
@@ -2719,7 +2726,7 @@ func _draw_arcs() -> void:
 		draw_polyline(pts, Color(0.90, 0.97, 1.0, t), 1.8)
 
 
-func _draw_guards(ppos: Vector2) -> void:
+func _draw_guards() -> void:
 	var g: PackedInt32Array = _bridge.GetGuards()
 	# Lighting: how well the player makes each guard out. Empty on a lit
 	# level, where every guard in line of sight is drawn plainly, as before.
@@ -2897,7 +2904,7 @@ func _draw_footsteps() -> void:
 ## nothing -- that information asymmetry is the game. One who is hunting or
 ## engaging you already knows where you are, so telling the player costs no
 ## secret and removes the unfair deaths.
-func _draw_offscreen_markers(ppos: Vector2) -> void:
+func _draw_offscreen_markers() -> void:
 	if _view_rect.encloses(Rect2(Vector2.ZERO, level_size())):
 		return   # whole level on screen; there is no "off screen" to warn about
 

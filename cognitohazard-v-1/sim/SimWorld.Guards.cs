@@ -451,11 +451,6 @@ public sealed partial class SimWorld
 		BeginRadio(e, RadioPurpose.Report);
 	}
 
-	/// <summary>
-	/// The level knows it has an intruder, for the rest of the run. Every guard
-	/// not in a fight starts hunting now; the ones fighting join as each loses
-	/// contact.
-	/// </summary>
 	/// <summary>The sweep's nodes, built the moment the level is first
 	/// compromised (Guard_AI.md §6.3). Null before. Hashed when it exists.</summary>
 	public SweepMap? Sweep { get; private set; }

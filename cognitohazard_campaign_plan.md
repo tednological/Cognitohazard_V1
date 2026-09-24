@@ -1,7 +1,12 @@
 # Campaign plan: the between-runs stash, and mission select with stakes
 
-Status: **plan only.** Written against the tree as of the meta-mechanics pass
-(money, chests, record scarcity, the shop).
+Status: **§2 BUILT** (mission select, derived threat, the payout multiplier,
+per-mission history; §2.1 was decided in favour of deriving from the level).
+**NOT built:** §1 (selling from the stash, stash capacity as a purchase) and
+§2.4's carrying-too-little warning. Written against the tree as of the
+meta-mechanics pass (money, chests, record scarcity, the shop); §0's table
+predates the title/stash screen split, so read file names there against
+CLAUDE.md.
 
 ---
 

@@ -2,3 +2,13 @@ root = true
 
 [*]
 charset = utf-8
+
+# sim/ reads and writes the level, replay and loadout formats, which must mean
+# the same bytes on every machine (see sim/Invariant.cs). These analyzers catch
+# a culture-sensitive parse, format or string comparison at build time; the
+# harness compiles sim/ with warnings as errors, so each one breaks the build.
+[sim/*.cs]
+dotnet_diagnostic.CA1304.severity = warning
+dotnet_diagnostic.CA1305.severity = warning
+dotnet_diagnostic.CA1310.severity = warning
+dotnet_diagnostic.CA1311.severity = warning

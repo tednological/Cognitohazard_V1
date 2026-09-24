@@ -26,12 +26,26 @@ func _check(name: String, ok: bool, detail: String = "") -> void:
 
 var _done: bool = false
 
+## Seconds still to wait before quitting, or negative before the checks have
+## run. The wiring check PLAYS sounds, and the audio server releases a stopped
+## voice's playback on its own mixing thread: quitting on the frame they were
+## played intermittently left two playbacks and their stream alive past exit
+## ("ObjectDB instances leaked"). Time, not frames: a headless frame is not
+## throttled, so a few of them can pass before the mixer runs once.
+var _quit_in: float = -1.0
+
 
 ## Checks run on the first processed frame, not in _initialize(). A node added
 ## to the tree during _initialize() does not get _ready() until the tree starts
 ## processing, so the voice pool would still be empty and the wiring check would
 ## fail against working code.
-func _process(_delta: float) -> bool:
+func _process(delta: float) -> bool:
+	if _quit_in >= 0.0:
+		_quit_in -= delta
+		if _quit_in < 0.0:
+			quit(0 if _fail == 0 else 1)
+			return true
+		return false
 	if _done:
 		return true
 	_done = true
@@ -49,8 +63,8 @@ func _process(_delta: float) -> bool:
 
 	print()
 	print("%d passed, %d failed" % [_pass, _fail])
-	quit(0 if _fail == 0 else 1)
-	return true
+	_quit_in = 0.3
+	return false
 
 
 ## cutoff = 400 + 17600 * pow(world_scale, 0.7)
@@ -195,6 +209,8 @@ func _check_wiring(audio_script: GDScript) -> void:
 	b.play(b.SHOT, 1.0)
 	_check("disabling audio suppresses playback", b.played == before)
 
+	for p in b._players:
+		p.stop()
 	host.queue_free()
 
 

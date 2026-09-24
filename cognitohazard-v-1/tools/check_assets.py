@@ -4,7 +4,7 @@ Install Pillow and numpy for normal Python, or use the Codex bundled runtime.
 PNG cannot unambiguously declare association; test low-alpha fringe RGB evidence
 and require Blender's straight-alpha provenance in the generated manifest.
 """
-import json, re, sys, struct, colorsys, math
+import json, re, sys, colorsys, math
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont

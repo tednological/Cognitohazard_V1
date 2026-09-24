@@ -1,6 +1,6 @@
 """Validate the map-kit contract and build review-only sheets/room lighting demo."""
 from pathlib import Path
-import os, json, hashlib, base64, io, argparse
+import json, hashlib, base64, io, argparse
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 HERE=Path(__file__).resolve()
