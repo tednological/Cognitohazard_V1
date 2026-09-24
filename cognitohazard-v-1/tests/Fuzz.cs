@@ -116,7 +116,7 @@ public static class Fuzz
 		int equip = 0;
 		if (r.NextInt(45) == 0)
 			equip = InputFrame.PackEquip(r.NextRange(0, w.Pack.Capacity - 1),
-				r.NextInt(8));
+				r.NextInt(GearCatalog.SlotCount));
 
 		// Doors: mostly the one in reach, sometimes any panel at all -- glass,
 		// or a door across the room -- which the sim must refuse. Drawn only on
@@ -624,57 +624,142 @@ public static class Fuzz
 		   + $" m={f.MoveTier} d={f.DropPick} s={f.SpawnItem} e={f.EquipPick} u={f.DoorPick}";
 
 	/// <summary>
-	/// Items are CONSERVED. With nothing conjured and nothing worn, every item
-	/// in the world is in the pack, on a body, in a chest or on the floor, and
-	/// looting or dropping only moves it between those. An item that
+	/// Items are CONSERVED. With nothing conjured, every item in the world is
+	/// worn, in the pack, on a body, in a chest or on the floor, and looting,
+	/// dropping and EQUIPPING only move it between those. An item that
 	/// evaporates is invisible to every other test here — the pack stays valid,
 	/// the hash stays pure, the run plays on — right up until a player loses a
 	/// rifle to a bug.
+	///
+	/// Equips used to be stripped out here, on the grounds that they change the
+	/// count; an equip is a TRADE and changes nothing, once what is worn is
+	/// counted as a place items live (cognitohazard_loot_flow.md §7).
 	/// </summary>
 	private static void Conservation(string[] levels)
 	{
 		H.Group("fuzz / conservation");
+		int moved = 0;
 
 		for (int s = 0; s < 60; s++)
 		{
 			ulong seed = 0x2545F4914F6CDD1DUL ^ (ulong)(s * 7919L);
 			var r = new DetRng(seed);
 			var level = Level.FromText(levels[s % levels.Length]);
-			// A real backpack, or there is nothing to move items into.
+			// A real backpack, or there is nothing to move items into -- and
+			// something IN it. This stream used to start with an empty pack,
+			// and in 220 random ticks the player never reached a body or a
+			// chest: it looted, dropped and equipped nothing at all, so the
+			// invariant held vacuously. Carried gear is what gets dropped,
+			// picked back up off the floor and put on.
+			var carried = new int[2 + r.NextInt(7)];
+			for (int k = 0; k < carried.Length; k++)
+				carried[k] = GearCatalog.At(r.NextInt(GearCatalog.Count)).Id;
 			var kit = new Loadout((WeaponId)r.NextInt(WeaponCatalog.Count),
-				ArmourId.None, backpack: 503);
+				ArmourId.None, backpack: 503).WithCarried(carried);
 			var w = new SimWorld(level, seed, kit);
 
 			int start = TotalItems(w);
 			for (int i = 0; i < 220; i++)
 			{
-				// Deliberately NO spawn and NO equip: both legitimately change
-				// the count, and this is the invariant for everything else.
+				// Deliberately NO spawn: conjuring an item is the one thing that
+				// legitimately changes the count.
 				var f = RandomInput(r, w);
+				// RandomInput's equips name a random placement and a random
+				// slot, so almost none is an item into a slot it could go in:
+				// every trade path was run a handful of times a suite. Most
+				// ticks here name a LIVE item and the slot it belongs in
+				// instead, so the trades themselves are what gets fuzzed.
+				int equip = f.EquipPick;
+				if (r.NextInt(6) == 0) equip = PlausibleEquip(r, w);
 				var clean = new InputFrame(f.MoveX, f.MoveY, f.AimBrad, f.Flags,
-					f.LootPick, f.MoveTier, f.DropPick);
+					f.LootPick, f.MoveTier, f.DropPick, 0, equip, f.DoorPick);
 				w.Step(clean);
+				for (int e = 0; e < w.Log.Events.Count; e++)
+				{
+					var k = w.Log.Events[e].Kind;
+					if (k == SimEventKind.Looted || k == SimEventKind.Dropped
+						|| k == SimEventKind.Equipped) moved++;
+				}
 
 				int now = TotalItems(w);
 				if (now != start)
 				{
-					Violation("looting and dropping only MOVE items", seed, w.Tick,
-						$"{start} items became {now}");
+					Violation("looting, dropping and equipping only MOVE items", seed,
+						w.Tick, $"{start} items became {now} after {Describe(clean)}");
 					break;
 				}
 			}
 		}
 
-		Verdict("looting and dropping only MOVE items");
+		Verdict("looting, dropping and equipping only MOVE items");
+		// Not vacuous: the streams above have to have moved things, or the
+		// invariant is true of nothing (it was, for as long as this suite ran).
+		H.Check("and the streams really did loot, drop and equip", moved >= 200,
+			$"{moved} items moved");
 	}
 
 	private static int TotalItems(SimWorld w)
 	{
-		int n = 0;
-		for (int i = 0; i < w.Pack.Capacity; i++) if (w.Pack.IsLive(i)) n++;
+		int n = CarriedItems(w);
 		for (int i = 0; i < w.Guards.Count; i++) n += w.Guards[i].Kit.Count;
 		for (int i = 0; i < w.Chests.Count; i++) n += w.Chests[i].Kit.Count;
 		for (int i = 0; i < w.Ground.Count; i++) n += w.Ground[i].Kit.Count;
+		return n;
+	}
+
+	/// <summary>A live pack item into the slot it would go in (either hand for
+	/// a weapon or an attachment), or 0 with nothing in the pack.</summary>
+	private static int PlausibleEquip(DetRng r, SimWorld w)
+	{
+		int live = 0;
+		for (int i = 0; i < w.Pack.Capacity; i++) if (w.Pack.IsLive(i)) live++;
+		if (live == 0) return 0;
+		int pick = r.NextInt(live);
+		for (int i = 0; i < w.Pack.Capacity; i++)
+		{
+			if (!w.Pack.IsLive(i) || pick-- > 0) continue;
+			var item = GearCatalog.Get(w.Pack.ItemOf(i));
+			int slot = item.Kind switch
+			{
+				GearKind.Weapon or GearKind.Attachment => r.NextInt(2) == 0
+					? (int)GearSlot.Primary : (int)GearSlot.Secondary,
+				GearKind.Armour => (int)GearSlot.Vest,
+				GearKind.Pack => (int)GearSlot.Backpack,
+				_ => (int)item.Slot,
+			};
+			return InputFrame.PackEquip(i, slot);
+		}
+		return 0;
+	}
+
+	/// <summary>Every item ON the player: what is worn and what is in the pack.
+	/// An equip moves items between the two and must never change the sum.</summary>
+	internal static int CarriedItems(SimWorld w)
+	{
+		int n = WornItems(w.Loadout);
+		for (int i = 0; i < w.Pack.Capacity; i++) if (w.Pack.IsLive(i)) n++;
+		return n;
+	}
+
+	/// <summary>
+	/// What is WORN, as a count of items: both weapons, the vest, the bag, the
+	/// apparel, and every attachment in either hand's set. RAW, not masked by
+	/// the gun: a stock on a rail the gun in hand lacks is still an item the
+	/// player owns, and it comes home at settle (stash.reconcile_worn reads the
+	/// rails unmasked for the same reason).
+	/// </summary>
+	internal static int WornItems(in Loadout l)
+	{
+		int n = 1;                                  // the primary: no unarmed state
+		if (l.HasSecondary) n++;
+		if (l.Armour != ArmourId.None) n++;
+		if (l.Backpack != 0) n++;
+		foreach (var slot in new[] { GearSlot.Helmet, GearSlot.Footware, GearSlot.Chest,
+			GearSlot.Arms, GearSlot.Legs })
+			if (l.ApparelIn(slot) != 0) n++;
+		for (int hand = 0; hand < 2; hand++)
+			for (int i = 0; i < AttachmentCatalog.SlotCount; i++)
+				if (l.SetAt(hand).Raw((AttachSlot)i) != 0) n++;
 		return n;
 	}
 

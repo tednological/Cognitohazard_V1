@@ -153,7 +153,7 @@ public static class Exhaustive
 		var full = new Loadout(WeaponId.Ak47, ArmourId.MediumCarrier,
 			sight: 2, grip: 3, rail: 1, mag: 2, ammo: 3, stock: 1,
 			secondary: (int)WeaponId.Mp7, active: 1, backpack: 503,
-			helmet: 601, footware: 602, shirt: 702, arms: 701)
+			helmet: 601, footware: 602, shirt: 702, arms: 701, legs: 903)
 			.WithAttachmentAt(1, AttachSlot.Sight, 1)
 			.WithAttachmentAt(1, AttachSlot.Grip, 2)
 			.WithAttachmentAt(1, AttachSlot.Rail, 3)
@@ -177,6 +177,7 @@ public static class Exhaustive
 			("WithApparel(Footware)", l => l.WithApparel(GearSlot.Footware, 0), "footware"),
 			("WithApparel(Chest)", l => l.WithApparel(GearSlot.Chest, 0), "shirt"),
 			("WithApparel(Arms)", l => l.WithApparel(GearSlot.Arms, 0), "arms"),
+			("WithApparel(Legs)", l => l.WithApparel(GearSlot.Legs, 0), "legs"),
 			// WithAttachment fits the weapon IN HAND, and `full` has the
 			// holster drawn -- so these land on the SECOND set. That is the
 			// whole point of the change: a scope fitted while holding the
@@ -221,7 +222,8 @@ public static class Exhaustive
 		// than as garbage.
 		var old = Loadout.FromText("weapon=2 armour=1 sight=0 grip=0 rail=0 mag=0 "
 			+ "ammo=0 stock=0 secondary=-1 active=0 backpack=502");
-		if (old.Helmet != 0 || old.Footware != 0 || old.Shirt != 0 || old.Arms != 0)
+		if (old.Helmet != 0 || old.Footware != 0 || old.Shirt != 0 || old.Arms != 0
+			|| old.Legs != 0)
 			Fail("a kit recorded before apparel reads as bare",
 				$"helmet {old.Helmet} footware {old.Footware}");
 		if ((int)old.Weapon != 2 || old.Backpack != 502)
@@ -352,7 +354,10 @@ public static class Exhaustive
 		int checks = 0;
 
 		for (int i = 0; i < GearCatalog.Count; i++)
-		for (int slot = 0; slot < 8; slot++)
+		// EVERY slot, by the catalogue's own count. This loop stopped at 8 when
+		// Legs was appended as the ninth, so trousers-into-legs -- which the
+		// screen offered and the sim destroyed -- was the one pair never run.
+		for (int slot = 0; slot < GearCatalog.SlotCount; slot++)
 		{
 			var g = GearCatalog.At(i);
 			// The rule, stated INDEPENDENTLY of both the screen and the sim.
@@ -385,6 +390,8 @@ public static class Exhaustive
 			var beforeSec = w.Loadout.Secondary;
 			int beforeHelmet = w.Loadout.Helmet, beforeBoots = w.Loadout.Footware;
 			int beforeShirt = w.Loadout.Shirt, beforeArms = w.Loadout.Arms;
+			int beforeLegs = w.Loadout.Legs;
+			int beforeItems = Fuzz.CarriedItems(w);
 			// The ATTACHMENTS, read raw. Without these the cross-check was
 			// blind to attachment equips entirely and passed for the wrong
 			// reason the moment they became possible.
@@ -403,7 +410,16 @@ public static class Exhaustive
 				|| w.Loadout.Footware != beforeBoots
 				|| w.Loadout.Shirt != beforeShirt
 				|| w.Loadout.Arms != beforeArms
+				|| w.Loadout.Legs != beforeLegs
 				|| FitChanged(beforeFit, Fields(w.Loadout));
+
+			// A TRADE, accepted or refused: nothing on the player is created or
+			// destroyed. Agreement alone could not see an equip that the sim
+			// "accepted" by taking the item out of the pack and putting it
+			// nowhere.
+			if (Fuzz.CarriedItems(w) != beforeItems)
+				Fail("no equip creates or destroys an item",
+					$"{g.Name} into slot {slot}: {beforeItems} -> {Fuzz.CarriedItems(w)}");
 
 			// A weapon equipped into the slot it is already in changes nothing
 			// visible, so "predicted and unchanged" is only a failure when the
@@ -430,6 +446,7 @@ public static class Exhaustive
 					$"{g.Name} into slot {slot}");
 		}
 
+		Verdict("no equip creates or destroys an item", checks);
 		Verdict("the sim changes nothing the screen would refuse", checks);
 		Verdict("the sim accepts everything the screen would offer", checks);
 	}

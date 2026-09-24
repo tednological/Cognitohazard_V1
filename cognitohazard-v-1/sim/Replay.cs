@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Cognitohazard.Sim;
@@ -31,6 +32,13 @@ namespace Cognitohazard.Sim;
 public sealed class Replay
 {
 	public const int HashEvery = 60;
+
+	/// <summary>The most frames <see cref="FromText"/> will expand, summed over
+	/// every run-length token: a day of play at 60 Hz. One line of text can ask
+	/// for a billion frames, and a total parser that allocates them is not total;
+	/// a replay longer than this plays back its first day and verifies what it
+	/// reached.</summary>
+	public const int MaxFrames = 60 * 60 * 60 * 24;
 
 	public ulong Seed;
 	public string LevelText = "";
@@ -68,18 +76,20 @@ public sealed class Replay
 	public string ToText()
 	{
 		var sb = new StringBuilder();
+		// Invariant throughout: MoveX/MoveY are negative on every left/up frame,
+		// and see Invariant for what the machine's culture made of that.
+		var inv = CultureInfo.InvariantCulture;
 		sb.Append("# cognitohazard replay v1\n");
-		sb.Append("seed: ").Append(Seed).Append('\n');
-		sb.Append("ticks: ").Append(Inputs.Count).Append('\n');
+		sb.Append(inv, $"seed: {Seed}\n");
+		sb.Append(inv, $"ticks: {Inputs.Count}\n");
 		sb.Append("loadout: ").Append(Loadout.ToText()).Append('\n');
 
 		for (int i = 0; i < HashTicks.Count; i++)
-			sb.Append("hash: ").Append(HashTicks[i]).Append(' ')
-			  .Append(HashValues[i].ToString("X16")).Append('\n');
+			sb.Append(inv, $"hash: {HashTicks[i]} {HashValues[i]:X16}\n");
 
 		sb.Append("level:\n");
 		sb.Append(LevelText);
-		if (!LevelText.EndsWith("\n")) sb.Append('\n');
+		if (!LevelText.EndsWith('\n')) sb.Append('\n');
 		sb.Append("endlevel\n");
 
 		sb.Append("frames:\n");
@@ -89,21 +99,23 @@ public sealed class Replay
 			int run = 1;
 			while (f + run < Inputs.Count && Same(Inputs[f], Inputs[f + run])) run++;
 			var fr = Inputs[f];
-			sb.Append(fr.MoveX).Append(' ').Append(fr.MoveY).Append(' ')
-			  .Append(fr.AimBrad).Append(' ').Append(fr.Flags);
+			sb.Append(inv, $"{fr.MoveX} {fr.MoveY} {fr.AimBrad} {fr.Flags}");
 			// Prefixed, and only when set, so it cannot be mistaken for the
 			// run-length token and a replay written before looting existed
 			// still parses byte for byte.
-			if (fr.LootPick != 0) sb.Append(" p").Append(fr.LootPick);
+			if (fr.LootPick != 0) sb.Append(inv, $" p{fr.LootPick}");
 			// Same rule: prefixed, and omitted at the default, so a replay
 			// recorded before movement tiers existed still round-trips and a
-			// walking frame costs no extra bytes.
-			if (fr.MoveTier != InputFrame.TierWalk) sb.Append(" m").Append(fr.MoveTier);
-			if (fr.DropPick != 0) sb.Append(" d").Append(fr.DropPick);
-			if (fr.SpawnItem != 0) sb.Append(" s").Append(fr.SpawnItem);
-			if (fr.EquipPick != 0) sb.Append(" e").Append(fr.EquipPick);
-			if (fr.DoorPick != 0) sb.Append(" u").Append(fr.DoorPick);
-			if (run > 1) sb.Append(" x").Append(run);
+			// walking frame costs no extra bytes. Not omitted when the frame also
+			// carries the legacy FSneak bit, from which the parser would derive
+			// STEALTH and hand back a different frame.
+			if (fr.MoveTier != InputFrame.TierWalk || (fr.Flags & InputFrame.FSneak) != 0)
+				sb.Append(inv, $" m{fr.MoveTier}");
+			if (fr.DropPick != 0) sb.Append(inv, $" d{fr.DropPick}");
+			if (fr.SpawnItem != 0) sb.Append(inv, $" s{fr.SpawnItem}");
+			if (fr.EquipPick != 0) sb.Append(inv, $" e{fr.EquipPick}");
+			if (fr.DoorPick != 0) sb.Append(inv, $" u{fr.DoorPick}");
+			if (run > 1) sb.Append(inv, $" x{run}");
 			sb.Append('\n');
 			f += run;
 		}
@@ -138,41 +150,40 @@ public sealed class Replay
 
 			string line = raw.Trim();
 			if (line.Length == 0) continue;
-			if (line.StartsWith("#")) continue;
+			if (line.StartsWith('#')) continue;
 
-			if (line.StartsWith("seed:"))
+			if (line.StartsWith("seed:", System.StringComparison.Ordinal))
 			{
-				ulong.TryParse(line.Substring(5).Trim(), out ulong s);
+				Invariant.TryULong(line.Substring(5).Trim(), out ulong s);
 				r.Seed = s;
 				continue;
 			}
-			if (line.StartsWith("ticks:")) continue;
-			if (line.StartsWith("loadout:"))
+			if (line.StartsWith("ticks:", System.StringComparison.Ordinal)) continue;
+			if (line.StartsWith("loadout:", System.StringComparison.Ordinal))
 			{
 				r.Loadout = Loadout.FromText(line.Substring(8).Trim());
 				continue;
 			}
-			if (line.StartsWith("hash:"))
+			if (line.StartsWith("hash:", System.StringComparison.Ordinal))
 			{
 				string[] hb = line.Substring(5).Trim()
 					.Split((char[]?)null, System.StringSplitOptions.RemoveEmptyEntries);
 				if (hb.Length >= 2
-					&& int.TryParse(hb[0], out int ht)
-					&& ulong.TryParse(hb[1], System.Globalization.NumberStyles.HexNumber,
-						System.Globalization.CultureInfo.InvariantCulture, out ulong hv))
+					&& Invariant.TryInt(hb[0], out int ht)
+					&& Invariant.TryHex(hb[1], out ulong hv))
 					r.AddHash(ht, hv);
 				continue;
 			}
-			if (line.StartsWith("level:")) { mode = "level"; continue; }
-			if (line.StartsWith("frames:")) { mode = "frames"; continue; }
+			if (line.StartsWith("level:", System.StringComparison.Ordinal)) { mode = "level"; continue; }
+			if (line.StartsWith("frames:", System.StringComparison.Ordinal)) { mode = "frames"; continue; }
 			if (mode != "frames") continue;
 
 			string[] bits = line.Split((char[]?)null, System.StringSplitOptions.RemoveEmptyEntries);
 			if (bits.Length < 4) continue;
-			if (!int.TryParse(bits[0], out int mx)) continue;
-			if (!int.TryParse(bits[1], out int my)) continue;
-			if (!int.TryParse(bits[2], out int aim)) continue;
-			if (!int.TryParse(bits[3], out int flags)) continue;
+			if (!Invariant.TryInt(bits[0], out int mx)) continue;
+			if (!Invariant.TryInt(bits[1], out int my)) continue;
+			if (!Invariant.TryInt(bits[2], out int aim)) continue;
+			if (!Invariant.TryInt(bits[3], out int flags)) continue;
 
 			// Trailing tokens are order-independent and optional: xN is a run
 			// length, pN a loot pick, mN a movement tier, dN a drop, sN a
@@ -187,13 +198,13 @@ public sealed class Replay
 			int door = 0;
 			for (int b = 4; b < bits.Length; b++)
 			{
-				if (bits[b].StartsWith("x")) int.TryParse(bits[b].Substring(1), out run);
-				else if (bits[b].StartsWith("p")) int.TryParse(bits[b].Substring(1), out pick);
-				else if (bits[b].StartsWith("m")) int.TryParse(bits[b].Substring(1), out tier);
-				else if (bits[b].StartsWith("d")) int.TryParse(bits[b].Substring(1), out drop);
-				else if (bits[b].StartsWith("s")) int.TryParse(bits[b].Substring(1), out spawn);
-				else if (bits[b].StartsWith("e")) int.TryParse(bits[b].Substring(1), out equip);
-				else if (bits[b].StartsWith("u")) int.TryParse(bits[b].Substring(1), out door);
+				if (bits[b][0] == 'x') Invariant.TryInt(bits[b].Substring(1), out run);
+				else if (bits[b][0] == 'p') Invariant.TryInt(bits[b].Substring(1), out pick);
+				else if (bits[b][0] == 'm') Invariant.TryInt(bits[b].Substring(1), out tier);
+				else if (bits[b][0] == 'd') Invariant.TryInt(bits[b].Substring(1), out drop);
+				else if (bits[b][0] == 's') Invariant.TryInt(bits[b].Substring(1), out spawn);
+				else if (bits[b][0] == 'e') Invariant.TryInt(bits[b].Substring(1), out equip);
+				else if (bits[b][0] == 'u') Invariant.TryInt(bits[b].Substring(1), out door);
 			}
 			if (run < 1) run = 1;
 			if (pick < 0) pick = 0;
@@ -201,6 +212,8 @@ public sealed class Replay
 			if (spawn < 0) spawn = 0;
 			if (equip < 0) equip = 0;
 			if (door < 0) door = 0;
+
+			if (run > MaxFrames - r.Inputs.Count) run = MaxFrames - r.Inputs.Count;
 
 			var fr = new InputFrame(mx, my, aim, (byte)flags, pick, tier, drop, spawn, equip,
 				door);

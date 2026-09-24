@@ -329,10 +329,11 @@ func unequip_attach(sub: int, hand: int = 0) -> bool:
 ## Resolves what is worn into the sim's Loadout. The ONE place this layer speaks
 ## to sim/, through the bridge's setters.
 ##
-## Only four of the eight slots reach the sim, because only four have a reader:
+## Only four of the nine slots change a stat, because only four have a reader:
 ## Primary and Secondary are weapons, Vest is armour, and Backpack sizes the
-## mission pack. Helmet, footware, shirt and arms are carried, saved and shown,
-## and change no stat -- no invented effects until sim/ can honour them.
+## mission pack. Helmet, footware, shirt, arms and legs are pushed too (they
+## can be changed in the field, so the sim has to know what is worn) but change
+## no stat -- no invented effects until sim/ can honour them.
 ##
 ## An attachment is pushed only if the weapon in that hand actually carries the
 ## sub-slot, so a scope cannot resolve onto a pistol with no sight rail.
@@ -352,10 +353,11 @@ func apply_to(bridge: RefCounted) -> void:
 	var pack: int = _slots[CAT.SLOT_BACKPACK]
 	bridge.SetBackpack(pack if pack != NONE else 0)
 
-	# The four cosmetic slots. They change no stat, but they are worn, hashed
+	# The five cosmetic slots. They change no stat, but they are worn, hashed
 	# and now changeable in the field, so what you left base wearing has to be
 	# what the sim thinks you are wearing.
-	for slot in [CAT.SLOT_HELMET, CAT.SLOT_FOOTWARE, CAT.SLOT_CHEST, CAT.SLOT_ARMS]:
+	for slot in [CAT.SLOT_HELMET, CAT.SLOT_FOOTWARE, CAT.SLOT_CHEST, CAT.SLOT_ARMS,
+			CAT.SLOT_LEGS]:
 		var apparel: int = _slots[slot]
 		bridge.SetApparel(slot, apparel if apparel != NONE else 0)
 

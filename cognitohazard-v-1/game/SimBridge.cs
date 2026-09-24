@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Cognitohazard.Sim;
 
 namespace Cognitohazard.Game;
@@ -783,8 +784,8 @@ public partial class SimBridge : RefCounted
 
 	/// <summary>
 	/// What the player is WEARING according to the sim, as gear item ids indexed
-	/// by GearSlot: primary, secondary, vest, backpack, and 0 for the four
-	/// cosmetic slots the sim has no reader for.
+	/// by GearSlot, 0 for an empty slot: every slot, the five cosmetic ones
+	/// included, since all of them can be changed in the field.
 	///
 	/// The in-mission inventory reads this rather than the stash, because
 	/// mid-run the sim's Loadout is the truth — the stash is what you left at
@@ -792,7 +793,9 @@ public partial class SimBridge : RefCounted
 	/// </summary>
 	public int[] GetWornSim()
 	{
-		var w = new int[8];
+		// Sized by the catalogue, not by hand: this was new int[8] when Legs
+		// was appended as the ninth slot, so the field view never saw legs.
+		var w = new int[GearCatalog.SlotCount];
 		var l = _world.Loadout;
 		w[(int)GearSlot.Primary] = GearCatalog.WeaponItemId((int)l.Weapon);
 		w[(int)GearSlot.Secondary] = l.HasSecondary
@@ -803,6 +806,7 @@ public partial class SimBridge : RefCounted
 		w[(int)GearSlot.Footware] = l.Footware;
 		w[(int)GearSlot.Chest] = l.Shirt;
 		w[(int)GearSlot.Arms] = l.Arms;
+		w[(int)GearSlot.Legs] = l.Legs;
 		return w;
 	}
 
@@ -1962,7 +1966,7 @@ public partial class SimBridge : RefCounted
 		return true;
 	}
 
-	private bool TryRoute(int id, out List<(int C, int R)> route)
+	private bool TryRoute(int id, [NotNullWhen(true)] out List<(int C, int R)>? route)
 	{
 		route = null;
 		return Level.IsGuardGlyph((char)id) && _edit.Routes.TryGetValue((char)id, out route);

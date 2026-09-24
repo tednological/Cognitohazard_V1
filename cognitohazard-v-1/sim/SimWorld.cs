@@ -3,11 +3,6 @@ using System.Collections.Generic;
 namespace Cognitohazard.Sim;
 
 /// <summary>
-/// A gear chest standing in the level. Looted through exactly the same panel a
-/// body is, and through the same index space (see SimWorld.TryLootTarget), so
-/// the player learns one interaction rather than two.
-/// </summary>
-/// <summary>
 /// Gear on the floor, dropped by the player. Looted through the same panel and
 /// the same index space as a body or a chest, so putting something down and
 /// picking it up again are the two halves of one interaction rather than two
@@ -25,6 +20,11 @@ public sealed class GroundPile
 	}
 }
 
+/// <summary>
+/// A gear chest standing in the level. Looted through exactly the same panel a
+/// body is, and through the same index space (see SimWorld.TryLootTarget), so
+/// the player learns one interaction rather than two.
+/// </summary>
 public sealed class ChestRuntime
 {
 	public int X, Y;
@@ -383,6 +383,13 @@ public sealed partial class SimWorld
 		Log.Clear();
 		_impacts.Clear();
 
+		// The loot target is resolved BEFORE anything moves this tick. game/
+		// reads GetLootTarget from the state this tick starts in and shows that
+		// target's kit; resolved after the player's step, a move in the same
+		// tick could hand the pick to a different body, and the row clicked
+		// would index a kit the player never saw (loot flow §6.3).
+		int lootTarget = input.LootPick != 0 ? NearestLootTarget() : -1;
+
 		StepParasite(in input);
 		Clocks.Resolve();
 
@@ -392,7 +399,7 @@ public sealed partial class SimWorld
 		StepPlayer(in input, pScale);
 		StepSwap(in input, pScale);
 		StepDoor(in input);
-		StepLoot(in input);
+		StepLoot(in input, lootTarget);
 		StepDrop(in input);
 		StepEquip(in input);
 		StepSpawn(in input);
@@ -460,7 +467,7 @@ public sealed partial class SimWorld
 		var p = Player;
 		var weapon = Loadout.Spec;
 
-			p.MoveTier = input.MoveTier;
+		p.MoveTier = input.MoveTier;
 		p.MovedFx = 0;
 		p.NoiseRadius = 0;
 
@@ -866,21 +873,6 @@ public sealed partial class SimWorld
 	}
 
 	/// <summary>
-	/// Take ONE named item off the body in reach. The player picks it out of that
-	/// guard's kit by clicking it, and input.LootPick carries the choice, so the
-	/// decision is recorded and a replay reproduces exactly what was taken.
-	///
-	/// There is no dwell any more. Looting used to strip one item per second for
-	/// as long as the key was held, which meant the player never chose anything:
-	/// the sim decided the order and the only input was patience. The cost of
-	/// looting is now the time spent stood over a body with the world still
-	/// running, which is the same cost, paid attentively.
-	///
-	/// The body is chosen the same way the panel chooses it -- nearest prone guard
-	/// in reach, ties to the lower index -- so what the player clicked cannot
-	/// disagree with what this takes.
-	/// </summary>
-	/// <summary>
 	/// Put one item from the pack on the floor.
 	///
 	/// Driven by InputFrame.DropPick rather than by the screen that shows the
@@ -1024,8 +1016,12 @@ public sealed partial class SimWorld
 		var p = Player;
 		var slot = (AttachSlot)item.SimA;
 
-		// What is fitted there now, as an item to put back.
-		int oldItem = GearCatalog.AttachmentItemId(item.SimA, Loadout.Attachment(slot));
+		// What is fitted there now, as an item to put back. RAW, not masked by
+		// the gun in hand: the rails stay with the hand, so a rail this gun
+		// lacks can still hold what the last gun had on it, and reading it
+		// masked saw nothing there and overwrote -- destroyed -- that item.
+		int oldItem = GearCatalog.AttachmentItemId(item.SimA,
+			Loadout.SetAt(Loadout.ActiveIndex).Raw(slot));
 
 		if (!Pack.Remove(pi)) return;
 
@@ -1220,11 +1216,27 @@ public sealed partial class SimWorld
 		Log.Add(SimEventKind.Spawned, p.X, p.Y, 0, itemId);
 	}
 
-	private void StepLoot(in InputFrame input)
+	/// <summary>
+	/// Take ONE named item off the body, chest or pile in reach. The player picks
+	/// it out of that kit by clicking it, and input.LootPick carries the choice,
+	/// so the decision is recorded and a replay reproduces exactly what was taken.
+	///
+	/// There is no dwell any more. Looting used to strip one item per second for
+	/// as long as the key was held, which meant the player never chose anything:
+	/// the sim decided the order and the only input was patience. The cost of
+	/// looting is now the time spent stood over a body with the world still
+	/// running, which is the same cost, paid attentively.
+	///
+	/// <paramref name="target"/> is the one the panel was showing: resolved by
+	/// the same rule (NearestLootTarget) from the same state, at the top of the
+	/// tick, so what the player clicked cannot disagree with what this takes.
+	/// </summary>
+	private void StepLoot(in InputFrame input, int target)
 	{
 		if (input.LootPick == 0) return;
-
-		int target = NearestLootTarget();
+		// Like every other pick: nothing is taken by the dead, or after the run
+		// has ended -- including on the tick the player walked out.
+		if (!Player.Alive || Over != null) return;
 		if (target < 0) return;
 		if (!TryLootTarget(target, out int tx, out int ty, out var kit)) return;
 		if (kit == null) return;

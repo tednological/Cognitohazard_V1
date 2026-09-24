@@ -127,7 +127,8 @@ public sealed class Kit
 			Active,
 			_slots[(int)GearSlot.Backpack],
 			_slots[(int)GearSlot.Helmet], _slots[(int)GearSlot.Footware],
-			_slots[(int)GearSlot.Chest], _slots[(int)GearSlot.Arms]);
+			_slots[(int)GearSlot.Chest], _slots[(int)GearSlot.Arms],
+			_slots[(int)GearSlot.Legs]);
 	}
 
 	/// <summary>

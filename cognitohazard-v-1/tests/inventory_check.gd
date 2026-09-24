@@ -3055,6 +3055,27 @@ func _check_field_equip_comes_home(b: RefCounted) -> void:
 	_eq("and mints no Glock", bare.count_of(100), 0)
 	_eq("and the empty hand stays empty", bare.equipped_in(CAT.SLOT_PRIMARY), STASH.NONE)
 
+	# LEGS, the ninth slot. It reached neither the sim nor GetWornSim (sized
+	# for eight), so trousers worn at base were invisible in the field and a
+	# pair equipped there was taken out of the pack and destroyed.
+	var legs: RefCounted = STASH.new(b)
+	legs.equip_from_grid(legs.add(503), CAT.SLOT_BACKPACK)
+	legs.equip_from_grid(legs.add(901), CAT.SLOT_LEGS)
+	legs.apply_to(b)
+	b.Restart(1)
+	var legs_kit: Array = STASH.sim_kit(b)
+	_eq("the sim reports every slot", legs_kit[0].size(), CAT.SLOT_COUNT)
+	_eq("trousers worn at base are worn in the field", legs_kit[0][CAT.SLOT_LEGS], 901)
+	b.Step(0, 0, 0, 0, 0, 1, 0, 902, 0, 0)
+	b.Step(0, 0, 0, 0, 0, 1, 0, 0,
+		b.MakeEquipPick(_pack_placement_of(b, 902), CAT.SLOT_LEGS), 0)
+	_eq("a pair can be changed in the field", b.GetWornSim()[CAT.SLOT_LEGS], 902)
+	_check("and the pair taken off is in the pack", _pack_placement_of(b, 901) >= 0)
+	_eq("the change comes home", legs.reconcile_worn(legs_kit, STASH.sim_kit(b)), 1)
+	legs.bank_recovered(PackedInt32Array(b.GetPackItems()))
+	_eq("worn", legs.equipped_in(CAT.SLOT_LEGS), 902)
+	_eq("and the old pair with it, once", legs.count_of(901), 1)
+
 
 func _pack_placement_of(b: RefCounted, item_id: int) -> int:
 	var pack: PackedInt32Array = PackedInt32Array(b.GetPackPlacements())

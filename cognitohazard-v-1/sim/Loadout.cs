@@ -599,7 +599,8 @@ public static class WeaponCatalog
 				+ $"arcs to {w.ArcTargets - 1} more within {Tune.ArcReach / Fx.One}px\n"
 				+ $"and to YOU within {Tune.ArcPlayerReach / Fx.One}px of any of them";
 		if (w.Grenade)
-			return $"thrown: bounces, {w.BulletTicks * 10 / Fx.TicksPerSecond / 10.0:0.0}s fuse\n"
+			return string.Create(System.Globalization.CultureInfo.InvariantCulture,
+				$"thrown: bounces, {w.BulletTicks * 10 / Fx.TicksPerSecond / 10.0:0.0}s fuse\n")
 				+ $"{Tune.FragCount} fragments, and they hit you too\n"
 				+ "hold aim to lob it short";
 		if (w.WallPierce > 0)
@@ -965,6 +966,15 @@ public readonly struct Loadout
 	public readonly int Helmet, Footware, Shirt, Arms;
 
 	/// <summary>
+	/// The fifth apparel slot, GearSlot.Legs, appended for the Kit revamp. It
+	/// had no field here while trousers were already in the catalogue and the
+	/// field view offered them the legs box, so equipping a pair took it out of
+	/// the pack and put it nowhere. Hashed and written only when WORN, so every
+	/// state and every kit text from before it is unchanged.
+	/// </summary>
+	public readonly int Legs;
+
+	/// <summary>
 	/// What the player walks in CARRYING, as GearCatalog item ids, auto-placed
 	/// into the mission pack at Restart in this order.
 	///
@@ -985,10 +995,10 @@ public readonly struct Loadout
 	public Loadout(WeaponId weapon, ArmourId armour = ArmourId.None,
 		int sight = 0, int grip = 0, int rail = 0, int mag = 0, int ammo = 0, int stock = 0,
 		int secondary = -1, int active = 0, int backpack = 0,
-		int helmet = 0, int footware = 0, int shirt = 0, int arms = 0)
+		int helmet = 0, int footware = 0, int shirt = 0, int arms = 0, int legs = 0)
 		: this(weapon, armour, new AttachSet(sight, grip, rail, mag, ammo, stock),
 			AttachSet.Empty, secondary < 0 ? 0 : (int)WeaponCatalog.Clamp(secondary) + 1,
-			active, backpack, helmet, footware, shirt, arms, null)
+			active, backpack, helmet, footware, shirt, arms, legs, null)
 	{
 	}
 
@@ -999,7 +1009,7 @@ public readonly struct Loadout
 	/// </summary>
 	private Loadout(WeaponId weapon, ArmourId armour, AttachSet att, AttachSet att2,
 		int secondary1, int active, int backpack,
-		int helmet, int footware, int shirt, int arms, int[]? carried)
+		int helmet, int footware, int shirt, int arms, int legs, int[]? carried)
 	{
 		Weapon = weapon;
 		Armour = armour;
@@ -1012,6 +1022,7 @@ public readonly struct Loadout
 		Footware = footware;
 		Shirt = shirt;
 		Arms = arms;
+		Legs = legs;
 		_carried = carried;
 	}
 
@@ -1028,12 +1039,12 @@ public readonly struct Loadout
 	private Loadout Copy(WeaponId? weapon = null, ArmourId? armour = null,
 		AttachSet? att = null, AttachSet? att2 = null, int? secondary1 = null,
 		int? active = null, int? backpack = null, int? helmet = null,
-		int? footware = null, int? shirt = null, int? arms = null,
+		int? footware = null, int? shirt = null, int? arms = null, int? legs = null,
 		int[]? carried = null)
 		=> new Loadout(weapon ?? Weapon, armour ?? Armour, att ?? _att, att2 ?? _att2,
 			secondary1 ?? _secondary1, active ?? _active, backpack ?? Backpack,
 			helmet ?? Helmet, footware ?? Footware, shirt ?? Shirt, arms ?? Arms,
-			carried ?? _carried);
+			legs ?? Legs, carried ?? _carried);
 
 	public static Loadout Default => new Loadout(WeaponId.Glock);
 
@@ -1107,6 +1118,7 @@ public readonly struct Loadout
 		GearSlot.Footware => Footware,
 		GearSlot.Chest => Shirt,
 		GearSlot.Arms => Arms,
+		GearSlot.Legs => Legs,
 		_ => 0,
 	};
 
@@ -1118,6 +1130,7 @@ public readonly struct Loadout
 		GearSlot.Footware => Copy(footware: itemId),
 		GearSlot.Chest => Copy(shirt: itemId),
 		GearSlot.Arms => Copy(arms: itemId),
+		GearSlot.Legs => Copy(legs: itemId),
 		_ => this,
 	};
 
@@ -1269,6 +1282,9 @@ public readonly struct Loadout
 		// Inert, but HASHED: they can be put on mid-mission, so a replay that
 		// did not carry them would diverge from the run that recorded it.
 		h.Add(Helmet); h.Add(Footware); h.Add(Shirt); h.Add(Arms);
+		// Only when worn, the rule the panels and the `u` token follow: every
+		// state from before the slot existed hashes exactly as it did.
+		if (Legs != 0) h.Add(Legs);
 		// MASKED, and per weapon. A stock sitting in a save for a gun that
 		// cannot take one changes nothing, so it must not change the hash
 		// either -- which is what masking bought before there were two sets.
@@ -1284,25 +1300,30 @@ public readonly struct Loadout
 	public string ToText()
 	{
 		var sb = new System.Text.StringBuilder();
-		sb.Append($"weapon={(int)Weapon} armour={(int)Armour} ");
-		sb.Append($"sight={_att.Raw(AttachSlot.Sight)} grip={_att.Raw(AttachSlot.Grip)} ");
-		sb.Append($"rail={_att.Raw(AttachSlot.Rail)} mag={_att.Raw(AttachSlot.Magazine)} ");
-		sb.Append($"ammo={_att.Raw(AttachSlot.Ammo)} stock={_att.Raw(AttachSlot.Stock)} ");
-		sb.Append($"secondary={SecondaryRaw} active={_active} backpack={Backpack} ");
+		// Invariant: secondary is -1 for an empty holster (see Invariant).
+		var inv = System.Globalization.CultureInfo.InvariantCulture;
+		sb.Append(inv, $"weapon={(int)Weapon} armour={(int)Armour} ");
+		sb.Append(inv, $"sight={_att.Raw(AttachSlot.Sight)} grip={_att.Raw(AttachSlot.Grip)} ");
+		sb.Append(inv, $"rail={_att.Raw(AttachSlot.Rail)} mag={_att.Raw(AttachSlot.Magazine)} ");
+		sb.Append(inv, $"ammo={_att.Raw(AttachSlot.Ammo)} stock={_att.Raw(AttachSlot.Stock)} ");
+		sb.Append(inv, $"secondary={SecondaryRaw} active={_active} backpack={Backpack} ");
 		// Appended. A replay recorded before apparel existed simply has none of
 		// these keys and parses them as 0, which is "bare" -- the same thing
 		// that run actually was.
-		sb.Append($"helmet={Helmet} footware={Footware} shirt={Shirt} arms={Arms}");
+		sb.Append(inv, $"helmet={Helmet} footware={Footware} shirt={Shirt} arms={Arms}");
 		// Appended likewise: the HOLSTERED weapon's own rails, and what is
 		// carried. A kit written before either existed reads as an empty
 		// holster set and an empty pack, which is what those runs were.
-		sb.Append($" sight2={_att2.Raw(AttachSlot.Sight)} grip2={_att2.Raw(AttachSlot.Grip)}");
-		sb.Append($" rail2={_att2.Raw(AttachSlot.Rail)} mag2={_att2.Raw(AttachSlot.Magazine)}");
-		sb.Append($" ammo2={_att2.Raw(AttachSlot.Ammo)} stock2={_att2.Raw(AttachSlot.Stock)}");
+		sb.Append(inv, $" sight2={_att2.Raw(AttachSlot.Sight)} grip2={_att2.Raw(AttachSlot.Grip)}");
+		sb.Append(inv, $" rail2={_att2.Raw(AttachSlot.Rail)} mag2={_att2.Raw(AttachSlot.Magazine)}");
+		sb.Append(inv, $" ammo2={_att2.Raw(AttachSlot.Ammo)} stock2={_att2.Raw(AttachSlot.Stock)}");
 		// One key PER ITEM rather than a list: FromText splits on commas as
 		// well as spaces, so a comma-separated value would come apart in the
 		// parser. Repeating the key cannot.
-		for (int i = 0; i < CarriedCount; i++) sb.Append($" carry={CarriedAt(i)}");
+		for (int i = 0; i < CarriedCount; i++) sb.Append(inv, $" carry={CarriedAt(i)}");
+		// Appended, and only when worn, so every kit text written before the
+		// slot existed round-trips byte for byte.
+		if (Legs != 0) sb.Append(inv, $" legs={Legs}");
 		return sb.ToString();
 	}
 
@@ -1313,7 +1334,7 @@ public readonly struct Loadout
 
 		int weapon = 0, armour = 0, sight = 0, grip = 0, rail = 0, mag = 0, ammo = 0, stock = 0;
 		int secondary = -1, active = 0, backpack = 0;
-		int helmet = 0, footware = 0, shirt = 0, arms = 0;
+		int helmet = 0, footware = 0, shirt = 0, arms = 0, legs = 0;
 		int sight2 = 0, grip2 = 0, rail2 = 0, mag2 = 0, ammo2 = 0, stock2 = 0;
 		var carried = new List<int>();
 
@@ -1323,7 +1344,7 @@ public readonly struct Loadout
 			if (p.Length == 0) continue;
 			int eq = p.IndexOf('=');
 			if (eq <= 0 || eq == p.Length - 1) continue;
-			if (!int.TryParse(p.Substring(eq + 1), out int v)) continue;
+			if (!Invariant.TryInt(p.Substring(eq + 1), out int v)) continue;
 
 			switch (p.Substring(0, eq))
 			{
@@ -1342,6 +1363,7 @@ public readonly struct Loadout
 				case "footware": footware = v; break;
 				case "shirt": shirt = v; break;
 				case "arms": arms = v; break;
+				case "legs": legs = v; break;
 				case "sight2": sight2 = v; break;
 				case "grip2": grip2 = v; break;
 				case "rail2": rail2 = v; break;
@@ -1356,7 +1378,7 @@ public readonly struct Loadout
 
 		var kit = new Loadout(WeaponCatalog.Clamp(weapon), ArmourCatalog.Clamp(armour),
 			sight, grip, rail, mag, ammo, stock, secondary, active, backpack,
-			helmet, footware, shirt, arms);
+			helmet, footware, shirt, arms, legs);
 		kit = kit.Copy(att2: new AttachSet(sight2, grip2, rail2, mag2, ammo2, stock2));
 		return carried.Count == 0 ? kit : kit.WithCarried(carried.ToArray());
 	}

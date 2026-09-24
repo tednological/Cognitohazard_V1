@@ -433,7 +433,7 @@ public sealed class Level
 	/// the caller treats as "not authored".</summary>
 	private static int ParseAmount(string s)
 	{
-		if (!long.TryParse(s.Trim(), out long v)) return -1;
+		if (!Invariant.TryLong(s.Trim(), out long v)) return -1;
 		if (v < 0) return 0;
 		return v > MaxLoot ? MaxLoot : (int)v;
 	}
@@ -501,13 +501,13 @@ public sealed class Level
 			if (StartsWithNoCase(line, "grid:")) { mode = "grid"; row = 0; continue; }
 
 			string t = line.Trim();
-			if (t.StartsWith(">"))
+			if (t.StartsWith('>'))
 			{
 				mode = "routes";
 				ParseRoute(L, t);
 				continue;
 			}
-			if (t.StartsWith("#") && mode != "grid") continue;   // comment before the grid
+			if (t.StartsWith('#') && mode != "grid") continue;   // comment before the grid
 
 			if (mode == "grid")
 			{
@@ -543,8 +543,8 @@ public sealed class Level
 			}
 
 			string t = line.Trim();
-			if (t.StartsWith(">")) { mode = "routes"; continue; }
-			if (t.StartsWith("#") && mode != "grid") continue;
+			if (t.StartsWith('>')) { mode = "routes"; continue; }
+			if (t.StartsWith('#') && mode != "grid") continue;
 
 			if (mode == "grid")
 			{
@@ -602,8 +602,8 @@ public sealed class Level
 		{
 			string[] q = bits[i].Split(',');
 			if (q.Length < 2) continue;
-			if (!int.TryParse(q[0], out int cc)) continue;
-			if (!int.TryParse(q[1], out int rr)) continue;
+			if (!Invariant.TryInt(q[0], out int cc)) continue;
+			if (!Invariant.TryInt(q[1], out int rr)) continue;
 			pts.Add((cc, rr));
 		}
 		L.Routes[id] = pts;
@@ -621,11 +621,12 @@ public sealed class Level
 	public string ToText()
 	{
 		var sb = new StringBuilder();
+		var inv = System.Globalization.CultureInfo.InvariantCulture;   // see Invariant
 		sb.Append("name: ").Append(Name).Append('\n');
 		if (Theme.Length > 0) sb.Append("theme: ").Append(Theme).Append('\n');
-		if (LootBudget >= 0) sb.Append("loot: ").Append(LootBudget).Append('\n');
-		if (GuardLoot >= 0) sb.Append("guard_loot: ").Append(GuardLoot).Append('\n');
-		if (Ambient >= 0) sb.Append("ambient: ").Append(Ambient).Append('\n');
+		if (LootBudget >= 0) sb.Append(inv, $"loot: {LootBudget}\n");
+		if (GuardLoot >= 0) sb.Append(inv, $"guard_loot: {GuardLoot}\n");
+		if (Ambient >= 0) sb.Append(inv, $"ambient: {Ambient}\n");
 		sb.Append(HeaderComment).Append('\n');
 		sb.Append("grid:\n");
 		for (int r = 0; r < H; r++)
@@ -637,11 +638,11 @@ public sealed class Level
 		{
 			if (kv.Value.Count == 0) continue;
 			sb.Append("> ").Append(kv.Key);
-			foreach (var p in kv.Value) sb.Append(' ').Append(p.C).Append(',').Append(p.R);
+			foreach (var p in kv.Value) sb.Append(inv, $" {p.C},{p.R}");
 			sb.Append('\n');
 		}
 		foreach (var kv in KitPoints)       // SortedDictionary: stable id order
-			sb.Append("kit: ").Append(kv.Key).Append(' ').Append(kv.Value).Append('\n');
+			sb.Append(inv, $"kit: {kv.Key} {kv.Value}\n");
 		return sb.ToString();
 	}
 

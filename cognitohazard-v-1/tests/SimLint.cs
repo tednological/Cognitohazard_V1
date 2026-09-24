@@ -39,6 +39,15 @@ public static class SimLint
 		("HashSet",            @"\bHashSet\s*<"),
 	};
 
+	/// <summary>
+	/// Culture-sensitive number parsing: the CA1305 analyzer (.editorconfig)
+	/// catches Parse and a formatting call but not TryParse, and TryParse is
+	/// what every sim parser uses. sim/Invariant.cs is the one place allowed to
+	/// call it, with the invariant culture.
+	/// </summary>
+	private const string CultureParse =
+		@"\b(int|uint|long|ulong|short|ushort|byte|sbyte)\s*\.\s*(Try)?Parse\s*\(";
+
 	private static string SimDir()
 	{
 		var d = new DirectoryInfo(AppContext.BaseDirectory);
@@ -79,6 +88,20 @@ public static class SimLint
 			}
 			H.Check($"no {name} in sim/", hits.Count == 0, string.Join(", ", hits));
 		}
+
+		var parses = new List<string>();
+		foreach (string f in files)
+		{
+			if (Path.GetFileName(f) == "Invariant.cs") continue;
+			string[] lines = Strip(File.ReadAllText(f)).Split('\n');
+			for (int i = 0; i < lines.Length; i++)
+				if (Regex.IsMatch(lines[i], CultureParse))
+					parses.Add($"{Path.GetFileName(f)}:{i + 1}");
+		}
+		H.Check("no number parse outside Invariant in sim/", parses.Count == 0,
+			string.Join(", ", parses));
+		H.Check("the parse lint detects a planted TryParse",
+			Regex.IsMatch(Strip("if (!int.TryParse(s, out int v)) return;"), CultureParse));
 
 		// The lint is only worth anything if it can actually see a violation, so
 		// prove the matcher fires on a known-bad sample.
