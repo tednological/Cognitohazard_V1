@@ -140,4 +140,7 @@ for gid, pts in GUARDS.items():
 for gid, cell in SENTRIES.items():
     L.put(*cell, gid)
 
-L.write("levels/vault_row.txt", "Vault Row")
+# Imported by gen_vault_row_night.py for the same floor after dark, so only
+# write when run.
+if __name__ == "__main__":
+    L.write("levels/vault_row.txt", "Vault Row", theme="industrial")

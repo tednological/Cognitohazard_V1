@@ -25,6 +25,7 @@ const RESIZE_STEP: int = 4
 
 const LEVELS := preload("res://game/levels.gd")
 const CAT := preload("res://game/item_catalog.gd")
+const LEVEL_ART := preload("res://game/level_art.gd")
 const LEVELS_DIR: String = LEVELS.LEVELS_DIR
 const FALLBACK_DIR: String = LEVELS.FALLBACK_DIR
 const UNDO_LIMIT: int = 64
@@ -46,6 +47,8 @@ const TOOLS := [
 	{"key": "9", "label": "Glass", "glyph": "="},
 	{"key": "0", "label": "Door", "glyph": "+"},
 	{"key": "O", "label": "Sweep", "glyph": "*"},
+	{"key": "B", "label": "Lamp", "glyph": "L"},
+	{"key": "P", "label": "Switch", "glyph": "S"},
 ]
 const T_SPAWN: int = 2
 const T_GUARD: int = 5
@@ -63,6 +66,21 @@ const T_OBJECTIVE: int = 10
 ## sweep node marks one place, so it goes down one click at a time.
 const T_SWEEP: int = 10
 const SWEEP_CODE: int = 11
+
+## Lighting (cognitohazard_lighting_plan.md): a LAMP (B, 'L') and a light
+## SWITCH (P, 'S'). Palette indices 11 and 12, EditorPaint codes 12 and 13:
+## every palette entry after the sweep node sits one code past its index, for
+## the sweep node's reason. FIXTURES, placed one per click like the sweep node,
+## never stamped: a brush must not spray lamps. B for bulb, P for power.
+const T_LAMP: int = 11
+const T_SWITCH: int = 12
+
+## The light preview (U): the edit buffer as the sim will light it, doors shut
+## and every lamp on, through the sim's own LightMap. On by default, since a
+## dark level edited as if lit is a level designed blind.
+var _light_preview: bool = true
+var _preview_tex: CanvasTexture = null
+var _preview_key: String = ""
 
 ## How a press lays a structure tool down. M cycles them; each is also a
 ## clickable button on the second toolbar row.
@@ -168,6 +186,7 @@ const C_GLASS := Color(0.62, 0.84, 0.95)
 const C_DOOR := Color(0.36, 0.27, 0.19)
 const C_DOOR_EDGE := Color(0.62, 0.48, 0.32)
 const C_SEL := Color(1.0, 0.95, 0.55)
+const C_LAMP := Color(1.0, 0.88, 0.62)
 const C_ERR := Color(0.95, 0.42, 0.38)
 const C_WARN := Color(0.92, 0.70, 0.25)
 const C_INFO := Color(0.50, 0.56, 0.64)
@@ -277,6 +296,15 @@ func _handle_key(event: InputEventKey) -> void:
 			set_tool(9)
 		KEY_O:
 			set_tool(T_SWEEP)
+		KEY_B:
+			set_tool(T_LAMP)
+		KEY_P:
+			set_tool(T_SWITCH)
+		KEY_D:
+			adjust_ambient(10 if event.shift_pressed else -10)
+		KEY_U:
+			_light_preview = not _light_preview
+			_notify("light preview %s" % ("on" if _light_preview else "off"))
 		KEY_M:
 			set_mode(posmod(_mode + (-1 if event.shift_pressed else 1), MODES.size()))
 		KEY_G:
@@ -293,6 +321,8 @@ func _handle_key(event: InputEventKey) -> void:
 			adjust_chest_budget(step2)
 		KEY_K:
 			set_mirror(_mirror + (-1 if event.shift_pressed else 1))
+		KEY_T:
+			cycle_theme(-1 if event.shift_pressed else 1)
 		KEY_I:
 			_issues_open = not _issues_open
 		KEY_BRACKETLEFT:
@@ -740,11 +770,13 @@ func focus_cell(cell: Vector2i) -> void:
 ## shown. Returns false for a line that names neither.
 func goto_issue(text: String) -> bool:
 	var went: bool = false
-	var g := RegEx.create_from_string("guard ([a-z])\\b")
+	# Any one character after "guard ", then a break: the alphabet runs past
+	# ASCII ('À'..'ÿ'), where \b does not see a word character.
+	var g := RegEx.create_from_string("guard (\\S)(?=\\s|$)")
 	var gm: RegExMatch = g.search(text)
 	if gm != null:
 		var id: int = gm.get_string(1).unicode_at(0)
-		if bridge.EditorGuardIds().has(id):
+		if bridge.IsGuardGlyph(id) and bridge.EditorGuardIds().has(id):
 			bridge.EditorSelectGuard(id)
 			focus_cell(_guard_cell(id))
 			went = true
@@ -785,8 +817,8 @@ func mirrored(p: Vector2i) -> Array[Vector2i]:
 ## The code EditorPaint is sent for a palette tool: the tool's own index,
 ## except shift+chest, which is the objective. Static so the harness can ask.
 static func paint_code(tool: int, shift: bool) -> int:
-	if tool == T_SWEEP:
-		return SWEEP_CODE
+	if tool >= T_SWEEP:
+		return tool + 1
 	return T_OBJECTIVE if tool == T_CHEST and shift else tool
 
 
@@ -887,7 +919,7 @@ func pick(cell: Vector2i) -> void:
 		return
 	var g: int = bridge.EditorGetCell(cell.x, cell.y)
 	var note: String = ""
-	if g >= 97 and g <= 122:
+	if bridge.IsGuardGlyph(g):
 		_tool = T_GUARD
 		bridge.EditorSelectGuard(g)
 		note = "  ·  guard %s selected" % char(g)
@@ -1102,10 +1134,37 @@ func adjust_guard_points(guard: int, step: int) -> void:
 		_money(bridge.EditorGuardPoints(guard)), _money(bridge.EditorGuardLootTotal)])
 
 
+## AMBIENT: the level's base light, percent (lighting plan §2.1). D darkens,
+## shift+D lightens, in tens. Lightening past 90 removes the line altogether,
+## which is FULLY LIT -- exactly the level with no lighting at all, so the
+## editor can never write an `ambient: 100` that means the same as nothing.
+## One undo step, like the loot keys.
+func adjust_ambient(step: int) -> void:
+	var now: int = bridge.EditorAmbient
+	if now < 0:
+		now = 100
+	var next: int = clampi(now + step, 0, 100)
+	_push_undo()
+	bridge.EditorAmbient = -1 if next >= 100 else next
+	_notify("fully lit" if next >= 100 else "ambient %d%%  ·  U previews the light" % next)
+
+
 func adjust_chest_budget(step: int) -> void:
 	_push_undo()
 	bridge.EditorSetChestBudget(maxi(0, bridge.EditorChestBudget + step))
 	_notify("the chests hold %s between them" % _money(bridge.EditorChestBudget))
+
+
+## THEME: which map kit the level is dressed in (game/level_art.gd). Art only
+## -- the sim never hashes it -- but it lives in the level text, so a change is
+## one undo step like any other. Cycles through the kits that exist; a level
+## with no theme line is shown as the default it will be drawn in.
+func cycle_theme(step: int) -> void:
+	var themes: PackedStringArray = LEVEL_ART.THEMES
+	var now: int = themes.find(LEVEL_ART.resolve_theme(bridge.EditorTheme))
+	_push_undo()
+	bridge.EditorTheme = themes[posmod(now + step, themes.size())]
+	_notify("theme %s  ·  ENTER to playtest it" % bridge.EditorTheme)
 
 
 static func _money(n: int) -> String:
@@ -1258,6 +1317,7 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, level_px()), C_FLOOR)
 
 	_draw_cells()
+	_draw_light_preview()
 	_draw_grid_lines()
 	_draw_routes()
 	_draw_selection()
@@ -1323,14 +1383,39 @@ func _draw_glyph(ch: int, x: float, y: float, a: float) -> void:
 			var ctr := Vector2(x + CS * 0.5, y + CS * 0.5)
 			draw_arc(ctr, 6.5, 0.0, TAU, 20, Color(C_SEL, a), 1.5)
 			draw_circle(ctr, 1.6, Color(C_SEL, a))
+		76:           # 'L' -- a lamp: a bulb with a halo
+			var lc := Vector2(x + CS * 0.5, y + CS * 0.5)
+			draw_circle(lc, 8.0, Color(C_LAMP, 0.18 * a))
+			draw_circle(lc, 4.0, Color(C_LAMP, a))
+		83:           # 'S' -- a switch: a plate with a toggle
+			draw_rect(Rect2(x + 6, y + 4, CS - 12, CS - 8), Color(C_LAMP, 0.25 * a))
+			draw_rect(Rect2(x + 6, y + 4, CS - 12, CS - 8), Color(C_LAMP, a), false, 1.0)
+			draw_rect(Rect2(x + 8.5, y + 6, 3, 4), Color(C_LAMP, a))
 		_:
-			if ch >= 97 and ch <= 122:    # 'a'..'z'
+			if bridge.IsGuardGlyph(ch):    # 'a'..'z', then 'À'..'ÿ'
 				var selected: bool = bridge.EditorSelectedGuard == ch
 				var col: Color = C_SEL if selected else C_GUARD
 				draw_rect(cell, Color(col, 0.22 * a))
 				draw_circle(Vector2(x + CS * 0.5, y + CS * 0.5), 6.0, Color(col, a))
 				draw_string(_font, Vector2(x + 6, y + 15), char(ch),
 					HORIZONTAL_ALIGNMENT_LEFT, -1, 11, C_BG)
+
+
+## The sim's light over the cells, as the game will draw it. Rebuilt only when
+## the level text changes (keyed by it), not per frame.
+func _draw_light_preview() -> void:
+	if not _light_preview or bridge.EditorAmbient < 0:
+		return
+	var key: String = bridge.EditorToText()
+	if key != _preview_key or _preview_tex == null:
+		_preview_key = key
+		var img := Image.create_from_data(cols() * 2, rows() * 2, false, Image.FORMAT_RGBA8,
+			bridge.EditorDarkness(3, 5, 11, 170))
+		if _preview_tex == null:
+			_preview_tex = CanvasTexture.new()
+			_preview_tex.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		_preview_tex.diffuse_texture = ImageTexture.create_from_image(img)
+	draw_texture_rect(_preview_tex, Rect2(Vector2.ZERO, level_px()), false)
 
 
 func _draw_grid_lines() -> void:
@@ -1456,7 +1541,7 @@ func _cell_name(g: int) -> String:
 		61: return "glass"
 		43: return "door"
 		42: return "sweep node"
-	if g >= 97 and g <= 122:
+	if bridge.IsGuardGlyph(g):
 		return "guard " + char(g)
 	return ""
 
@@ -1489,7 +1574,10 @@ func _label(at: Vector2, text: String, col: Color) -> void:
 
 
 func _tool_rect(i: int) -> Rect2:
-	return Rect2(10.0 + i * 85.5, FIELD_H + 5.0, 81.0, 20.0)
+	# The row is shared out between however many tools there are: eleven fitted
+	# at 85.5 px, and the lamp and switch would have run off the right edge.
+	var w: float = 940.0 / TOOLS.size()
+	return Rect2(10.0 + i * w, FIELD_H + 5.0, w - 4.5, 20.0)
 
 
 func _mode_rect(i: int) -> Rect2:
@@ -1573,8 +1661,11 @@ func _draw_status() -> void:
 	# The selected guard's loot points ride beside his letter, and the floor's
 	# two loot totals at the end: what the mission select will say it is worth.
 	var pts: String = "" if sel == 0 else " %s" % _money(bridge.EditorGuardPoints(sel))
-	var header: String = "EDITOR   %s   %dx%d @%d%%   guard %s%s   loot %s chests / %s guards" % [
-		name_text, cols(), rows(), int(round(_zoom * 100.0)), sel_text, pts,
+	var amb: int = bridge.EditorAmbient
+	var header: String = "EDITOR   %s   %dx%d @%d%%   %s %s   guard %s%s   loot %s chests / %s guards" % [
+		name_text, cols(), rows(), int(round(_zoom * 100.0)),
+		LEVEL_ART.resolve_theme(bridge.EditorTheme), "lit" if amb < 0 else "dark %d%%" % amb,
+		sel_text, pts,
 		_money(bridge.EditorChestBudget), _money(bridge.EditorGuardLootTotal)]
 	draw_rect(Rect2(0, 0, FIELD_W, 20), Color(0.02, 0.03, 0.04, 0.82))
 	draw_string(_font, Vector2(8, 14), header, HORIZONTAL_ALIGNMENT_LEFT, 620, 11,
@@ -1655,7 +1746,7 @@ func issue_at(m: Vector2) -> int:
 
 
 static func issue_links(text: String) -> bool:
-	return RegEx.create_from_string("guard [a-z]\\b|\\(\\d+,\\d+\\)").search(text) != null
+	return RegEx.create_from_string("guard \\S(?=\\s|$)|\\(\\d+,\\d+\\)").search(text) != null
 
 
 ## F1. A heading row has an empty second column.
@@ -1664,6 +1755,7 @@ const HELP := [
 	["1-9, 0", "wall floor spawn exit records guard waypoint chest glass door"],
 	["shift+LMB (chest)", "an objective site instead of a chest"],
 	["O", "sweep node: where hunting guards look first, one per click"],
+	["B  P", "lamp, light switch, one per click (a switch works every lamp in its room)"],
 	["click a button", "both toolbar rows are clickable"],
 	["alt+LMB", "eyedropper: take the tool under the cursor; on a guard, select him"],
 	["MODES", ""],
@@ -1686,6 +1778,8 @@ const HELP := [
 	["LEVEL", ""],
 	["ctrl+Z / ctrl+Y", "undo / redo (ctrl+shift+Z also redoes)"],
 	["I", "fold the issues panel; click an issue naming a cell or guard to go there"],
+	["T / shift+T", "map kit the level is dressed in (industrial, scientific)"],
+	["D / shift+D  U", "ambient light darker / lighter (past 90 is fully lit)  ·  U light preview"],
 	["ctrl+arrows", "resize by 4 cells; a shrink says what it dropped"],
 	["S  L  N  F2", "save, load next, new, rename"],
 	["ENTER  TAB", "playtest this buffer, back to the game"],

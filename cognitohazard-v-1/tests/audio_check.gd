@@ -90,6 +90,7 @@ func _check_sounds(a: Node) -> void:
 		a.ZAP: "zap", a.BOOM: "boom", a.TINK: "grenade tink", a.THROW: "throw",
 		a.RADIO_KEY: "radio key-up", a.RADIO_SENT: "radio call through",
 		a.RADIO_CUT: "radio cut off", a.COMPROMISED: "compromised klaxon",
+		a.LAMP: "lamp shattering", a.SWITCH: "light switch",
 	}
 
 	for id in names:
@@ -136,7 +137,7 @@ func _check_sounds(a: Node) -> void:
 	# 1/k: every sound carries a fixed 0.03 s tail that does not scale, so a
 	# short sound like the wall hit stretches by less than 4x and that is
 	# correct. Hardcoding 4x would have failed a working synth.
-	for id in [a.SHOT, a.ESHOT, a.WALL, a.FLESH, a.SUBDUE, a.GLASS, a.ZAP, a.BOOM]:
+	for id in [a.SHOT, a.ESHOT, a.WALL, a.FLESH, a.SUBDUE, a.GLASS, a.ZAP, a.BOOM, a.LAMP]:
 		var full: AudioStreamWAV = a._get_stream(id, 1.0)
 		var slow: AudioStreamWAV = a._get_stream(id, 0.25)
 		var ratio: float = float(slow.data.size()) / float(full.data.size())
@@ -148,7 +149,7 @@ func _check_sounds(a: Node) -> void:
 
 	# And these must NOT scale.
 	for id in [a.DRY, a.RELOAD, a.PICKUP, a.DEGRADE, a.NOTICE, a.DOOR_OPEN, a.DOOR_CLOSE,
-			a.TINK, a.THROW]:
+			a.TINK, a.THROW, a.SWITCH]:
 		var full2: AudioStreamWAV = a._get_stream(id, 1.0)
 		var slow2: AudioStreamWAV = a._get_stream(id, 0.25)
 		_check("sound %d is unaffected by dilation" % id,

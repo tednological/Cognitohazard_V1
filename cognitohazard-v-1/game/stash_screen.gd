@@ -1417,8 +1417,13 @@ func _draw_mission_row(i: int) -> void:
 			box.position.y + 10, 9, 9)
 		draw_rect(pip, (C_BAD if pips >= 4 else C_SEL) if p < pips
 			else Color(0.16, 0.18, 0.22))
+	# A dark floor says so (lighting plan §9.2): easier to sneak, harder to
+	# fight, so it is named rather than priced -- threat does not know light.
+	var dark: String = ""
+	if sm.size() >= 13 and sm[11] >= 0 and sm[11] < 100:
+		dark = "   ·   dark, %d%% light" % sm[11]
 	draw_string(_font, box.position + Vector2(12, 49),
-		"threat %s" % MISSIONS.multiplier_text(sm),
+		"threat %s%s" % [MISSIONS.multiplier_text(sm), dark],
 		HORIZONTAL_ALIGNMENT_LEFT, MISSION_W - 24, 10, C_DIM)
 	draw_string(_font, box.position + Vector2(12, 49),
 		"pays %d" % MISSIONS.mission_payout(sm),

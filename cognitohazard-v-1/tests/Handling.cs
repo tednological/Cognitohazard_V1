@@ -75,9 +75,16 @@ public static class Handling
 		H.Check("player rounds are much faster than the prototype's",
 			Tune.PlayerBulletSpeed >= OldPlayer * 5 / 2,
 			$"{Tune.PlayerBulletSpeed / Fx.One} px/s vs {OldPlayer / Fx.One}");
-		H.Check("and so are guard rounds",
-			Tune.GuardBulletSpeed >= OldGuard * 5 / 2,
-			$"{Tune.GuardBulletSpeed / Fx.One} px/s vs {OldGuard / Fx.One}");
+		// Guards fire their own weapons now, so every weapon a guard can carry
+		// must outrun the prototype's guard round -- except a thrown grenade,
+		// which is not a round at all.
+		string slow = "";
+		for (int i = 0; i < WeaponCatalog.Count; i++)
+		{
+			var ws = WeaponCatalog.Get((WeaponId)i);
+			if (!ws.Grenade && ws.BulletSpeed < OldGuard * 5 / 2) slow = $"{(WeaponId)i} {ws.BulletSpeed / Fx.One} px/s";
+		}
+		H.Check("and so are guard rounds, whatever he carries", slow.Length == 0, slow);
 
 		// Faster rounds with the same lifetimes would have tripled every
 		// weapon's reach, which is a balance change nobody asked for. Lifetimes
@@ -862,39 +869,30 @@ public static class Handling
 	{
 		H.Group("guard firing error");
 
-		// Guards run the same three terms the player does. Previously they drew
-		// a flat +/- 0.045 rad forever: perfect marksmen who happened to miss.
-		var e = new Actor();
-		int cold = Tune.GuardSpreadBase;
-
-		e.Heat = Tune.HeatMax;
-		e.SwayQ8 = 0;
-		int hot = Tune.GuardSpreadBase
-			+ (Tune.HeatMax * Tune.GuardSpreadPerHeat >> Fx.Shift);
+		// Guards run the same three terms the player does, from the WEAPON they
+		// carry, plus a flat marksmanship penalty. Previously they drew a flat
+		// +/- 0.045 rad forever: perfect marksmen who happened to miss.
+		var ak = WeaponCatalog.Get(WeaponId.Ak47);
+		int cold = GuardCone(ak, 0, 0);
+		int hot = GuardCone(ak, Tune.HeatMax, 0);
 		H.Check("sustained fire opens a guard's cone", hot > cold, $"{cold} -> {hot}");
-
-		e.Heat = 0;
-		int swung = Tune.GuardSpreadBase
-			+ (Tune.SwayMax * Tune.GuardSpreadPerSway >> Fx.Shift);
+		int swung = GuardCone(ak, 0, Tune.SwayMax);
 		H.Check("so does swinging onto a target", swung > cold, $"{cold} -> {swung}");
 
-		// A guard's cold cone still matches the prototype's flat draw, so the
-		// opening shot of a fight is as dangerous as it ever was.
-		H.Eq("a cold guard shoots the spec's old flat cone", Tune.GuardSpreadBase / 2, 469);
+		// A cold AK guard still matches the prototype's flat draw, so the
+		// opening shot of a rifleman's fight is as dangerous as it ever was.
+		H.Eq("a cold AK guard shoots the spec's old flat cone", cold / 2, 469);
+		H.Check("and a guard is never a better shot than the player with the same gun",
+			Tune.GuardSpreadPenalty > 0);
 
-		// Guards must cool down, or one firefight poisons the rest of the run.
-		H.Check("guard heat decays", Tune.GuardHeatDecayPerSec > 0);
-		H.Check("but far slower than a player's, or it would never be felt",
-			Tune.GuardHeatDecayPerSec < Tune.HeatDecayPerSec,
-			$"{Tune.GuardHeatDecayPerSec} vs {Tune.HeatDecayPerSec}");
-
-		// Net accumulation over a guard's own firing cadence: the term has to
-		// actually climb between shots or it is decoration.
-		int perShot = Tune.GuardHeatPerShot;
-		int decayBetween = Fx.PerTick(Tune.GuardHeatDecayPerSec, Tune.NormalScale)
-			* Tune.EngageCooldownTicks;
+		// Net accumulation over one burst: the term has to actually climb
+		// while he holds the trigger or it is decoration.
+		int burst = SimWorld.GuardBurst(ak);
+		int perBurst = ak.HeatPerShot * burst;
+		int decayBetween = Fx.PerTick(ak.HeatDecayPerSec, Tune.NormalScale)
+			* ak.FireCooldownTicks * (burst - 1);
 		H.Check("and a guard who does not let up gets worse, not better",
-			perShot > decayBetween, $"+{perShot} per shot vs -{decayBetween} between");
+			perBurst > decayBetween, $"+{perBurst} per burst vs -{decayBetween} during it");
 
 		// In the world: a guard in a long firefight ends it shooting wider than
 		// he started it.
@@ -905,6 +903,8 @@ public static class Handling
 		var w = new SimWorld(Level.FromText(Text(g)), 5, new Loadout(WeaponId.Glock,
 			ArmourId.HeavyPlate));
 		var guard = w.Guards[0];
+		guard.Weapon = WeaponId.Ak47;
+		guard.Mag = ak.Magazine;
 		guard.PathX = null; guard.PathY = null;
 		guard.State = GuardState.Combat;
 		guard.Task = GuardTask.Engage;
@@ -929,17 +929,16 @@ public static class Handling
 		}
 
 		H.Check("fixture: the guard actually fired", shots > 4, $"{shots} shots");
-		H.Check("a guard in a long firefight heats up", peakHeat > Tune.GuardHeatPerShot,
+		H.Check("a guard in a long firefight heats up", peakHeat > ak.HeatPerShot,
 			$"peak {peakHeat}/{Tune.HeatMax}");
 		H.Check("and his cone is wider than a cold one",
-			GuardCone(peakHeat, 0) > Tune.GuardSpreadBase,
-			$"{GuardCone(peakHeat, 0)} vs {Tune.GuardSpreadBase}");
+			GuardCone(ak, peakHeat, 0) > cold, $"{GuardCone(ak, peakHeat, 0)} vs {cold}");
 	}
 
-	private static int GuardCone(int heat, int sway)
-		=> Tune.GuardSpreadBase
-		 + (heat * Tune.GuardSpreadPerHeat >> Fx.Shift)
-		 + (sway * Tune.GuardSpreadPerSway >> Fx.Shift);
+	private static int GuardCone(in WeaponSpec ws, int heat, int sway)
+		=> ws.SpreadBase + Tune.GuardSpreadPenalty
+		 + (heat * ws.SpreadPerHeat >> Fx.Shift)
+		 + (sway * ws.SpreadPerSway >> Fx.Shift);
 
 	// ------------------------------------------------------------ determinism
 

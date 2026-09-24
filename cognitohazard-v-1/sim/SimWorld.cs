@@ -69,6 +69,31 @@ public sealed class PanelRuntime
 	public bool Opaque => IsDoor && !Open;
 }
 
+/// <summary>
+/// A ceiling lamp (glyph 'L'), as it stands now. It lights while
+/// <see cref="On"/> and not <see cref="Broken"/>. A broken lamp never relights,
+/// as a broken pane never mends; a switched-off one can be switched back.
+/// </summary>
+public sealed class LampRuntime
+{
+	public int X, Y;          // fixed-point centre of its cell
+	public bool On = true;
+	public bool Broken;
+	public bool Lit => On && !Broken;
+}
+
+/// <summary>
+/// A light switch (glyph 'S'). It controls every lamp in its ROOM
+/// (<see cref="Level.RoomOf"/>); it has no state of its own. Pressing it
+/// darkens the room if any of its lamps is lit, and lights it otherwise.
+/// </summary>
+public sealed class SwitchRuntime
+{
+	public int X, Y;
+	public int[] Lamps = System.Array.Empty<int>();
+	public bool[] Room = System.Array.Empty<bool>();
+}
+
 public sealed class CacheRuntime
 {
 	public int X, Y;
@@ -142,6 +167,40 @@ public sealed partial class SimWorld
 	private bool[] _glassIntact = System.Array.Empty<bool>();
 	private bool _blockersDirty;
 
+	// ---- lighting (cognitohazard_lighting_plan.md) ----
+
+	/// <summary>Lamps, parallel to Level.Lamps.</summary>
+	public readonly List<LampRuntime> Lamps = new();
+
+	/// <summary>Switches, parallel to Level.Switches. A switch's pick in
+	/// InputFrame.DoorPick is Panels.Count + index + 1.</summary>
+	public readonly List<SwitchRuntime> Switches = new();
+
+	/// <summary>
+	/// The light map, or NULL on a fully lit level (no <c>ambient:</c> line, or
+	/// 100). Null is the whole of the identity rule: every lighting branch is
+	/// behind it, so a lit level runs exactly the code it ran before lighting.
+	/// </summary>
+	public LightMap? Light { get; private set; }
+
+	/// <summary>Ticks (x Mt) the player stays lit by their own muzzle flash.
+	/// Hashed only on a level with lighting.</summary>
+	public int PlayerFlashMt;
+
+	/// <summary>
+	/// Light at the player this tick, Q8: the map, raised by their own flash
+	/// and by any guard's torch beam they stand in. Computed once a tick, before
+	/// the guards look, so every guard judges the same figure the HUD meter
+	/// shows. 256 on a lit level. Derived, not hashed.
+	/// </summary>
+	public int PlayerLightQ8 { get; private set; } = Fx.One;
+
+	/// <summary>How visible the player is right now, Q8, as perception scales
+	/// it: <see cref="Perception.VisQ8"/> of <see cref="PlayerLightQ8"/>.</summary>
+	public int PlayerVisQ8 => Perception.VisQ8(PlayerLightQ8);
+
+	private bool[] _wallCells = System.Array.Empty<bool>();
+
 	/// <summary>
 	/// How many objective items this mission requires, and how many are in the
 	/// pack right now. Extracting with fewer is allowed — it simply is not a
@@ -207,6 +266,28 @@ public sealed partial class SimWorld
 		{
 			var d = level.Panels[i];
 			Panels.Add(new PanelRuntime { Kind = d.Kind, Rect = d.Rect, Vertical = d.Vertical });
+		}
+		for (int i = 0; i < level.Lamps.Count; i++)
+		{
+			var (c, r) = level.Lamps[i];
+			Lamps.Add(new LampRuntime { X = c * Level.CellFx + Level.CellFx / 2,
+				Y = r * Level.CellFx + Level.CellFx / 2 });
+		}
+		for (int i = 0; i < level.Switches.Count; i++)
+		{
+			var (c, r) = level.Switches[i];
+			var sw = new SwitchRuntime { X = c * Level.CellFx + Level.CellFx / 2,
+				Y = r * Level.CellFx + Level.CellFx / 2, Room = level.RoomOf(c, r) };
+			var ls = new List<int>();
+			for (int l = 0; l < level.Lamps.Count; l++)
+				if (sw.Room[level.Lamps[l].R * level.W + level.Lamps[l].C]) ls.Add(l);
+			sw.Lamps = ls.ToArray();
+			Switches.Add(sw);
+		}
+		if (level.AmbientQ8 < Fx.One)
+		{
+			_wallCells = new bool[level.W * level.H];
+			for (int i = 0; i < _wallCells.Length; i++) _wallCells[i] = level.Grid[i] == '#';
 		}
 		RebuildBlockers();
 
@@ -315,8 +396,10 @@ public sealed partial class SimWorld
 		StepDrop(in input);
 		StepEquip(in input);
 		StepSpawn(in input);
+		StepLight(wScale);
 		StepGuards(wScale);
-		Bullets.Step(Opaque, _glassRects, _glassIntact, Guards, Player, wScale, _impacts);
+		Bullets.Step(Opaque, _glassRects, _glassIntact, Guards, Player, wScale, _impacts,
+			_glassPanes);
 		ResolveImpacts();
 		if (_blockersDirty) RebuildBlockers();
 		Alarm.Step(Guards, wScale);
@@ -491,10 +574,15 @@ public sealed partial class SimWorld
 
 		StepCaches(scale);
 
-		if (Geometry.InRect(p.X, p.Y, in Level.Exit))
+		// ANY exit: a level may have several (Level.Exits), and with one this
+		// is the single test it always was.
+		for (int k = 0; k < Level.Exits.Count; k++)
 		{
+			var exit = Level.Exits[k];
+			if (!Geometry.InRect(p.X, p.Y, in exit)) continue;
 			Over = "out";
 			Log.Add(SimEventKind.Exit, p.X, p.Y);
+			break;
 		}
 	}
 
@@ -646,7 +734,30 @@ public sealed partial class SimWorld
 	private void RollGuardKits()
 	{
 		for (int i = 0; i < Guards.Count; i++)
+		{
 			LootTable.KitGuard(LootRng, Guards[i], Level.PointsFor(Guards[i].Id));
+			ArmGuard(Guards[i]);
+		}
+	}
+
+	/// <summary>
+	/// A guard fires the gun he is carrying: the first weapon in his kit, which
+	/// LootTable.KitGuard always buys first. He starts with it loaded. Anything
+	/// that is not a weapon (a kit handed in by a test, say) arms him with the
+	/// starter Glock, which is what KitGuard falls back to as well.
+	/// </summary>
+	private static void ArmGuard(Actor g)
+	{
+		g.Weapon = WeaponId.Glock;
+		for (int k = 0; k < g.Kit.Count; k++)
+		{
+			var it = GearCatalog.Get(g.Kit[k]);
+			if (it.Kind != GearKind.Weapon) continue;
+			if (it.SimA >= 0 && it.SimA < WeaponCatalog.Count) g.Weapon = (WeaponId)it.SimA;
+			break;
+		}
+		g.Mag = WeaponCatalog.Get(g.Weapon).Magazine;
+		g.BurstShots = 0;
 	}
 
 	/// <summary>
@@ -1234,6 +1345,7 @@ public sealed partial class SimWorld
 		Log.Add(SimEventKind.PlayerShot, mx, my, p.Facing, pellets);
 
 		GunshotHeard(p.X, p.Y, w.GunshotRadius);
+		MuzzleFlash(p.X, p.Y, w.GunshotRadius);
 	}
 
 	/// <summary>
@@ -1428,6 +1540,8 @@ public sealed partial class SimWorld
 		{
 			Solid = walls;
 			Opaque = walls;
+			RebuildBreakables();
+			SyncLight();
 			return;
 		}
 
@@ -1436,22 +1550,39 @@ public sealed partial class SimWorld
 		solid.AddRange(walls);
 		opaque.AddRange(walls);
 
-		int glass = 0;
 		for (int i = 0; i < Panels.Count; i++)
 		{
 			var pn = Panels[i];
 			if (pn.Solid) solid.Add(pn.Rect);
 			if (pn.Opaque) opaque.Add(pn.Rect);
-			if (pn.IsGlass) glass++;
 		}
 		Solid = solid.ToArray();
 		Opaque = opaque.ToArray();
+		RebuildBreakables();
+		SyncLight();
+	}
 
-		if (_glassRects.Length != glass)
+	/// <summary>How many of the breakables are PANES; lamps follow them. A
+	/// grenade rolling along the floor breaks glass but not a ceiling lamp.</summary>
+	private int _glassPanes;
+
+	/// <summary>
+	/// Everything a round shatters and flies on through: every pane, then every
+	/// lamp (lighting plan §5.1: "a lamp is glass with a bulb in it"). A lamp's
+	/// entry in _glassPanel is -(lamp + 1), so one impact kind covers both. A
+	/// level with neither leaves all three arrays empty, as they always were.
+	/// </summary>
+	private void RebuildBreakables()
+	{
+		int glass = 0;
+		for (int i = 0; i < Panels.Count; i++) if (Panels[i].IsGlass) glass++;
+		int n = glass + Lamps.Count;
+		_glassPanes = glass;
+		if (_glassRects.Length != n)
 		{
-			_glassRects = new Rect[glass];
-			_glassPanel = new int[glass];
-			_glassIntact = new bool[glass];
+			_glassRects = new Rect[n];
+			_glassPanel = new int[n];
+			_glassIntact = new bool[n];
 		}
 		int k = 0;
 		for (int i = 0; i < Panels.Count; i++)
@@ -1462,6 +1593,56 @@ public sealed partial class SimWorld
 			_glassIntact[k] = !Panels[i].Open;
 			k++;
 		}
+		int hr = Tune.LampHitRadius;
+		for (int l = 0; l < Lamps.Count; l++)
+		{
+			_glassRects[k] = new Rect(Lamps[l].X - hr, Lamps[l].Y - hr, hr * 2, hr * 2);
+			_glassPanel[k] = -(l + 1);
+			_glassIntact[k] = !Lamps[l].Broken;
+			k++;
+		}
+	}
+
+	/// <summary>
+	/// Bring the light map up to date with the opaque set: build it the first
+	/// time, and after that re-cast only the lamps near a cell that changed.
+	/// Does nothing on a fully lit level.
+	/// </summary>
+	private void SyncLight()
+	{
+		if (Level.AmbientQ8 >= Fx.One) return;
+		if (Light == null) Light = FreshLight();
+		else Light.SetOpaque(OpaqueCells(), Opaque);
+	}
+
+	/// <summary>Which cells stop light right now: walls and shut doors.</summary>
+	private bool[] OpaqueCells()
+	{
+		var mask = (bool[])_wallCells.Clone();
+		for (int i = 0; i < Panels.Count; i++)
+		{
+			var pn = Panels[i];
+			if (!pn.Opaque) continue;
+			int c0 = pn.Rect.X / Level.CellFx, r0 = pn.Rect.Y / Level.CellFx;
+			int c1 = (pn.Rect.X1 - 1) / Level.CellFx, r1 = (pn.Rect.Y1 - 1) / Level.CellFx;
+			for (int r = r0; r <= r1; r++)
+				for (int c = c0; c <= c1; c++)
+					if (Level.InBounds(c, r)) mask[r * Level.W + c] = true;
+		}
+		return mask;
+	}
+
+	/// <summary>
+	/// The light map built from nothing out of the CURRENT state, or null on a
+	/// lit level. What the incremental map must always equal; the harness and
+	/// the fuzzer compare the two.
+	/// </summary>
+	public LightMap? FreshLight()
+	{
+		if (Level.AmbientQ8 >= Fx.One) return null;
+		var on = new bool[Lamps.Count];
+		for (int i = 0; i < on.Length; i++) on[i] = Lamps[i].Lit;
+		return new LightMap(Level, OpaqueCells(), Opaque, on);
 	}
 
 	/// <summary>
@@ -1506,6 +1687,11 @@ public sealed partial class SimWorld
 		if (!p.Alive || Over != null) return;
 
 		int i = input.DoorPick - 1;
+		if (i >= Panels.Count && i < Panels.Count + Switches.Count)
+		{
+			UseSwitch(i - Panels.Count);
+			return;
+		}
 		if (i < 0 || i >= Panels.Count) return;
 		var door = Panels[i];
 		if (!door.IsDoor) return;
@@ -1677,8 +1863,12 @@ public sealed partial class SimWorld
 					break;
 
 				case Projectiles.HitKind.Glass:
-					BreakGlass(_glassPanel[im.GuardIndex], im.Heading);
+				{
+					int which = _glassPanel[im.GuardIndex];
+					if (which >= 0) BreakGlass(which, im.Heading);
+					else BreakLamp(-which - 1, im.Heading);
 					break;
+				}
 			}
 		}
 	}
@@ -1906,6 +2096,14 @@ public sealed partial class SimWorld
 			h.Add(Panels.Count);
 			for (int i = 0; i < Panels.Count; i++) h.Add(Panels[i].Open);
 		}
+		// Lighting, by the same rule: lamps only when there are any, and the
+		// flash only on a level whose light can change what a guard sees.
+		if (Lamps.Count > 0)
+		{
+			h.Add(Lamps.Count);
+			for (int i = 0; i < Lamps.Count; i++) { h.Add(Lamps[i].On); h.Add(Lamps[i].Broken); }
+		}
+		if (Light != null) h.Add(PlayerFlashMt);
 		return h.Value;
 	}
 }

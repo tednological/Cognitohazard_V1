@@ -277,6 +277,8 @@ func _fuzz_campaign() -> void:
 	var c: RefCounted = CAMPAIGN.new()
 	c.earn(4321)
 	c.settle("a.txt", true, 400, 3, 1, 120, 2)
+	c.note_run(3, 1, 40, 900, 3, 1, 0)
+	c.win()
 	c.settle_loss("b.txt")
 	real = c.to_text()
 
@@ -285,6 +287,8 @@ func _fuzz_campaign() -> void:
 		"money 99999999999999999999", "runs -5", "extractions -1",
 		"mission", "mission a.txt", "mission a.txt x y z",
 		"mission a.txt -1 -1 -1", "\t", "mission  1 2 3",
+		"kills -3", "shots x", "victories 99999999999999999999", "won_on_run 2",
+		"ticks", "earned 12",
 	])
 	# A NUL cannot be written as a literal in a .gd file -- the parser replaces
 	# it -- so it is appended here, because a save file that picked one up is
@@ -316,6 +320,10 @@ func _fuzz_campaign() -> void:
 		if m.money < 0:
 			_violation("no campaign text yields negative money",
 				"run %d: %d" % [run, m.money])
+		for key in CAMPAIGN.STAT_KEYS:
+			if int(m.get(key)) < 0:
+				_violation("no campaign text yields negative counters",
+					"run %d: %s %d" % [run, key, m.get(key)])
 		if m.runs < 0 or m.extractions < 0:
 			_violation("no campaign text yields negative counters",
 				"run %d: runs %d extractions %d" % [run, m.runs, m.extractions])

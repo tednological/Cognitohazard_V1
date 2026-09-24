@@ -10,7 +10,16 @@ namespace Cognitohazard.Tests;
 /// same commit as the behaviour change, never separately. A surprise failure
 /// here is the drift detector doing its job.
 ///
-/// Rebaked for FEAR (Guard_AI.md §4.1): Actor.FearMt entered the hash, and a
+/// Rebaked when GUARDS BEGAN FIRING THE GUN THEY CARRY: Actor.Weapon (armed from
+/// the loot roll by SimWorld.ArmGuard) and Actor.BurstShots entered the hash, a
+/// guard's Mag is his weapon's magazine, and every figure of his fire -- damage,
+/// pierce, cadence in bursts, reload, cone, pellets, spin-up, the specialists'
+/// traits -- is that weapon's WeaponSpec rather than the flat guard rifle. The
+/// guard alphabet grew past 'z' in the same change (Level.GuardGlyphs), which
+/// moves nothing here: substation_4's guards are all letters. Replays recorded
+/// before this diverge at the first checkpoint.
+///
+/// Previously: rebaked for FEAR (Guard_AI.md §4.1): Actor.FearMt entered the hash, and a
 /// guard at ease who hears the scripted run's shots now rolls to freeze,
 /// which draws from the sim's RNG and shifts every later draw.
 ///
@@ -142,10 +151,10 @@ public static class Goldens
 {
 	public static readonly Dictionary<int, ulong> Frames = new()
 	{
-		{ 60, 0xFBDD096CE9D77839UL },
-		{ 300, 0x821882A129CFAE52UL },
-		{ 900, 0xE8DE76260A788CB7UL },
+		{ 60, 0x28EAA863E7CE619BUL },
+		{ 300, 0x46B43B22AEEAA288UL },
+		{ 900, 0x1823916C9CFDA0A4UL },
 	};
 
-	public const ulong Final = 0xE8DE76260A788CB7UL;
+	public const ulong Final = 0x1823916C9CFDA0A4UL;
 }

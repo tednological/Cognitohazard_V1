@@ -15,7 +15,7 @@ public static class Navigation
 	private const int GW = Level.GW, GH = Level.GH;
 
 	private static readonly string[] Shipped = { "substation_4.txt", "relay_nine.txt", "terminal_twelve.txt",
-		"meridian_glasshouse.txt", "vault_row.txt" };
+		"meridian_glasshouse.txt", "vault_row.txt", "vault_row_night.txt", "zz_black_site.txt" };
 
 	private static char[] Room()
 	{
@@ -513,7 +513,7 @@ public static class Navigation
 
 		// And the compromised sweep on the biggest shipped floors: every guard
 		// against every sweep node, every tick, is the new per-tick cost.
-		foreach (string name in new[] { "relay_nine.txt", "terminal_twelve.txt" })
+		foreach (string name in new[] { "relay_nine.txt", "terminal_twelve.txt", "zz_black_site.txt" })
 		{
 			var ws = new SimWorld(Level.FromText(Program.ReadLevel(name)), 13);
 			ws.Player.X = -100000 * Fx.One;

@@ -264,8 +264,11 @@ public partial class SimBridge : RefCounted
 			if (L.Panels[i].Kind == PanelKind.Door) doors++; else glass++;
 		// Glass and doors APPENDED: every reader checks for at least seven
 		// fields and reads them by position, so the first seven cannot move.
+		// Lighting APPENDED the same way: [11] ambient percent (-1 fully lit,
+		// not authored) and [12] lamps.
 		return new[] { L.W, L.H, L.Guards.Count, L.Caches.Count, L.Walls.Length,
-			L.Chests.Count, L.Objectives, glass, doors, L.ChestBudget, L.GuardLootTotal };
+			L.Chests.Count, L.Objectives, glass, doors, L.ChestBudget, L.GuardLootTotal,
+			L.Ambient, L.Lamps.Count };
 	}
 
 	/// <summary>The `name:` a level file declares, for listing it by title.</summary>
@@ -313,13 +316,25 @@ public partial class SimBridge : RefCounted
 	/// reach. Resolved by the sim, so the prompt and the toggle cannot disagree
 	/// about which door it is.
 	/// </summary>
+	/// <remarks>
+	/// A LIGHT SWITCH shares the slot (lighting plan §5.2): its index is
+	/// Panels.Count + the switch index, which is exactly the DoorPick it takes,
+	/// and a sixth field says which it is: 0 door, 1 switch. For a switch the
+	/// "open" field is whether its room is lit.
+	/// </remarks>
 	public int[] GetDoorTarget()
 	{
-		int i = _world.NearestDoor();
+		int i = _world.NearestUse();
 		if (i < 0) return System.Array.Empty<int>();
+		if (i >= _world.Panels.Count)
+		{
+			var sw = _world.Switches[i - _world.Panels.Count];
+			return new[] { i, sw.X, sw.Y, _world.RoomLit(i - _world.Panels.Count) ? 1 : 0,
+				_world.DistToUse(i), 1 };
+		}
 		var d = _world.Panels[i];
 		return new[] { i, d.Rect.X + d.Rect.W / 2, d.Rect.Y + d.Rect.H / 2,
-			d.Open ? 1 : 0, _world.DistToPanel(i) };
+			d.Open ? 1 : 0, _world.DistToPanel(i), 0 };
 	}
 
 	/// <summary>Distance from the player to a loot target, fixed-point, or -1.
@@ -330,9 +345,22 @@ public partial class SimBridge : RefCounted
 		return Fx.Dist(x, y, _world.Player.X, _world.Player.Y);
 	}
 
-	/// <summary>Exit rect: x, y, w, h.</summary>
+	/// <summary>Exit rect: x, y, w, h. The FIRST exit; see GetExits.</summary>
 	public int[] GetExit()
 		=> new[] { _level.Exit.X, _level.Exit.Y, _level.Exit.W, _level.Exit.H };
+
+	/// <summary>Every exit (Level.Exits), stride 4: x, y, w, h. Reaching any
+	/// one of them ends the run.</summary>
+	public int[] GetExits()
+	{
+		var o = new int[_level.Exits.Count * 4];
+		for (int i = 0; i < _level.Exits.Count; i++)
+		{
+			var e = _level.Exits[i];
+			o[i * 4] = e.X; o[i * 4 + 1] = e.Y; o[i * 4 + 2] = e.W; o[i * 4 + 3] = e.H;
+		}
+		return o;
+	}
 
 	/// <summary>The size of the level actually loaded, not a fixed world size.
 	/// game/ reads its world bounds from here and never from Level.GW/GH.</summary>
@@ -340,6 +368,20 @@ public partial class SimBridge : RefCounted
 	public int GridHeightPx => _level.H * Level.CellPx;
 	public int GridCols => _level.W;
 	public int GridRows => _level.H;
+
+	/// <summary>The LIVE level's grid as glyph bytes, row-major (GridCols per
+	/// row) -- what game/level_art.gd dresses. Static for a run: glass and doors
+	/// keep their glyphs, and their state comes from GetPanels. Read-only.</summary>
+	public byte[] GetGrid()
+	{
+		var g = new byte[_level.Grid.Length];
+		for (int i = 0; i < g.Length; i++) g[i] = (byte)_level.Grid[i];
+		return g;
+	}
+
+	/// <summary>The live level's `theme:` token, "" when not authored. Art only:
+	/// never hashed, never read by the sim.</summary>
+	public string LevelTheme => _level.Theme;
 
 	/// <summary>The level open in the EDITOR, which may differ in size from the
 	/// one being played.</summary>
@@ -1308,6 +1350,153 @@ public partial class SimBridge : RefCounted
 	/// <summary>Base visibility reach plus whatever the rail adds.</summary>
 	public int VisionRadiusPx(int basePx) => basePx + _loadout.VisionRadiusBonus / Fx.One;
 
+	// ------------------------------------------------------------- lighting
+	// cognitohazard_lighting_plan.md §7. Everything here is READ from the sim:
+	// what is drawn dark is what a guard sees as dark, by construction.
+
+	/// <summary>The player's own sight reach, px: main.gd VISION_RADIUS. The
+	/// player makes guards out by the same dark-shortened rule guards use.</summary>
+	public const int PlayerSightPx = 430;
+
+	/// <summary>This run has lighting at all. False on every lit level, which
+	/// draws exactly as it did before.</summary>
+	public bool HasLight => _world.Light != null;
+
+	/// <summary>
+	/// Moves whenever the light map changes; re-upload on a change. Salted with
+	/// the WORLD, since every restart, replay seek and playtest builds a new
+	/// map whose own version starts again from 1: a new level at version 1
+	/// must not look like the last one at version 1.
+	/// </summary>
+	public int LightVersion
+	{
+		get
+		{
+			if (_world.Light == null) return 0;
+			if (!ReferenceEquals(_lightWorld, _world)) { _lightWorld = _world; _lightSerial++; }
+			return (_lightSerial << 20) + (_world.Light.Version & 0xFFFFF);
+		}
+	}
+	private SimWorld? _lightWorld;
+	private int _lightSerial;
+
+	/// <summary>The map as a (2*cols) x (2*rows) luminance image, 0..255 (see
+	/// LightMap.Texture2x). Empty on a lit level.</summary>
+	public byte[] GetLightTexture()
+		=> _world.Light == null ? System.Array.Empty<byte>() : _world.Light.Texture2x();
+
+	/// <summary>
+	/// The DARKNESS overlay as RGBA8 at Texture2x's size: the tint colour, with
+	/// alpha rising as the light falls, up to <paramref name="maxAlpha"/> (the
+	/// display floor, plan §7.1: the floor stays readable where the sim says
+	/// pitch black). Drawn over the floor with an ordinary blend, black-ish
+	/// at alpha a is a multiply by (1 - a), so this IS the plan's multiply
+	/// layer with no material and no extra node. Built here because it is a
+	/// loop over every texel, on every light change.
+	/// </summary>
+	public byte[] GetDarkness(int r, int g, int b, int maxAlpha)
+		=> DarknessRgba(GetLightTexture(), r, g, b, maxAlpha);
+
+	/// <summary>The editor's preview of the same overlay, from the edit buffer.</summary>
+	public byte[] EditorDarkness(int r, int g, int b, int maxAlpha)
+		=> DarknessRgba(EditorLightPreview(), r, g, b, maxAlpha);
+
+	private static byte[] DarknessRgba(byte[] lum, int r, int g, int b, int maxAlpha)
+	{
+		var outp = new byte[lum.Length * 4];
+		for (int i = 0; i < lum.Length; i++)
+		{
+			outp[i * 4] = (byte)r;
+			outp[i * 4 + 1] = (byte)g;
+			outp[i * 4 + 2] = (byte)b;
+			outp[i * 4 + 3] = (byte)(maxAlpha * (255 - lum[i]) / 255);
+		}
+		return outp;
+	}
+
+	/// <summary>Light at the player, Q8, and how visible that makes them: the
+	/// figure every guard's eye is scaled by this tick. The HUD meter reads the
+	/// second and nothing else.</summary>
+	public int PlayerLightQ8 => _world.PlayerLightQ8;
+	public int PlayerVisQ8 => _world.PlayerVisQ8;
+
+	/// <summary>Lamps, stride 3: x, y, flags (bit 0 lit, bit 1 broken).</summary>
+	public int[] GetLamps()
+	{
+		var outp = new int[_world.Lamps.Count * 3];
+		for (int i = 0; i < _world.Lamps.Count; i++)
+		{
+			var l = _world.Lamps[i];
+			outp[i * 3] = l.X;
+			outp[i * 3 + 1] = l.Y;
+			outp[i * 3 + 2] = (l.Lit ? 1 : 0) | (l.Broken ? 2 : 0);
+		}
+		return outp;
+	}
+
+	/// <summary>Light switches, stride 3: x, y, room lit (1/0).</summary>
+	public int[] GetSwitches()
+	{
+		var outp = new int[_world.Switches.Count * 3];
+		for (int i = 0; i < _world.Switches.Count; i++)
+		{
+			var sw = _world.Switches[i];
+			outp[i * 3] = sw.X;
+			outp[i * 3 + 1] = sw.Y;
+			outp[i * 3 + 2] = _world.RoomLit(i) ? 1 : 0;
+		}
+		return outp;
+	}
+
+	/// <summary>
+	/// Per guard, parallel to GetGuards, stride 2: how well the player makes
+	/// him out (Q8: 0 not at all, 256 plainly; SimWorld.PlayerSeesQ8, the rule
+	/// guards use on the player) and whether his torch is lit (1/0). A separate
+	/// array rather than two more fields on GetGuards, whose stride other
+	/// readers (footsteps, the AI overlay) index by hand.
+	/// </summary>
+	public int[] GetGuardSight()
+	{
+		var g = _world.Guards;
+		var outp = new int[g.Count * 2];
+		int sight = PlayerSightPx * Fx.One + _world.Loadout.VisionRadiusBonus;
+		for (int i = 0; i < g.Count; i++)
+		{
+			outp[i * 2] = g[i].Prone ? 0 : _world.PlayerSeesQ8(g[i], sight);
+			outp[i * 2 + 1] = _world.TorchOn(g[i]) ? 1 : 0;
+		}
+		return outp;
+	}
+
+	/// <summary>
+	/// Every lit torch as a fan, clipped by the opaque set: for each beam, the
+	/// lens then <paramref name="rays"/> edge points, in px. Drawn whether or not
+	/// the guard himself can be seen -- a beam sweeping a far wall is how you
+	/// learn a search is coming (plan §6).
+	/// </summary>
+	public Vector2[] GetTorchBeams(int rays)
+	{
+		if (_world.Light == null) return System.Array.Empty<Vector2>();
+		if (rays < 2) rays = 2;
+		var outp = new List<Vector2>();
+		for (int i = 0; i < _world.Guards.Count; i++)
+		{
+			var e = _world.Guards[i];
+			if (!_world.TorchOn(e)) continue;
+			var near = NearbyWalls(e.X, e.Y, Tune.TorchReach);
+			outp.Add(new Vector2(e.X / (float)Fx.One, e.Y / (float)Fx.One));
+			for (int k = 0; k < rays; k++)
+			{
+				int brad = e.Facing - Tune.TorchHalf + (int)((long)k * 2 * Tune.TorchHalf / (rays - 1));
+				int d = Geometry.CastRay(near, e.X, e.Y, brad & Brad.Mask, Tune.TorchReach);
+				Brad.SinCos(brad & Brad.Mask, out int sin, out int cos);
+				outp.Add(new Vector2((e.X + (int)(((long)d * cos) >> Brad.UnitShift)) / (float)Fx.One,
+					(e.Y + (int)(((long)d * sin) >> Brad.UnitShift)) / (float)Fx.One));
+			}
+		}
+		return outp.ToArray();
+	}
+
 	// ------------------------------------------------------------- visibility
 
 	/// <summary>
@@ -1424,6 +1613,7 @@ public partial class SimBridge : RefCounted
 	{
 		var next = Level.Blank(cols, rows);
 		next.Name = _edit.Name;
+		next.Theme = _edit.Theme;
 
 		int dropped = 0;
 		for (int r = 0; r < _edit.H; r++)
@@ -1455,7 +1645,34 @@ public partial class SimBridge : RefCounted
 		set => _edit.Name = string.IsNullOrWhiteSpace(value) ? "untitled" : value;
 	}
 
+	/// <summary>The edited level's theme token; set through the same cleaner
+	/// the parser uses, so the editor cannot write one the parser would cut.</summary>
+	public string EditorTheme
+	{
+		get => _edit.Theme;
+		set => _edit.Theme = Level.CleanTheme(value);
+	}
+
 	public int EditorSelectedGuard => _selectedGuard;
+
+	/// <summary><c>ambient:</c> of the level being edited: -1 fully lit (no
+	/// line), else 0..100. Clamped the way the parser clamps.</summary>
+	public int EditorAmbient
+	{
+		get => _edit.Ambient;
+		set => _edit.Ambient = value < 0 ? -1 : (value > 100 ? 100 : value);
+	}
+
+	/// <summary>
+	/// What the sim WILL light, for the editor's preview: the edit buffer at
+	/// rest (doors shut, every lamp on), through the same LightMap a run
+	/// builds. Texture2x layout; empty for a fully lit level.
+	/// </summary>
+	public byte[] EditorLightPreview()
+	{
+		var L = Level.FromText(_edit.ToText());
+		return L.AmbientQ8 >= Fx.One ? System.Array.Empty<byte>() : LightMap.AtRest(L).Texture2x();
+	}
 
 	/// <summary>The whole grid as glyph bytes, row-major.</summary>
 	public byte[] EditorGetGrid()
@@ -1522,6 +1739,22 @@ public partial class SimBridge : RefCounted
 			case 8: PaintPanel(c, r, cur, Level.GlassGlyph); break;
 			case 9: PaintPanel(c, r, cur, Level.DoorGlyph); break;
 			case 10: _edit.Set(c, r, cur == '!' ? '.' : '!'); break;
+			// Lighting (codes 12, 13): a lamp and a switch are FIXTURES on
+			// floor, one per click, toggling like a chest. Like a sweep node
+			// they never knock through a wall, glass or a door.
+			case 12:
+			case 13:
+			{
+				char glyph = tool == 12 ? Level.LampGlyph : Level.SwitchGlyph;
+				if (cur == '#' || cur == Level.GlassGlyph || cur == Level.DoorGlyph) break;
+				if (Level.IsGuardGlyph(cur))
+				{
+					_edit.Routes.Remove(cur);
+					if (_selectedGuard == cur) _selectedGuard = 0;
+				}
+				_edit.Set(c, r, cur == glyph ? '.' : glyph);
+				break;
+			}
 			case 11:
 				// A sweep node marks FLOOR the guards should check (Guard_AI.md
 				// §6.3.1): it does not knock through walls, glass or doors, and
@@ -1665,10 +1898,18 @@ public partial class SimBridge : RefCounted
 	/// <summary>Every guard's points together, as the mission select will show.</summary>
 	public int EditorGuardLootTotal => Level.FromText(_edit.ToText()).GuardLootTotal;
 
+	/// <summary>Whether a grid byte is a guard: 'a'..'z' or one of the Latin-1
+	/// letters past them (Level.GuardGlyphs). game/ asks this rather than
+	/// testing a range, since the alphabet is not one range.</summary>
+	public bool IsGuardGlyph(int ch) => ch >= 0 && ch < 256 && Level.IsGuardGlyph((char)ch);
+
+	/// <summary>The guard alphabet, for the editor's issue links.</summary>
+	public string GuardGlyphs => Level.GuardGlyphs;
+
 	/// <summary>Lowest unused guard letter, or 0 when every one is placed.</summary>
 	public int EditorNextGuardId()
 	{
-		for (char ch = Level.GuardFirst; ch <= Level.GuardLast; ch++)
+		foreach (char ch in Level.GuardGlyphs)
 		{
 			bool used = false;
 			for (int i = 0; i < _edit.Grid.Length && !used; i++)
@@ -1741,7 +1982,7 @@ public partial class SimBridge : RefCounted
 	public byte[] EditorGuardIds()
 	{
 		var ids = new List<byte>();
-		for (char ch = Level.GuardFirst; ch <= Level.GuardLast; ch++)
+		foreach (char ch in Level.GuardGlyphs)
 			for (int i = 0; i < _edit.Grid.Length; i++)
 				if (_edit.Grid[i] == ch) { ids.Add((byte)ch); break; }
 		return ids.ToArray();
@@ -1783,6 +2024,20 @@ public partial class SimBridge : RefCounted
 			outp.Add("error: the exit is not reachable from spawn");
 		else if (!built.ExitReachable(glassBlocks: true))
 			outp.Add("warn: the only way out is through glass - reachable, but loudly");
+		// With several exits, the level is completable if ANY is reachable, so a
+		// sealed second exit is a warning naming it, not an error.
+		if (built.Exits.Count > 1 && built.ExitReachable())
+		{
+			for (int k = 0; k < built.Exits.Count; k++)
+			{
+				if (built.ExitReachable(which: k)) continue;
+				var e = built.Exits[k];
+				outp.Add($"warn: exit at ({e.X / Level.CellFx},{e.Y / Level.CellFx}) is not reachable from spawn");
+			}
+		}
+		int blobs = CountExitBlobs(built);
+		if (blobs > Level.MaxExits)
+			outp.Add($"warn: {blobs} separate exits - only the first {Level.MaxExits} count, the rest are floor");
 
 		// A door is a leaf in a WALL. One standing in open floor is a door you
 		// walk round, and a one-cell door is one nobody fits through (22 px of
@@ -1820,6 +2075,35 @@ public partial class SimBridge : RefCounted
 
 		if (ids.Length == 0) outp.Add("info: no guards placed");
 
+		// Lighting. A lamp on a fully lit level lights nothing; a switch with
+		// no lamp in its room does nothing; one in open floor is hard to find.
+		if (built.AmbientQ8 >= Fx.One && (built.Lamps.Count > 0 || built.Switches.Count > 0))
+			outp.Add("warn: lamps and switches do nothing on a fully lit level - set ambient (D)");
+		foreach (var (c, r) in built.Switches)
+		{
+			var room = built.RoomOf(c, r);
+			bool wired = false;
+			foreach (var (lc, lr) in built.Lamps) if (room[lr * built.W + lc]) wired = true;
+			if (!wired) outp.Add($"warn: switch at ({c},{r}) has no lamp in its room - it does nothing");
+			bool wall = false;
+			foreach (var (dc, dr) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+				if (!built.InBounds(c + dc, r + dr) || built.At(c + dc, r + dr) == '#') wall = true;
+			if (!wall) outp.Add($"info: switch at ({c},{r}) is not against a wall");
+		}
+		if (built.AmbientQ8 < Fx.One)
+		{
+			var map = LightMap.AtRest(built);
+			foreach (var e in built.Exits)
+			{
+				int ex = e.X + e.W / 2, ey = e.Y + e.H / 2;
+				if (map.LightAt(ex, ey) == 0)
+					outp.Add($"info: the exit at ({e.X / Level.CellFx},{e.Y / Level.CellFx}) is in pitch dark");
+			}
+			foreach (var ch in built.Chests)
+				if (ch.Objective && map.LightAt(ch.X, ch.Y) == 0)
+					outp.Add($"info: the objective at ({ch.X / Level.CellFx},{ch.Y / Level.CellFx}) is in pitch dark");
+		}
+
 		// A sweep node nobody can walk to is a node the sweep ignores.
 		if (built.SweepNodes.Count > 0)
 		{
@@ -1851,6 +2135,37 @@ public partial class SimBridge : RefCounted
 
 		outp.Add($"info: {EditorWallCellCount()} wall cells merge to {EditorMergedRectCount()} rects");
 		return outp.ToArray();
+	}
+
+	/// <summary>Separate 8-connected blobs of 'X', UNCAPPED -- Level.Exits
+	/// stops at MaxExits, and the point here is to say what it dropped.</summary>
+	private static int CountExitBlobs(Level L)
+	{
+		var seen = new bool[L.W * L.H];
+		var stack = new Stack<int>();
+		int blobs = 0;
+		for (int i = 0; i < L.Grid.Length; i++)
+		{
+			if (L.Grid[i] != 'X' || seen[i]) continue;
+			blobs++;
+			seen[i] = true;
+			stack.Push(i);
+			while (stack.Count > 0)
+			{
+				int cur = stack.Pop();
+				int c = cur % L.W, r = cur / L.W;
+				for (int dr = -1; dr <= 1; dr++)
+					for (int dc = -1; dc <= 1; dc++)
+					{
+						if (!L.InBounds(c + dc, r + dr)) continue;
+						int n = (r + dr) * L.W + c + dc;
+						if (seen[n] || L.Grid[n] != 'X') continue;
+						seen[n] = true;
+						stack.Push(n);
+					}
+			}
+		}
+		return blobs;
 	}
 
 	/// <summary>Both ends of the panel butt against wall: the cells just past

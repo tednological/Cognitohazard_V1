@@ -575,10 +575,11 @@ public sealed partial class SimWorld
 			if (solo.Members.Count == 1) TryMerge(solo);
 		}
 
-		// With enough men, the group nearest the exit watches it.
+		// With enough men, the group nearest the exit watches it. On a level
+		// with several, that is the one nearest the objective (Level.WatchedExit).
 		if (mobile.Count >= Tune.ExitWatchMinMobile && Net.Groups.Count >= 2)
 		{
-			int exitCell = Level.Nav.NearestPassable(Level.Exit.X + Level.Exit.W / 2, Level.Exit.Y + Level.Exit.H / 2);
+			int exitCell = Level.Nav.NearestPassable(Level.WatchedExit.X + Level.WatchedExit.W / 2, Level.WatchedExit.Y + Level.WatchedExit.H / 2);
 			if (exitCell >= 0)
 			{
 				Paths.Flood(exitCell, int.MaxValue);
@@ -663,7 +664,7 @@ public sealed partial class SimWorld
 	{
 		var map = Sweep;
 		if (map == null || !FloodFrom(Guards[grp.Members[0]])) return false;
-		int ex = Level.Exit.X + Level.Exit.W / 2, ey = Level.Exit.Y + Level.Exit.H / 2;
+		int ex = Level.WatchedExit.X + Level.WatchedExit.W / 2, ey = Level.WatchedExit.Y + Level.WatchedExit.H / 2;
 		int exitR = Tune.ExitWatchCells * Level.CellFx;
 		int focusR = Tune.SweepFocusCells * Level.CellFx;
 
@@ -698,7 +699,7 @@ public sealed partial class SimWorld
 	{
 		x = 0; y = 0;
 		if (grp.Target >= 0 && Sweep != null) { x = Sweep.X[grp.Target]; y = Sweep.Y[grp.Target]; return true; }
-		if (grp.Target == -2) { x = Level.Exit.X + Level.Exit.W / 2; y = Level.Exit.Y + Level.Exit.H / 2; return true; }
+		if (grp.Target == -2) { x = Level.WatchedExit.X + Level.WatchedExit.W / 2; y = Level.WatchedExit.Y + Level.WatchedExit.H / 2; return true; }
 		return false;
 	}
 
@@ -906,6 +907,15 @@ public sealed partial class SimWorld
 		}
 		if (e.RadioMt < 0 || e.RadioMt > Tune.RadioTicks * Actor.Mt) { e.RadioMt = 0; repaired = true; }
 		if (e.FearMt < 0 || e.FearMt > Tune.FearTicks * Actor.Mt) { e.FearMt = 0; repaired = true; }
+		if ((int)e.Weapon < 0 || (int)e.Weapon >= WeaponCatalog.Count) { e.Weapon = WeaponId.Glock; repaired = true; }
+		{
+			var spec = WeaponCatalog.Get(e.Weapon);
+			if (e.Mag < 0 || e.Mag > spec.Magazine) { e.Mag = spec.Magazine; repaired = true; }
+			if (e.BurstShots < 0 || e.BurstShots >= GuardBurst(in spec)) { e.BurstShots = 0; repaired = true; }
+			if (e.ReloadMt < 0 || e.ReloadMt > spec.ReloadTicks * Actor.Mt) { e.ReloadMt = 0; repaired = true; }
+			int spinCap = spec.SpinUpTicks * Actor.Mt;
+			if (e.SpinMt < 0 || e.SpinMt > spinCap) { e.SpinMt = 0; repaired = true; }
+		}
 
 		bool needsSquad = e.Task == GuardTask.HoldForBackup || e.Task == GuardTask.Rally || e.Task == GuardTask.Assault;
 		if (!TaskFits(e.State, e.Task)
@@ -955,6 +965,10 @@ public sealed partial class SimWorld
 		// ---- perception (spec §8.2, unchanged) ---------------------------
 		int stim = 0;
 		int q = p.Alive ? Perception.SeesPoint(Opaque, e, p.X, p.Y, range, half) : 0;
+		// Light (lighting plan §3.1): darkness at the player shortens how far he
+		// can make them out and slows him inside that. Identity when lit.
+		if (q > 0 && Light != null)
+			q = Perception.InLight(q, Fx.Dist(p.X, p.Y, e.X, e.Y), range, PlayerLightQ8);
 		if (q > 0)
 		{
 			stim = Perception.StimulusPerTick(q, p.MovedFx > 0, p.MoveTier, alerted);
@@ -975,7 +989,11 @@ public sealed partial class SimWorld
 		{
 			var body = Guards[b];
 			if (body == e || body.Found || !body.Prone) continue;
-			if (Perception.SeesPoint(Opaque, e, body.X, body.Y, Tune.BodyRange, half) > 0)
+			// A body in the dark is found late (plan §3.2): only as close as
+			// the light on it allows, or his own torch.
+			int bodyRange = Light == null ? Tune.BodyRange
+				: Perception.DarkReach(Tune.BodyRange, BodyLight(e, body), Tune.BodyDarkRange);
+			if (Perception.SeesPoint(Opaque, e, body.X, body.Y, bodyRange, half) > 0)
 			{
 				BodyFound(e, body);
 				break;
@@ -1014,15 +1032,23 @@ public sealed partial class SimWorld
 			e.FearMt -= w;
 			if (e.FearMt < 0) e.FearMt = 0;
 			e.SnapMt = 0;
-			if (e.Heat > 0) { e.Heat -= Fx.PerTick(Tune.GuardHeatDecayPerSec, w); if (e.Heat < 0) e.Heat = 0; }
+			if (e.Heat > 0)
+			{
+				e.Heat -= Fx.PerTick(WeaponCatalog.Get(e.Weapon).HeatDecayPerSec, w);
+				if (e.Heat < 0) e.Heat = 0;
+			}
 			if (e.RecoilQ8 > 0) { e.RecoilQ8 -= Fx.PerTick(Fx.One * 7, w); if (e.RecoilQ8 < 0) e.RecoilQ8 = 0; }
 			return;
 		}
 
 		// ---- snap sight (Guard_AI.md §5.1) -------------------------------
 		// Close, in the cone and in plain view: recognised, not accumulated.
+		// In the dark the snap range shrinks with the light, down to
+		// DarkSeeRange (plan §8), or snap sight would undo the dark.
+		int snapRange = Light == null ? Tune.SnapSightRange
+			: Perception.DarkReach(Tune.SnapSightRange, PlayerLightQ8, Tune.DarkSeeRange);
 		if (hasLos && e.State != GuardState.Combat
-			&& Fx.Dist(p.X, p.Y, e.X, e.Y) <= Tune.SnapSightRange)
+			&& Fx.Dist(p.X, p.Y, e.X, e.Y) <= snapRange)
 		{
 			e.SnapMt += w;
 			if (e.SnapMt >= Tune.SnapReactTicks * Actor.Mt && e.AwAcc < Tune.AwEngage * Actor.Mt)
@@ -1086,9 +1112,10 @@ public sealed partial class SimWorld
 		// ---- behaviour ---------------------------------------------------
 		int wasFacing = e.Facing, wasX = e.X, wasY = e.Y;
 
+		bool held = false;
 		switch (e.Task)
 		{
-			case GuardTask.Engage: Behave_Engage(e, w, hasLos); break;
+			case GuardTask.Engage: held = Behave_Engage(e, w, hasLos); break;
 			case GuardTask.Converge: Behave_Converge(e, w); break;
 			case GuardTask.Assault: Behave_Assault(e, w); break;
 			case GuardTask.SearchLkp: Behave_SearchLkp(e, w); break;
@@ -1112,12 +1139,8 @@ public sealed partial class SimWorld
 		// the same reason the player does.
 		StepSway(e, Brad.Norm(e.Facing - wasFacing), Fx.Hypot(e.X - wasX, e.Y - wasY), w);
 
-		// And the sustained-fire term cools between bursts.
-		if (e.Heat > 0)
-		{
-			e.Heat -= Fx.PerTick(Tune.GuardHeatDecayPerSec, w);
-			if (e.Heat < 0) e.Heat = 0;
-		}
+		// And the weapon: heat cools, reloads finish, a minigun winds down.
+		StepGuardWeapon(e, w, held);
 
 		if (e.RecoilQ8 > 0)
 		{
@@ -1172,6 +1195,7 @@ public sealed partial class SimWorld
 		int ty = e.HasLkp ? e.LkpY : e.HomeY;
 		if (Fx.Dist(tx, ty, e.X, e.Y) < Tune.LkpReach || e.TaskMt >= Tune.InvestigateMaxTicks * Actor.Mt)
 		{
+			TryRestoreLights(e);
 			SetTask(e, GuardTask.LookAround);
 			e.TaskFacing = e.Facing;
 			return;
@@ -1635,26 +1659,44 @@ public sealed partial class SimWorld
 	// =====================================================================
 
 	/// <summary>
-	/// A guard's cone, built from the same three terms as the player's: base,
-	/// sustained fire, and how hard the weapon is being swung. Guards carry no
-	/// loadout, so the constants are flat rather than per-weapon.
+	/// A guard's cone: his WEAPON's three terms -- base, sustained fire, and
+	/// how hard it is being swung -- plus <see cref="Tune.GuardSpreadPenalty"/>,
+	/// the marksmanship a guard does not have. The penalty is set so a cold,
+	/// still guard with an AK draws exactly the flat cone every guard used to.
 	/// </summary>
-	private static int GuardSpreadWidth(Actor e)
-		=> Tune.GuardSpreadBase
-		 + (int)(((long)e.Heat * Tune.GuardSpreadPerHeat) >> Fx.Shift)
-		 + (int)(((long)e.SwayQ8 * Tune.GuardSpreadPerSway) >> Fx.Shift);
+	private static int GuardSpreadWidth(Actor e, in WeaponSpec spec)
+		=> spec.SpreadBase + Tune.GuardSpreadPenalty
+		 + (int)(((long)e.Heat * spec.SpreadPerHeat) >> Fx.Shift)
+		 + (int)(((long)e.SwayQ8 * spec.SpreadPerSway) >> Fx.Shift);
 
-	private void Behave_Engage(Actor e, int w, bool hasLos)
+	/// <summary>Rounds in one burst: as many as the weapon cycles in
+	/// <see cref="Tune.GuardBurstTicks"/>, and never fewer than one. An AK
+	/// fires three, an MP7 six, a Vulcan twelve; a pump gun or a bolt gun one.</summary>
+	public static int GuardBurst(in WeaponSpec spec)
+		=> spec.FireCooldownTicks <= 0 || Tune.GuardBurstTicks < spec.FireCooldownTicks ? 1
+			: Tune.GuardBurstTicks / spec.FireCooldownTicks;
+
+	/// <summary>
+	/// Returns whether the guard held his trigger this tick -- on target, in
+	/// sight and not reloading -- which is what keeps a rotary weapon spinning
+	/// and a burst going (the tail of StepGuard reads it).
+	/// </summary>
+	private bool Behave_Engage(Actor e, int w, bool hasLos)
 	{
 		var p = Player;
+		var spec = WeaponCatalog.Get(e.Weapon);
 		int toP = Brad.Atan2(p.Y - e.Y, p.X - e.X);
 		e.Facing = Brad.TurnToward(e.Facing, toP, Tune.TurnEngage * w / Fx.ScaleDen, Tune.TurnDen);
 
 		e.AimMt -= w;
 		e.CooldownMt -= w;
 
+		// A man with grenades keeps back past his own blast; everyone else
+		// holds the band the spec asks for.
+		int near = spec.Grenade ? Tune.GuardGrenadeMinDist : Tune.EngageNearDist;
+		int far = near + (Tune.EngageFarDist - Tune.EngageNearDist);
 		int dist = Fx.Dist(p.X, p.Y, e.X, e.Y);
-		int strafe = dist > Tune.EngageFarDist ? 1 : (dist < Tune.EngageNearDist ? -1 : 0);
+		int strafe = dist > far ? 1 : (dist < near ? -1 : 0);
 		if (strafe != 0)
 		{
 			Brad.SinCos(e.Facing, out int sin, out int cos);
@@ -1664,26 +1706,126 @@ public sealed partial class SimWorld
 				(int)(((long)step * sin) >> Brad.UnitShift), e.Radius);
 		}
 
-		if (e.AimMt <= 0 && e.CooldownMt <= 0 && hasLos)
+		bool held = e.AimMt <= 0 && hasLos && e.ReloadMt <= 0
+			&& !(spec.Grenade && dist < Tune.GuardGrenadeMinDist);
+		if (!held) return false;
+
+		// Spooling costs nothing and fires nothing, exactly as for the player.
+		if (spec.SpinUpTicks > 0)
 		{
-			// Sustained fire costs a guard his accuracy before the shot leaves,
-			// exactly as it does the player's (the prototype adds heat first and
-			// draws the cone second — ruling #4 keeps that ordering).
-			e.Heat += Tune.GuardHeatPerShot;
-			if (e.Heat > Tune.HeatMax) e.Heat = Tune.HeatMax;
+			int cap = spec.SpinUpTicks * Actor.Mt;
+			e.SpinMt += w;
+			if (e.SpinMt > cap) e.SpinMt = cap;
+			if (e.SpinMt < cap) return true;
+		}
+		if (e.CooldownMt > 0) return true;
 
-			int width = GuardSpreadWidth(e);
+		if (e.Mag <= 0)
+		{
+			e.ReloadMt = spec.ReloadTicks * Actor.Mt;
+			e.BurstShots = 0;
+			return false;
+		}
+		GuardFire(e, in spec);
+		return true;
+	}
+
+	/// <summary>
+	/// One round (or shell, or bolt, or grenade) from a guard's own weapon,
+	/// through the same projectile machinery as the player's. A shell is
+	/// CHOKED like the player's; a bolt carries its arc and a penetrator its
+	/// walls; a grenade is thrown from his centre and blasts on its fuse, and
+	/// its fragments are no kinder to his friends than yours are. What he does
+	/// not get is a headshot or an aim lock: those are the player's.
+	/// </summary>
+	private void GuardFire(Actor e, in WeaponSpec spec)
+	{
+		e.Mag--;
+		// Sustained fire costs a guard his accuracy before the shot leaves,
+		// exactly as it does the player's (ruling #4's ordering).
+		e.Heat += spec.HeatPerShot;
+		if (e.Heat > Tune.HeatMax) e.Heat = Tune.HeatMax;
+
+		int width = GuardSpreadWidth(e, in spec);
+		Brad.SinCos(e.Facing, out int sin, out int cos);
+		int mx = e.X + (int)(((long)spec.MuzzleOffset * cos) >> Brad.UnitShift);
+		int my = e.Y + (int)(((long)spec.MuzzleOffset * sin) >> Brad.UnitShift);
+
+		if (spec.Grenade)
+		{
 			int heading = (e.Facing + Rng.NextSigned(width / 2)) & Brad.Mask;
-			Brad.SinCos(e.Facing, out int sin, out int cos);
-			int mx = e.X + (int)(((long)Tune.MuzzleOffset * cos) >> Brad.UnitShift);
-			int my = e.Y + (int)(((long)Tune.MuzzleOffset * sin) >> Brad.UnitShift);
+			var g = Bullets.Spawn(e.X, e.Y, heading, spec.BulletSpeed, spec.BulletTicks, false,
+				spec.Damage, spec.ArmourPierce);
+			g.Kind = BulletKind.Grenade;
+			Log.Add(SimEventKind.GrenadeThrown, e.X, e.Y, heading);
+		}
+		else
+		{
+			int pellets = spec.Pellets < 1 ? 1 : spec.Pellets;
+			int slice = pellets > 1 ? width / pellets : 0;
+			int first = -(slice * (pellets - 1)) / 2;
+			int jitter = pellets > 1 ? (slice * Tune.ChokeJitterQ8) >> Fx.Shift : width / 2;
+			for (int i = 0; i < pellets; i++)
+			{
+				int heading = (e.Facing + first + slice * i + Rng.NextSigned(jitter)) & Brad.Mask;
+				var b = Bullets.Spawn(mx, my, heading, spec.BulletSpeed, spec.BulletTicks, false,
+					spec.Damage, spec.ArmourPierce);
+				if (spec.ArcTargets > 0) { b.Kind = BulletKind.Arc; b.Arc = spec.ArcTargets; }
+				else if (spec.WallPierce > 0) { b.Kind = BulletKind.Pierce; b.WallsLeft = spec.WallPierce; }
+			}
+		}
+		// Value is the weapon, so presentation can tell a pistol from a minigun.
+		Log.Add(SimEventKind.GuardShot, mx, my, e.Facing, (int)e.Weapon);
+		e.RecoilQ8 = Fx.One;
 
-			Bullets.Spawn(mx, my, heading, Tune.GuardBulletSpeed, Tune.GuardBulletTicks, false,
-				Tune.GuardDamage);
-			Log.Add(SimEventKind.GuardShot, mx, my, e.Facing);
-			e.RecoilQ8 = Fx.One;
-			e.CooldownMt = Tune.EngageCooldownTicks * Actor.Mt;
+		e.BurstShots++;
+		if (e.BurstShots >= GuardBurst(in spec))
+		{
+			// The burst is over: a pause, then back on target.
+			e.BurstShots = 0;
+			int pause = spec.FireCooldownTicks > Tune.EngageCooldownTicks
+				? spec.FireCooldownTicks : Tune.EngageCooldownTicks;
+			e.CooldownMt = pause * Actor.Mt;
 			e.AimMt = Tune.ReaimTicks * Actor.Mt;
+		}
+		else
+		{
+			e.CooldownMt = spec.FireCooldownTicks * Actor.Mt;
+		}
+	}
+
+	/// <summary>
+	/// A guard's weapon between shots, every tick after his behaviour: heat
+	/// bleeds at the weapon's own rate, a reload runs out and refills the
+	/// magazine, a rotary weapon winds down unless the trigger was held, a
+	/// burst ends when the trigger is let go, and a guard out of the fight
+	/// tops up a part-spent magazine.
+	/// </summary>
+	private static void StepGuardWeapon(Actor e, int w, bool held)
+	{
+		var spec = WeaponCatalog.Get(e.Weapon);
+		if (e.Heat > 0)
+		{
+			e.Heat -= Fx.PerTick(spec.HeatDecayPerSec, w);
+			if (e.Heat < 0) e.Heat = 0;
+		}
+		if (e.ReloadMt > 0)
+		{
+			e.ReloadMt -= w;
+			if (e.ReloadMt <= 0) { e.ReloadMt = 0; e.Mag = spec.Magazine; }
+		}
+		else if (e.State != GuardState.Combat && e.Mag < spec.Magazine)
+		{
+			e.ReloadMt = spec.ReloadTicks * Actor.Mt;
+		}
+		if (!held)
+		{
+			e.BurstShots = 0;
+			if (e.SpinMt > 0)
+			{
+				e.SpinMt -= (int)(((long)w * Tune.SpinDownQ8) >> Fx.Shift);
+				if (e.SpinMt < 0) e.SpinMt = 0;
+			}
 		}
 	}
 

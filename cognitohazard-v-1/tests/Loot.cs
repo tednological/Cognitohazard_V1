@@ -21,7 +21,7 @@ public static class Loot
 
 	private static readonly string[] Shipped =
 		{ "substation_4.txt", "relay_nine.txt", "terminal_twelve.txt",
-		  "meridian_glasshouse.txt", "vault_row.txt" };
+		  "meridian_glasshouse.txt", "vault_row.txt", "vault_row_night.txt", "zz_black_site.txt" };
 
 	private static void Rarities()
 	{
@@ -267,5 +267,24 @@ public static class Loot
 			if (x.KitPoints.Count != 0) throw new Exception($"{x.KitPoints.Count} parsed");
 			new SimWorld(x, 1);
 		});
+
+		// theme: names ART (game/level_art.gd), so it round-trips, is cleaned
+		// rather than refused, and moves no hash.
+		var themed = Level.FromText(text);
+		H.Check("substation_4 declares the industrial theme", themed.Theme == "industrial", themed.Theme);
+		string bare = text.Replace("theme: industrial\n", "");
+		H.Check("a level with no theme line still round-trips byte for byte",
+			bare != text && Level.FromText(bare).ToText() == bare && Level.FromText(bare).Theme == "");
+		var sci = Level.FromText(text.Replace("theme: industrial", "theme:  Scientific  "));
+		H.Check("a theme is lower-cased, trimmed and round-trips",
+			sci.Theme == "scientific" && Level.FromText(sci.ToText()).Theme == "scientific");
+		H.Check("a garbage theme is cut, never thrown",
+			Level.FromText("theme: ../../etc passwd\n" + bare).Theme == ""
+			&& Level.CleanTheme(new string('a', 500)).Length == Level.MaxThemeLength
+			&& Level.CleanTheme(null) == "");
+		var wa = new SimWorld(Level.FromText(bare), 11);
+		var wb = new SimWorld(sci, 11);
+		for (int t = 0; t < 120; t++) { wa.Step(default); wb.Step(default); }
+		H.Check("the theme moves no hash", wa.StateHash() == wb.StateHash());
 	}
 }

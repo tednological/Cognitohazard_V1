@@ -15,6 +15,12 @@ namespace Cognitohazard.Tests;
 /// </summary>
 public static class Health
 {
+	// A fixture round driven straight into the player: the old flat guard
+	// rifle's figures. Guards now fire their own weapons (Actor.Weapon), and
+	// these tests are about what a round does to a PLAYER, not who fired it.
+	private const int FixtureRoundSpeed = 563200;   // 2200 px/s
+	private const int FixtureRoundDamage = 50;
+
 	private const int GW = Level.GW, GH = Level.GH;
 
 	private static char[] Room()
@@ -148,7 +154,6 @@ public static class Health
 			("mp7", WeaponCatalog.Get(WeaponId.Mp7).Damage, new[] { 2, 3, 4, 5 }),
 			("ak47", WeaponCatalog.Get(WeaponId.Ak47).Damage, new[] { 2, 3, 3, 4 }),
 			("saw", WeaponCatalog.Get(WeaponId.Saw).Damage, new[] { 2, 3, 4, 5 }),
-			("guard rifle", Tune.GuardDamage, new[] { 2, 3, 4, 5 }),
 		};
 
 		Console.WriteLine();
@@ -251,7 +256,7 @@ public static class Health
 		int before = w3.Player.Armour;
 		// Drive a guard bullet into the player directly through the sim.
 		w3.Bullets.Spawn(w3.Player.X - 20 * Fx.One, w3.Player.Y, 0,
-			Tune.GuardBulletSpeed, 10, false, Tune.GuardDamage);
+			FixtureRoundSpeed, 10, false, FixtureRoundDamage);
 		for (int i = 0; i < 5; i++) w3.Step(new InputFrame(0, 0, 0, 0));
 		H.Check("being shot costs armour", w3.Player.Armour < before,
 			$"{before} -> {w3.Player.Armour}");
@@ -279,7 +284,7 @@ public static class Health
 		for (int shot = 0; shot < 6; shot++)
 		{
 			w.Bullets.Spawn(w.Player.X - 20 * Fx.One, w.Player.Y, 0,
-				Tune.GuardBulletSpeed, 10, false, Tune.GuardDamage);
+				FixtureRoundSpeed, 10, false, FixtureRoundDamage);
 			for (int i = 0; i < 4; i++)
 			{
 				w.Step(new InputFrame(0, 0, 0, 0));

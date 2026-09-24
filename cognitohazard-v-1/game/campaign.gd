@@ -43,6 +43,27 @@ var money: int = 0
 var runs: int = 0
 var extractions: int = 0
 
+## LIFETIME figures, for the victory screen: every run adds to them, a death
+## included -- the guards you dropped on the way down still dropped. Kept here
+## beside the money because they have the same lifetime (New Game wipes both)
+## and the same rule: presentation only, no hash. Each is its own save line,
+## so a ledger written before they existed loads them as zero.
+var kills: int = 0
+var subdues: int = 0
+var shots: int = 0
+var ticks: int = 0
+var provable: int = 0
+var unprovable: int = 0
+var destroyed: int = 0
+var earned: int = 0
+var recovered: int = 0
+
+## The game is WON by completing the final mission (missions.gd FINAL_LEVEL).
+## `won_on_run` is the run number it first happened on, 0 for never; winning
+## again counts, but does not move it.
+var victories: int = 0
+var won_on_run: int = 0
+
 ## What the last settled run paid, broken down, so the debrief can show its
 ## working rather than a single number the player has to trust.
 var last_mission: int = 0
@@ -59,6 +80,13 @@ func total_of_last() -> int:
 ## Missions attempted and completed, by level FILE NAME -- titles are not
 ## unique and can be renamed. {file: {runs, completions, best}}.
 var missions: Dictionary = {}
+
+
+## The lifetime counters, by property name, in save-file order. Each is one
+## `key N` line; the parser takes any of them, clamped at zero.
+const STAT_KEYS: Array[String] = ["kills", "subdues", "shots", "ticks",
+	"provable", "unprovable", "destroyed", "earned", "recovered", "victories",
+	"won_on_run"]
 
 
 func mission_record(file: String) -> Dictionary:
@@ -113,6 +141,8 @@ func settle(file: String, completed: bool, mission_pay: int, provable: int,
 
 	var total: int = total_of_last()
 	earn(total)
+	earned += total
+	recovered += items
 	extractions += 1
 	runs += 1
 	_note_mission(file, completed, total)
@@ -130,6 +160,41 @@ func _note_mission(file: String, completed: bool, paid: int) -> void:
 	missions[file] = rec
 
 
+## What a run did, whatever it ended in. Called once per settled run, beside
+## settle() or settle_loss(). Records only count when they came OUT: dying
+## scores zero across all three (spec §6.3), so pass zeros for a death.
+func note_run(run_kills: int, run_subdues: int, run_shots: int, run_ticks: int,
+		run_provable: int, run_unprovable: int, run_destroyed: int) -> void:
+	kills += maxi(0, run_kills)
+	subdues += maxi(0, run_subdues)
+	shots += maxi(0, run_shots)
+	ticks += maxi(0, run_ticks)
+	provable += maxi(0, run_provable)
+	unprovable += maxi(0, run_unprovable)
+	destroyed += maxi(0, run_destroyed)
+
+
+## The final mission was completed. Call AFTER settle(), so `runs` already
+## counts the winning run.
+func win() -> void:
+	victories += 1
+	if won_on_run == 0:
+		won_on_run = runs
+
+
+## Runs that ended in a death. Every run is either an extraction or a death.
+func deaths() -> int:
+	return maxi(0, runs - extractions)
+
+
+## Completions across every mission, from the per-mission history.
+func completions() -> int:
+	var n: int = 0
+	for f in missions:
+		n += int(missions[f]["completions"])
+	return n
+
+
 ## A run that ended in the dirt. Counted, paid nothing.
 func settle_loss(file: String = "") -> void:
 	last_completed = false
@@ -144,6 +209,8 @@ func settle_loss(file: String = "") -> void:
 func to_text() -> String:
 	var out: String = "campaign 2\nmoney %d\nruns %d\nextractions %d\n" % [
 		money, runs, extractions]
+	for key in STAT_KEYS:
+		out += "%s %d\n" % [key, get(key)]
 	# Sorted, so a save file diffs cleanly between sessions.
 	var files: Array = missions.keys()
 	files.sort()
@@ -159,6 +226,8 @@ func from_text(text: String) -> int:
 	money = 0
 	runs = 0
 	extractions = 0
+	for key in STAT_KEYS:
+		set(key, 0)
 	missions = {}
 	if text.is_empty():
 		return 0
@@ -192,7 +261,11 @@ func from_text(text: String) -> int:
 			"money": money = maxi(0, f[1].to_int())
 			"runs": runs = maxi(0, f[1].to_int())
 			"extractions": extractions = maxi(0, f[1].to_int())
-			_: skipped += 1
+			_:
+				if f[0] in STAT_KEYS:
+					set(f[0], maxi(0, f[1].to_int()))
+				else:
+					skipped += 1
 	return skipped
 
 

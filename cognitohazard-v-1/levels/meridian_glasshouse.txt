@@ -1,5 +1,6 @@
 name: Meridian Glasshouse
-# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records  C chest  ! objective  a-z guard start  * sweep node
+theme: scientific
+# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records  C chest  ! objective  a-z guard start  * sweep node  L lamp  S switch
 grid:
 ################################################################
 #.....#..........#..........#..........#..........#............#

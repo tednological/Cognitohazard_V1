@@ -555,8 +555,12 @@ public static class Inventory
 		H.Eq("Compromised is 41", (int)SimEventKind.Compromised, 41);
 		// Appended with fear.
 		H.Eq("Afraid is 42", (int)SimEventKind.Afraid, 42);
+		// Appended with lighting.
+		H.Eq("LampBroken is 43", (int)SimEventKind.LampBroken, 43);
+		H.Eq("LightsOn is 44", (int)SimEventKind.LightsOn, 44);
+		H.Eq("LightsOff is 45", (int)SimEventKind.LightsOff, 45);
 		H.Eq("and that is the last kind",
-			System.Enum.GetValues(typeof(SimEventKind)).Length, 43);
+			System.Enum.GetValues(typeof(SimEventKind)).Length, 46);
 
 		// The ones already mirrored, so an insertion anywhere above is caught too.
 		H.Eq("Headshot is still 20", (int)SimEventKind.Headshot, 20);

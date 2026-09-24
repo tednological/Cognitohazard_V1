@@ -6,9 +6,25 @@ corner hides you too, a lit corridor exposes you, and the player can change
 which is which: shoot out a lamp, throw a switch, shut a door on a lit room,
 turn a torch on or off. Guards can use light against you as well.
 
-Status: **PLAN ONLY — nothing built.** Every number marked *(proposal)* is a
-starting value to tune in play, not a spec constant. This is a deliberate
-deviation from spec §9, and CLAUDE.md must record it when it lands.
+Status: **L0-L3, L5 and L6 BUILT; L4 (the player's toggled torch) is not.**
+CLAUDE.md "Lighting" is the contract as built. Every number marked
+*(proposal)* is a starting value to tune in play, not a spec constant. This is
+a deliberate deviation from spec §9, recorded in CLAUDE.md.
+
+Where the build departs from this plan, on purpose:
+- Darkness shortens a guard's sight RANGE (toward `DarkSightRange`, 180 px in
+  pitch dark) as well as scaling the stimulus. With the q-floor alone a guard
+  in combat kept `hasLos` in the dark, so darkness could never break a fight
+  off. Up close (`DarkSeeRange`) nothing changes, so the dark still never blinds.
+- No darkness child node or multiply material: an overlay of alpha a with a
+  normal blend multiplies by (1 - a), drawn in main's own world pass at two
+  texels per cell (a wall takes the light of the face it looks at).
+- Switches ride `DoorPick` (index after the panels) rather than a new
+  `UsePick`: same `u` token, no new Step argument.
+- The flash's seen-range scales with the weapon's report (2x, capped at
+  `FlashSeenRange`) in place of a flash-hider attachment.
+- The dark level is a NEW floor (`vault_row_night.txt`), not a rework of
+  Vault Row, so the lit floor stays as it was.
 
 Depends on: **glass and doors** (built — `=` and `+`, `SimWorld.Panels`,
 `Solid`/`Opaque`). Light travels exactly where sight travels, so it reuses the

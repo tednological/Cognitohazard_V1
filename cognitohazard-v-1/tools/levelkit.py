@@ -10,18 +10,31 @@ Glyphs (sim/Level.cs is the authority):
     #  wall      .  floor     =  glass     +  door
     @  spawn     X  exit      $  records   C  chest    !  objective
     a-z guard start      *  sweep node (Guard AI: where a hunting squad looks)
+    L  lamp      S  light switch (lighting: floor to everything, they only light)
 
 Everything here is deterministic: the same script writes the same bytes.
 """
 from collections import deque
 
 WALL, FLOOR, GLASS, DOOR = '#', '.', '=', '+'
+LAMP, SWITCH = 'L', 'S'
 HEADER = ("# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records"
-          "  C chest  ! objective  a-z guard start  * sweep node")
+          "  C chest  ! objective  a-z guard start  * sweep node  L lamp  S switch")
 
 # Must match sim/Level.cs.
+# The guard alphabet (Level.GuardGlyphs): 'a'..'z', then the Latin-1 letters
+# U+00C0..U+00FF without the multiplication and division signs. 88 guards.
+GUARD_GLYPHS = "abcdefghijklmnopqrstuvwxyz" + "".join(
+    chr(c) for c in range(0xC0, 0x100) if c not in (0xD7, 0xF7))
+
+
+def is_guard(ch):
+    return ch in GUARD_GLYPHS
+
+
 GLASS_PANE_CELLS = 4
 DOOR_LEAF_CELLS = 3
+MAX_LOOT = 1_000_000          # Level.MaxLoot
 
 
 class Grid:
@@ -70,6 +83,21 @@ class Grid:
     def door_v(self, c, r, n=2):
         """A door of n cells in a VERTICAL wall, topmost cell at (c, r)."""
         self.vline(c, r, r + n - 1, DOOR)
+
+    def lamp(self, c, r):
+        """A ceiling lamp over a FLOOR cell. Refuses to bury anything."""
+        assert self.at(c, r) == FLOOR, f"lamp at ({c},{r}) is on {self.at(c, r)!r}"
+        self.put(c, r, LAMP)
+
+    def switch(self, c, r):
+        """A light switch: a floor cell against a wall."""
+        assert self.at(c, r) == FLOOR, f"switch at ({c},{r}) is on {self.at(c, r)!r}"
+        self.put(c, r, SWITCH)
+
+    def room(self, cell):
+        """The cells a switch at `cell` controls: its 4-connected region of
+        anything but wall, glass and door (sim/Level.cs RoomOf)."""
+        return self.flood(cell, lambda x: x not in (WALL, GLASS, DOOR))
 
     def route(self, gid, *pts):
         self.routes[gid] = list(pts)
@@ -163,7 +191,7 @@ class Grid:
         def roomy(c, r):
             return all(self.at(c + dc, r + dr) not in blocked
                        for dc in (-1, 0, 1) for dr in (-1, 0, 1))
-        for c, r in self.find(lambda x: 'a' <= x <= 'z'):
+        for c, r in self.find(is_guard):
             if not roomy(c, r):
                 problems.append(f"guard {self.g[r][c]} at ({c},{r}) is crowded by a wall")
         for gid, pts in self.routes.items():
@@ -181,9 +209,18 @@ class Grid:
             for cell in self.find(lambda x, ch=ch: x == ch):
                 if cell not in walk:
                     problems.append(f"{ch!r} at {cell} is unreachable without breaking glass")
-        for cell in self.find(lambda x: 'a' <= x <= 'z'):
+        for cell in self.find(is_guard):
             if cell not in walk:
                 problems.append(f"guard at {cell} is sealed in")
+
+        # Switches: against a wall, and wired to something. A switch whose room
+        # holds no lamp does nothing, which is a bug a player would find first.
+        for c, r in self.find(lambda x: x == SWITCH):
+            if all(self.at(c + dc, r + dr) != WALL
+                   for dc, dr in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                problems.append(f"switch at ({c},{r}) is not against a wall")
+            if not any(self.at(*cell) == LAMP for cell in self.room((c, r))):
+                problems.append(f"switch at ({c},{r}) controls no lamp")
 
         open_cells = set(self.find(lambda x: x not in (WALL, GLASS)))
         sealed = open_cells - walk
@@ -194,22 +231,50 @@ class Grid:
         return walk
 
     # ------------------------------------------------------------- output
-    def write(self, path, name):
+    def write(self, path, name, theme="", ambient=None, loot=None, guard_loot=None,
+              kits=None):
+        """`theme` names the map kit game/level_art.gd dresses the level in
+        (industrial, scientific). Art only: the sim never hashes it.
+        `ambient` (0-100) makes it a DARK level (cognitohazard_lighting_plan.md);
+        None writes no line, which is fully lit.
+        `loot` is the dollars across every supply chest, `guard_loot` each
+        guard's points and `kits` {guard: points} the exceptions (CLAUDE.md,
+        "Loot as money"). None writes no line: the sim's defaults. Lines go
+        where Level.ToText puts them, so an editor save changes nothing."""
         self.check(name)
-        out = [f"name: {name}", HEADER, "grid:"]
+        if ambient is not None:
+            assert 0 <= ambient <= 100, f"ambient {ambient} is not a percentage"
+        elif self.find(lambda x: x in (LAMP, SWITCH)):
+            raise AssertionError(f"{name}: lamps on a fully lit level do nothing")
+        kits = kits or {}
+        for gid in kits:
+            assert self.find(lambda x, gid=gid: x == gid), f"{name}: kit for absent guard {gid}"
+        for v in [loot, guard_loot] + list(kits.values()):
+            assert v is None or 0 <= v <= MAX_LOOT, f"{name}: loot figure {v} out of range"
+        out = [f"name: {name}"] + ([f"theme: {theme}"] if theme else []) + \
+              ([f"loot: {loot}"] if loot is not None else []) + \
+              ([f"guard_loot: {guard_loot}"] if guard_loot is not None else []) + \
+              ([f"ambient: {ambient}"] if ambient is not None else []) + [HEADER, "grid:"]
         out += ["".join(row) for row in self.g]
         for gid in sorted(self.routes):
             pts = self.routes[gid]
             if pts:
                 out.append("> " + gid + " " + " ".join(f"{c},{r}" for c, r in pts))
-        with open(path, "w") as f:
+        for gid in sorted(kits):
+            out.append(f"kit: {gid} {kits[gid]}")
+        # UTF-8 explicitly: guards past 'z' are Latin-1 letters, two bytes on
+        # disk, which is what Level.FromText and Godot both read.
+        with open(path, "w", encoding="utf-8") as f:
             f.write("\n".join(out) + "\n")
 
         count = lambda pred: len(self.find(pred))
         panes = len(self.runs(GLASS))
         doors = len(self.runs(DOOR))
         print(f"{name}: {self.W}x{self.H}, "
-              f"{count(lambda x: 'a' <= x <= 'z')} guards, "
+              f"{count(is_guard)} guards, "
               f"{count(lambda x: x == 'C')} chests, {count(lambda x: x == '$')} caches, "
               f"{count(lambda x: x == '!')} objective(s), "
-              f"{doors} door runs, {panes} glass runs -> {path}")
+              f"{doors} door runs, {panes} glass runs"
+              + (f", ambient {ambient}%, {count(lambda x: x == LAMP)} lamps, "
+                 f"{count(lambda x: x == SWITCH)} switches" if ambient is not None else "")
+              + f" -> {path}")

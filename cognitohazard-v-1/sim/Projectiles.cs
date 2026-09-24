@@ -137,8 +137,11 @@ public sealed class Projectiles
 	/// does not break a pane that is already broken. The caller turns each Glass
 	/// impact into the pane's new state.
 	/// </summary>
+	/// <param name="panes">How many of <paramref name="glass"/> a grenade can
+	/// break: the panes come first and the ceiling lamps after them, and a
+	/// grenade rolls along the floor.</param>
 	public void Step(Rect[] walls, Rect[] glass, bool[] glassIntact, List<Actor> guards,
-		Actor player, int worldScale, List<Impact> impacts)
+		Actor player, int worldScale, List<Impact> impacts, int panes = int.MaxValue)
 	{
 		if (worldScale <= 0) return;
 
@@ -149,7 +152,7 @@ public sealed class Projectiles
 
 			if (b.Kind == BulletKind.Grenade)
 			{
-				StepGrenade(b, walls, glass, glassIntact, worldScale, impacts);
+				StepGrenade(b, walls, glass, glassIntact, worldScale, impacts, panes);
 				b.LifeMt -= worldScale;
 				if (b.LifeMt <= 0)
 				{
@@ -266,7 +269,7 @@ public sealed class Projectiles
 	/// than splitting the step and, at a bounce, indistinguishable from it.
 	/// </summary>
 	private static void StepGrenade(Bullet b, Rect[] walls, Rect[] glass, bool[] glassIntact,
-		int worldScale, List<Impact> impacts)
+		int worldScale, List<Impact> impacts, int panes)
 	{
 		int travelX = Fx.PerTick(b.VX, worldScale);
 		int travelY = Fx.PerTick(b.VY, worldScale);
@@ -297,7 +300,7 @@ public sealed class Projectiles
 			b.X = nx;
 			b.Y = ny;
 
-			for (int k = 0; k < glass.Length; k++)
+			for (int k = 0; k < glass.Length && k < panes; k++)
 			{
 				if (!glassIntact[k]) continue;
 				if (!Geometry.CircleHitsRect(b.X, b.Y, Tune.GrenadeRadius, in glass[k])) continue;

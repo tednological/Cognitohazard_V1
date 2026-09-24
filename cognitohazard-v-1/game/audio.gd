@@ -26,7 +26,10 @@ enum {
 	ZAP, BOOM, TINK, THROW,
 	# Appended with Guard AI v2's radio (Guard_AI.md §9.2). None scale with the
 	# world clock: a radio is not an impact.
-	RADIO_KEY, RADIO_SENT, RADIO_CUT, COMPROMISED
+	RADIO_KEY, RADIO_SENT, RADIO_CUT, COMPROMISED,
+	# Appended with lighting (cognitohazard_lighting_plan.md §9.2). LAMP is an
+	# impact and scales with the world clock; SWITCH is a hand on a wall.
+	LAMP, SWITCH
 }
 
 ## Only these scale with the world clock. Spec §7.4 says "every sound's
@@ -36,7 +39,7 @@ enum {
 ## GLASS joined them because it is an impact too: a pane shot out under
 ## dilation should ring out slow like the round that broke it. ZAP and BOOM are
 ## impacts too: a discharge or a blast under dilation is the moment to hear it.
-const SCALES_WITH_TIME := [SHOT, ESHOT, WALL, FLESH, SUBDUE, GLASS, ZAP, BOOM]
+const SCALES_WITH_TIME := [SHOT, ESHOT, WALL, FLESH, SUBDUE, GLASS, ZAP, BOOM, LAMP]
 
 ## Time-scale buckets for cached rendering. The prototype clamps at 0.25, so
 ## that is the floor here too.
@@ -203,6 +206,22 @@ func _recipe(sound: int, k: float) -> Array:
 				_tone(0.17 / k, 0.14 / k, 3600.0 * k, 3500.0 * k, 0.05, "triangle"),
 				_noise(0.12 / k, 0.40 / k, 6200.0 * k, 3000.0 * k, 0.10, "bandpass", 3.0),
 				_tone(0.28 / k, 0.12 / k, 4700.0 * k, 4600.0 * k, 0.04, "triangle"),
+			]
+		LAMP:
+			# A bulb going: a thin high pop, the fizz of the filament dying,
+			# and a few small shards -- glass's voice, pitched up and shorter.
+			return [
+				_noise(0.0, 0.04 / k, 8800.0 * k, 4200.0 * k, 0.34, "bandpass", 1.8),
+				_tone(0.0, 0.05 / k, 2200.0 * k, 600.0 * k, 0.10, "square"),
+				_noise(0.02 / k, 0.22 / k, 5200.0 * k, 2600.0 * k, 0.07, "bandpass", 6.0),
+				_tone(0.06 / k, 0.08 / k, 6100.0 * k, 6000.0 * k, 0.04, "triangle"),
+				_tone(0.13 / k, 0.07 / k, 5400.0 * k, 5300.0 * k, 0.03, "triangle"),
+			]
+		SWITCH:
+			# A clack: a short hard click and the plate's small knock.
+			return [
+				_noise(0.0, 0.012, 3800.0, 2200.0, 0.30, "bandpass", 2.5),
+				_tone(0.0, 0.04, 260.0, 180.0, 0.10, "square"),
 			]
 		DOOR_OPEN:
 			# The latch, then a low hinge groan rising slightly.

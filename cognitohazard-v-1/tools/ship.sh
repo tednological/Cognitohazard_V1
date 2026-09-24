@@ -59,7 +59,7 @@ echo "== Cognitohazard $VERSION -> $PRESET =="
 
 step "C# build" dotnet build -v quiet
 step "sim" dotnet run --project tests/Cognitohazard.Tests.csproj
-for t in editor_check inventory_check fuzz_check audio_check; do
+for t in editor_check inventory_check fuzz_check audio_check level_art_check; do
 	step "$t" "$GODOT" --headless --path . --script "res://tests/$t.gd"
 done
 step "import" "$GODOT" --headless --path . --import

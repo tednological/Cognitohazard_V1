@@ -2,9 +2,11 @@
 
 110 modular assets, authored and rendered in Blender 4.5.3: **55 per theme,
 330 RGBA PNGs** including color, normal, and emission companions. These are
-an environment asset delivery; the live map renderer/editor has not been
-switched to them. No simulation, levels, collision, saves, or lighting rules
-were changed.
+an environment asset delivery. **Integrated 2026-09-23:** the game draws them
+through `game/level_art.gd`, chosen per level by a `theme:` line (see the
+game's CLAUDE.md, "Level art"). The integration derives everything from the
+existing grid: no collision, sim rule or state hash changed, and no decorative
+lights are placed (light belongs to the lighting plan's lamps).
 
 Open [the two-room preview](previews/tilesets/two_tilesets.png) or
 [the interactive lighting preview](previews/tilesets/lighting_preview.html).

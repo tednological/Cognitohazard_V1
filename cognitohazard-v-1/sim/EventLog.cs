@@ -71,6 +71,13 @@ public enum SimEventKind
 	// APPENDED with fear (Guard_AI.md §4.1). Same rule: on the END.
 	/// <summary>A guard froze in fear. Value: 1 gunfire, 2 an ally's death.</summary>
 	Afraid,
+
+	// APPENDED with lighting (cognitohazard_lighting_plan.md). Same rule: on
+	// the END. LampBroken's Value is the lamp index. LightsOn/LightsOff are at
+	// the switch, Value the switch index, Heading 1 when a GUARD threw it.
+	LampBroken,
+	LightsOn,
+	LightsOff,
 }
 
 public readonly struct SimEvent

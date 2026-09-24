@@ -18,6 +18,7 @@ const GRID := preload("res://game/inventory_grid.gd")
 const CAT := preload("res://game/item_catalog.gd")
 const STASH := preload("res://game/stash.gd")
 const LEVELS := preload("res://game/levels.gd")
+const MISSIONS := preload("res://game/missions.gd")
 const HUD_LAYOUT := preload("res://game/hud_layout.gd")
 const CAMPAIGN := preload("res://game/campaign.gd")
 const TIP := preload("res://game/item_tooltip.gd")
@@ -1412,6 +1413,55 @@ func _check_campaign(b: RefCounted) -> void:
 	_eq("and the per-mission history",
 		int(d.mission_record("m.txt")["runs"]), 3)
 	_eq("including completions", int(d.mission_record("m.txt")["completions"]), 1)
+
+	# ---- lifetime stats and the win (the victory screen reads these) ----
+	var w: RefCounted = CAMPAIGN.new()
+	w.settle("a.txt", true, 400, 2, 1, 0, 3)
+	w.note_run(4, 1, 30, 600, 2, 1, 0)
+	w.settle_loss("b.txt")
+	w.note_run(2, 0, 11, 300, 0, 0, 0)
+	_eq("lifetime kills add up across runs, a death included", w.kills, 6)
+	_eq("and shots", w.shots, 41)
+	_eq("and time in the field", w.ticks, 900)
+	_eq("records count only what came out", w.provable, 2)
+	_eq("cash earned is what settle paid", w.earned, w.money)
+	_eq("items recovered", w.recovered, 3)
+	_eq("a death is a run that did not extract", w.deaths(), 1)
+	_eq("completions total the per-mission history", w.completions(), 1)
+	w.note_run(-5, -5, -5, -5, -5, -5, -5)
+	_eq("a negative figure never takes a stat back", w.kills, 6)
+	_eq("nothing is won before the final mission", w.victories, 0)
+	w.settle(MISSIONS.FINAL_LEVEL, true, 400, 0, 0, 0, 0)
+	w.win()
+	_eq("winning counts a victory", w.victories, 1)
+	_eq("and remembers the run it came on", w.won_on_run, 3)
+	w.settle(MISSIONS.FINAL_LEVEL, true, 400, 0, 0, 0, 0)
+	w.win()
+	_eq("winning again counts again", w.victories, 2)
+	_eq("but the first win's run stays put", w.won_on_run, 3)
+	var wr: RefCounted = CAMPAIGN.new()
+	_eq("lifetime stats reload with nothing skipped", wr.from_text(w.to_text()), 0)
+	_eq("and round-trip exactly", wr.to_text(), w.to_text())
+	_eq("a ledger written before the stats existed loads them as zero",
+		wr.from_text("campaign 2\nmoney 50\nruns 4\nextractions 2\n"), 0)
+	_eq("with zero kills", wr.kills, 0)
+	_eq("and not won", wr.victories + wr.won_on_run, 0)
+
+	# The win condition itself: the final level, completed, and nothing else.
+	_check("the final level is a shipped level",
+		FileAccess.file_exists(MISSIONS.FINAL_PATH), MISSIONS.FINAL_PATH)
+	_check("completing the final level wins",
+		MISSIONS.is_victory(MISSIONS.FINAL_PATH, true))
+	_check("extracting from it without the objective does not",
+		not MISSIONS.is_victory(MISSIONS.FINAL_PATH, false))
+	_check("completing any other level does not",
+		not MISSIONS.is_victory("res://levels/substation_4.txt", true))
+	_check("nor does an edited copy saved under the same name",
+		not MISSIONS.is_victory(LEVELS.FALLBACK_DIR + "/" + MISSIONS.FINAL_LEVEL, true))
+	var last_level: String = ""
+	for path in LEVELS._scan(LEVELS.LEVELS_DIR):
+		last_level = path.get_file()
+	_eq("the final level is last in mission select", last_level, MISSIONS.FINAL_LEVEL)
 
 	# A malformed mission line is skipped; a level that no longer exists is kept,
 	# because deleting a file should not erase the history of having played it.

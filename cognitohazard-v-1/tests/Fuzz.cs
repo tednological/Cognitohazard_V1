@@ -71,7 +71,7 @@ public static class Fuzz
 	internal static string[] LevelTexts()
 	{
 		var names = new[] { "substation_4.txt", "relay_nine.txt", "terminal_twelve.txt",
-			"meridian_glasshouse.txt", "vault_row.txt" };
+			"meridian_glasshouse.txt", "vault_row.txt", "vault_row_night.txt", "zz_black_site.txt" };
 		var found = new List<string>();
 		foreach (var n in names)
 		{
@@ -122,11 +122,14 @@ public static class Fuzz
 		// or a door across the room -- which the sim must refuse. Drawn only on
 		// a level that HAS panels, so the streams on every older level are the
 		// same streams they always were.
+		// Switches share the index space (after the panels) and the rule, so a
+		// level with neither draws exactly the streams it always did.
 		int door = 0;
-		if (w.Panels.Count > 0 && r.NextInt(10) == 0)
+		int uses = w.Panels.Count + w.Switches.Count;
+		if (uses > 0 && r.NextInt(10) == 0)
 		{
-			int near = w.NearestDoor();
-			door = near >= 0 && r.NextInt(4) != 0 ? near + 1 : r.NextRange(0, w.Panels.Count);
+			int near = w.NearestUse();
+			door = near >= 0 && r.NextInt(4) != 0 ? near + 1 : r.NextRange(0, uses);
 		}
 
 		return new InputFrame(
@@ -135,6 +138,8 @@ public static class Fuzz
 	}
 
 	// ---------------------------------------------------------- the invariants
+
+	private static long _litTicks;
 
 	private static void CheckState(SimWorld w, ulong seed, int guards, int packCap)
 	{
@@ -296,6 +301,26 @@ public static class Fuzz
 						$"guard {i} inside {pn.Kind} {k}");
 			}
 		}
+
+		// --- lighting (cognitohazard_lighting_plan.md L7) ---
+		if (w.Light != null)
+		{
+			_litTicks++;
+			if (w.PlayerLightQ8 < 0 || w.PlayerLightQ8 > Fx.One)
+				Violation("light at the player stays in range", seed, t, $"{w.PlayerLightQ8}");
+			// Every sixteenth tick: a fresh build is a full shadowcast.
+			if (t % 16 == 0)
+			{
+				var fresh = w.FreshLight();
+				if (fresh == null || !w.Light.SameAs(fresh))
+					Violation("the light map always equals a fresh build", seed, t, "diverged");
+			}
+			for (int k = 0; k < w.Lamps.Count; k++)
+				if (w.Lamps[k].Broken && w.Light.LampOn(k))
+					Violation("a broken lamp never lights", seed, t, $"lamp {k}");
+		}
+		else if (w.PlayerLightQ8 != Fx.One)
+			Violation("light at the player stays in range", seed, t, "a lit level is not full light");
 
 		// --- the pack is a valid packing ---
 		CheckPack(w, seed, t);
@@ -472,6 +497,12 @@ public static class Fuzz
 		Verdict("the held weapon always has a magazine");
 		Verdict("the state hash is pure");
 		Verdict("nobody stands inside a shut door or a whole pane");
+		Verdict("light at the player stays in range");
+		Verdict("the light map always equals a fresh build");
+		Verdict("a broken lamp never lights");
+		// The lighting invariants would pass vacuously with no dark level in
+		// the list; this is what makes them worth something.
+		H.Check("the fuzzer reaches levels with lighting", _litTicks > 0, $"{_litTicks} ticks");
 	}
 
 	internal static Loadout RandomLoadoutFor(DetRng r) => RandomLoadout(r);

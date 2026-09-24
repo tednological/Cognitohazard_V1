@@ -40,6 +40,7 @@ public static class Program
 		Navigation.Run();
 		GuardAI.Run();
 		Panels.Run();
+		Lighting.Run();
 		Loadouts.Run();
 		Health.Run();
 		Attachments.Run();
@@ -51,6 +52,7 @@ public static class Program
 		Fuzz.Run();
 		Robustness.Run();
 		Specialists.Run();
+		GuardWeapons.Run();
 		Exhaustive.Run();
 		Determinism(record);
 

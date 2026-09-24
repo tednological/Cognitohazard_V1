@@ -61,9 +61,6 @@ public static class Tune
 	/// </summary>
 	public const int GuardHealth = 60;
 
-	/// <summary>Damage a guard's rifle does. At 100 health the player dies in 2
-	/// shots unarmoured and 5 in heavy plate (RPG plan §3).</summary>
-	public const int GuardDamage = 50;
 
 	// ------------------------------------------------------- §7.1 player
 	public const int PlayerRadius = 11 * Fx.One;
@@ -174,8 +171,6 @@ public static class Tune
 	// specific number.
 	public const int PlayerBulletSpeed = 645120;   // 2520 px/s (was 840)
 	public const int PlayerBulletTicks = 40;       // 0.67 s -> the same ~1680 px
-	public const int GuardBulletSpeed = 563200;    // 2200 px/s (was 640)
-	public const int GuardBulletTicks = 38;        // 0.63 s -> the same ~1390 px
 
 	/// <summary>Floor on collision samples per round per tick.</summary>
 	public const int BulletSubsteps = 3;
@@ -221,24 +216,26 @@ public static class Tune
 
 	// -------------------------------------------------- guard firing error
 	//
-	// NOT IN THE PORT SPEC. Guards used to draw a flat +/- 0.045 rad and nothing
-	// else, which made them perfect marksmen who happened to miss sometimes.
-	// They now run the SAME three-term cone the player does -- a base, a
-	// sustained-fire term and a sway term -- so a long firefight degrades their
-	// shooting the way it degrades yours.
-	public const int GuardSpreadBase = 938;        // 0.09 rad full width
-	public const int GuardSpreadPerHeat = 1043;    // +0.10 rad under sustained fire
-	public const int GuardSpreadPerSway = 1565;    // +0.15 rad while swinging
+	// NOT IN THE PORT SPEC. Guards fire the WEAPON THEY CARRY (Actor.Weapon, the
+	// gun the loot roll bought): its damage, pierce, cadence, magazine, reload,
+	// pellets, heat and cone. What is guard-specific is below. The old flat
+	// guard rifle (50 damage, 2200 px/s, one aimed round every 0.8 s, its own
+	// heat constants) is gone; see CLAUDE.md "Guards fire their own guns".
 
-	/// <summary>
-	/// Guards heat up and cool down far more slowly than the player, because
-	/// they fire single aimed rounds 0.8 s apart. A flat port of the player's
-	/// 1.5/s decay would clear between every shot and the term would never once
-	/// be felt. At these numbers a guard reaches a full cone after about eight
-	/// rounds, or six seconds of not letting up.
-	/// </summary>
-	public const int GuardHeatPerShot = 80;
-	public const int GuardHeatDecayPerSec = 96;    // 0.375/s
+	/// <summary>Cone width added to a guard's weapon: the marksmanship he does
+	/// not have. 625 makes a cold, still AK guard's cone 938 BRAD -- exactly the
+	/// flat 0.09 rad every guard drew before guards had weapons.</summary>
+	public const int GuardSpreadPenalty = 625;
+
+	/// <summary>How long a guard holds the trigger per burst, in ticks (0.4 s).
+	/// The burst is as many rounds as his weapon cycles in that time, then a
+	/// pause of EngageCooldownTicks and a re-aim.</summary>
+	public const int GuardBurstTicks = 24;
+
+	/// <summary>A guard with grenades will not throw at anyone nearer than this,
+	/// and keeps his distance to stay past it: fragments reach ~230 px
+	/// (FragSpeed x FragTicks), and he is standing at the other end.</summary>
+	public const int GuardGrenadeMinDist = 260 * Fx.One;
 
 	// ------------------------------------------------------- choke (§7.1a)
 	//
@@ -506,6 +503,86 @@ public static class Tune
 	/// <summary>How far ahead of himself a walking guard checks for a shut door
 	/// to open. A guard does not stop at a closed door; he opens it.</summary>
 	public const int GuardDoorProbe = 8 * Fx.One;
+
+	// ------------------------------------------------------------ lighting
+	// NEW NUMBERS (cognitohazard_lighting_plan.md §11). A deliberate deviation
+	// from spec §9 ("concealment comes from walls only"): light is now a
+	// stealth axis. Every figure is a proposal, to be tuned in play. A level
+	// with no `ambient:` line is fully lit and none of this runs, which is why
+	// the golden hashes and the spec §8.6 curve did not move.
+
+	/// <summary>How far a lamp reaches, with a linear falloff to nothing.</summary>
+	public const int LampRadius = 140 * Fx.One;
+	/// <summary>A lamp's light at its own cell, Q8.</summary>
+	public const int LampIntensity = 256;
+
+	/// <summary>
+	/// Pitch dark still leaves you at this much visibility (Q8, 0.28) to a guard
+	/// who is close enough to make you out at all: darkness slows detection by
+	/// three or four times and never stops it.
+	/// </summary>
+	public const int VisFloor = 72;
+
+	/// <summary>Inside this a guard sees you at full quality whatever the light:
+	/// you cannot hide in the dark in front of someone's face.</summary>
+	public const int DarkSeeRange = 60 * Fx.One;
+
+	/// <summary>
+	/// How far a guard can make out a figure in PITCH darkness. His sight range
+	/// runs down to this linearly with the light at the target, so a dark
+	/// corner hides you from across the room and not from across the table.
+	/// This is the lever that lets a lost fight be broken off in the dark.
+	/// </summary>
+	public const int DarkSightRange = 180 * Fx.One;
+
+	/// <summary>A body in pitch dark is found only this close. Bodies hide
+	/// better than people: hiding them in shadow is a real reason to carry them there.</summary>
+	public const int BodyDarkRange = 80 * Fx.One;
+
+	/// <summary>Firing lights the shooter for this many world ticks...</summary>
+	public const int FlashTicks = 6;
+	/// <summary>...at this much light, Q8.</summary>
+	public const int FlashLightQ8 = 200;
+	/// <summary>
+	/// How far a muzzle flash is SEEN, on a level with lighting. Scaled down by
+	/// the weapon's report (twice its gunshot radius, capped here), so a
+	/// suppressor hides the flash as it hides the bang.
+	/// </summary>
+	public const int FlashSeenRange = 700 * Fx.One;
+	/// <summary>Awareness a guard who sees a flash is raised TO: past AwHunt, so
+	/// he comes to look, short of AwEngage.</summary>
+	public const int FlashAwareness = 700;
+
+	/// <summary>A round within this of a lamp shatters it.</summary>
+	public const int LampHitRadius = 5 * Fx.One;
+	/// <summary>A lamp shattering is heard this far. A window is 340.</summary>
+	public const int LampNoiseRadius = 220 * Fx.One;
+	public const int LampAwareness = 700;
+
+	/// <summary>Player reach to a switch, from the switch cell's centre.</summary>
+	public const int SwitchReach = 32 * Fx.One;
+	/// <summary>A guard arriving to look this close to a dark switch turns it back on.</summary>
+	public const int GuardSwitchReach = 44 * Fx.One;
+	/// <summary>A switch clicks. Heard like a door, much closer.</summary>
+	public const int SwitchNoiseRadius = 80 * Fx.One;
+	/// <summary>
+	/// A room going dark (or lighting up) is noticed by anyone standing in it
+	/// and by anyone within this with a line to one of its lamps. They come to
+	/// the switch: Curious, never Combat.
+	/// </summary>
+	public const int LightsSeenRange = 420 * Fx.One;
+	public const int LightsAwareness = 700;
+
+	/// <summary>Guard torches: half-angle (0.35 rad), reach, and the light in the beam.</summary>
+	public const int TorchHalf = 3651;
+	public const int TorchReach = 300 * Fx.One;
+	public const int TorchLightQ8 = 200;
+	/// <summary>
+	/// Guards in Combat or Hunting carry lit torches on any level with
+	/// lighting; on a level whose ambient is at or below this percentage, every
+	/// guard does, all the time.
+	/// </summary>
+	public const int GuardTorchAmbient = 40;
 
 	// ------------------------------------------------------- misc geometry
 	public const int ActorRadius = 11 * Fx.One;

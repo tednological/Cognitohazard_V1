@@ -133,4 +133,4 @@ for gid, pts in GUARDS.items():
 for gid, cell in SENTRIES.items():
     L.put(*cell, gid)
 
-L.write("levels/meridian_glasshouse.txt", "Meridian Glasshouse")
+L.write("levels/meridian_glasshouse.txt", "Meridian Glasshouse", theme="scientific")

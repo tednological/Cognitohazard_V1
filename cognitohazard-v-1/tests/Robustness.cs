@@ -181,11 +181,11 @@ public static class Robustness
 		// More guard glyphs than MaxGuards allows.
 		var many = new StringBuilder("name: t\ngrid:\n");
 		many.Append(new string('#', 32)).Append('\n');
-		for (int r = 0; r < 4; r++)
+		for (int r = 0; r < 4; r++)       // 120 glyphs, past the 88 the alphabet has
 		{
 			many.Append('#');
 			for (int c = 0; c < 30; c++)
-				many.Append((char)('a' + (r * 30 + c) % 26));
+				many.Append(Level.GuardGlyphs[(r * 30 + c) % Level.GuardGlyphs.Length]);
 			many.Append("#\n");
 		}
 		many.Append(new string('#', 32)).Append('\n');

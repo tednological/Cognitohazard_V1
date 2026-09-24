@@ -48,6 +48,7 @@ const ELEMENTS: Array = [
 	{"id": "movement", "label": "move speed",    "size": Vector2(160, 26)},
 	{"id": "pending",  "label": "kit staged",    "size": Vector2(160, 14)},
 	{"id": "objective","label": "objective",     "size": Vector2(160, 26)},
+	{"id": "light",    "label": "light (how visible you are)", "size": Vector2(160, 26)},
 ]
 
 ## Record slots that fit the strip's declared width. The strip used to draw up
@@ -78,6 +79,7 @@ const DEFAULTS: Dictionary = {
 	"movement": Vector2(12, 496),
 	"pending":  Vector2(716, 496),
 	"objective": Vector2(12, 464),
+	"light":    Vector2(716, 464),
 }
 
 

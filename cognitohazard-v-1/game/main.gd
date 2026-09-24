@@ -93,10 +93,15 @@ const EV_COMPROMISED: int = 41
 
 ## Appended with fear (Guard_AI.md §4.1). Value: 1 gunfire, 2 an ally's death.
 const EV_AFRAID: int = 42
+## Appended with lighting. LampBroken's value is the lamp; LightsOn/Off are at
+## the switch, heading 1 when a guard threw it.
+const EV_LAMP_BROKEN: int = 43
+const EV_LIGHTS_ON: int = 44
+const EV_LIGHTS_OFF: int = 45
 
 ## The last mirrored kind. The startup and per-tick ordinal checks compare the
 ## sim's count against this, so a new kind moves ONE line, not two.
-const EV_LAST: int = EV_AFRAID
+const EV_LAST: int = EV_LIGHTS_OFF
 
 ## Ints per round in SimBridge.GetBullets(): x, y, heading, fromPlayer, speed,
 ## kind, lifeTicks. Kind mirrors sim BulletKind by ordinal.
@@ -168,25 +173,57 @@ const OPTIONS_SCREEN := preload("res://game/options_screen.gd")
 const LOOT_PANEL := preload("res://game/loot_panel.gd")
 const CAMPAIGN := preload("res://game/campaign.gd")
 const MISSIONS := preload("res://game/missions.gd")
+const LEVELS := preload("res://game/levels.gd")
 const AI_DEBUG_OVERLAY := preload("res://game/ai_debug_overlay.gd")
 const SHOP_SCREEN := preload("res://game/shop_screen.gd")
 const DEV_MENU := preload("res://game/dev_menu.gd")
 const HUD_LAYOUT := preload("res://game/hud_layout.gd")
 const HUD_EDITOR := preload("res://game/hud_editor.gd")
 const STASH := preload("res://game/stash.gd")
+const FOOTSTEPS := preload("res://game/footsteps.gd")
+const LEVEL_ART := preload("res://game/level_art.gd")
 
 var _bridge: RefCounted
+
+## The level dressed in its map kit (game/level_art.gd). Built per level in
+## _refresh_level_cache; `ready` false (no kit, or headless) means the
+## procedural floor and walls below draw instead.
+var _art: RefCounted = LEVEL_ART.new()
 
 ## Set when the project cannot run at all. Currently only one cause: a Godot
 ## build with no C# support.
 var _fatal: String = ""
 
 var _walls: PackedInt32Array = PackedInt32Array()
-var _exit_rect: Rect2 = Rect2()
+var _exit_rects: Array[Rect2] = []    # every exit; reaching any ends the run
 
 ## Glass and doors AS THEY STAND, re-read after every tick. The walls above are
 ## cached once per level because they never change; these are the cells that do.
 var _panels: PackedInt32Array = PackedInt32Array()
+
+## LIGHTING (cognitohazard_lighting_plan.md §7). The darkness is the sim's own
+## light map, drawn as a tinted overlay whose alpha rises as the light falls:
+## at alpha a an ordinary blend multiplies what is under it by (1 - a), so it IS
+## the plan's multiply layer, without a material or a node. Re-uploaded only
+## when SimBridge.LightVersion moves (a door, a lamp, a switch), never per frame.
+## Filtered LINEAR through a CanvasTexture, so 20 px cells read as pools of
+## light rather than a chessboard, whatever filter the rest of the canvas uses.
+var _dark_tex: CanvasTexture = null
+var _dark_ver: int = -1
+var dark_uploads: int = 0        # counted, like draws: the harness asserts it
+
+## Night blue, not black: a dark room should read as "dark", not "missing".
+const C_NIGHT := Color(0.012, 0.020, 0.045)
+## Display floor (plan §7.1): the overlay never goes past this, so pitch black
+## to the sim is still a readable floor to the player. PRESENTATION ONLY.
+const DARK_MAX: int = 200        # of 255, ~0.78
+const C_LAMP := Color(1.0, 0.88, 0.62)
+const C_TORCH := Color(1.0, 0.93, 0.72, 0.085)
+## How the player sees a guard in the dark (SimBridge.GetGuardSight, Q8):
+## below SEE_OUTLINE he is an outline and nothing more, below SEE_CLEAR he is
+## dimmed toward the floor, and at 0 he is not drawn at all.
+const SEE_CLEAR: int = 200
+const SEE_OUTLINE: int = 110
 
 ## G was pressed on a DOOR, and is still held. While it is, G does not also
 ## raise the loot panel over a body lying in the doorway: one press, one thing.
@@ -249,11 +286,26 @@ var _pops: Array[Dictionary] = []
 ## Lightning segments, {a, b, t}: one per jump of a Tesla discharge. Redrawn
 ## with fresh jitter every frame so they crackle rather than sit there.
 var _arcs: Array[Dictionary] = []
+## Hidden guards' footsteps, heard through walls (game/footsteps.gd).
+## Presentation only: read from GetGuards() after a tick, never fed back.
+var _steps: RefCounted = FOOTSTEPS.new()
 
 var _vision: PackedVector2Array = PackedVector2Array()
 var _font: Font
 
 var _over_code: int = 0
+
+## This run WON THE GAME: the final mission (missions.gd FINAL_LEVEL) was
+## completed. Set once, in _settle_run; the debrief becomes the victory screen.
+var _victory: bool = false
+## The per-mission table the victory screen draws, [title, runs, completions,
+## best] per shipped level. Built once when the game is won rather than per
+## frame, since it reads every level file.
+var _victory_rows: Array = []
+## The run in progress came from the editor's ENTER. A playtest leaves
+## level_path alone, so without this an edited level playtested while the Black
+## Site was selected would win the game.
+var _playtest_run: bool = false
 
 ## The sim's worn kit on the tick this run BEGAN (stash.sim_kit). Extraction
 ## compares the kit it ends with against this, and writes back only what the
@@ -338,6 +390,8 @@ const C_DEAD := Color(0.38, 0.22, 0.20)
 ## Outside the level's own bounds. Darker than the floor, so the edge of the
 ## world reads as an edge rather than as more room.
 const C_BEYOND := Color(0.02, 0.025, 0.032)
+## Behind the between-runs screens, where no world is drawn. title_screen's C_BG.
+const C_BASE := Color(0.030, 0.036, 0.045)
 
 ## One label colour and one trough colour across the whole HUD. Each readout
 ## used to pick its own, which is why the bar never quite looked like one thing.
@@ -371,6 +425,8 @@ const C_COLD := Color(0.40, 0.76, 0.85)
 const C_AMBER := Color(0.92, 0.70, 0.25)
 const C_SIGNAL := Color(0.90, 0.32, 0.28)
 const C_FEAR := Color(0.95, 0.95, 0.70)
+## Heard, not seen: a pale cold tone apart from every guard and state colour.
+const C_STEP := Color(0.72, 0.84, 0.98)
 
 
 func _ready() -> void:
@@ -563,7 +619,7 @@ func _input(event: InputEvent) -> void:
 			return
 		# F3: the AI debug overlay. Presentation only -- it never reaches an
 		# InputFrame, so it cannot touch a replay or the hash.
-		if event.keycode == KEY_F3 and _hud_ed == null:
+		if event.keycode == KEY_F3 and not (_hud_ed != null and _hud_ed.active):
 			_ai_debug = not _ai_debug
 			_notice = "AI debug overlay on  ·  F3 to hide" if _ai_debug else "AI debug overlay off"
 			_notice_t = 2.0
@@ -824,8 +880,30 @@ func _toggle_dev_menu() -> void:
 		return
 	# Asked fresh on every open, because it decides where ENTER puts things and
 	# the answer changes the moment the player dies or extracts.
-	_dev.live = _bridge.RunLive
+	_dev.live = _in_mission()
 	_dev.open_screen()
+
+
+## A mission is being PLAYED, not merely loaded. RunLive alone is not that: the
+## world is built at launch (and rebuilt by a new campaign) behind the title
+## and the base stash, so RunLive is true before anything has been deployed. The
+## dev menu asked it alone, queued its first spawns for a pack that deploying
+## then threw away in _restart(), and only "worked" once a death or extraction
+## had ended that phantom run. The screens below are reachable only between
+## runs; the field view (stash in mission_mode) and the loadout menu are not
+## among them, because both are opened FROM a mission. A replay is never one.
+func _in_mission() -> bool:
+	return _bridge.RunLive and not _playback and not _between_runs_screen_up()
+
+
+## A screen that exists only BETWEEN runs is up: the title, options, the shop,
+## or the stash at BASE. Not the field view (the stash in mission_mode), which
+## is opened from inside a mission and is meant to sit over it.
+func _between_runs_screen_up() -> bool:
+	return (_title != null and _title.active) \
+		or (_options != null and _options.active) \
+		or (_shop != null and _shop.active) \
+		or (_stash_screen != null and _stash_screen.active and not _stash_screen.mission_mode)
 
 
 ## A spawn changes the stash, and the stash is only durable once written, so it
@@ -977,8 +1055,13 @@ func _load_level(path: String) -> bool:
 func _refresh_level_cache() -> void:
 	_walls = _bridge.GetWalls()
 	_panels = _bridge.GetPanels()
-	var ex: PackedInt32Array = _bridge.GetExit()
-	_exit_rect = Rect2(ex[0] / FX, ex[1] / FX, ex[2] / FX, ex[3] / FX)
+	var ex: PackedInt32Array = _bridge.GetExits()
+	_exit_rects.clear()
+	for i in range(0, ex.size() - 3, 4):
+		_exit_rects.append(Rect2(ex[i] / FX, ex[i + 1] / FX, ex[i + 2] / FX, ex[i + 3] / FX))
+	# Dressed from the LIVE level's grid -- the one being played, which after a
+	# replay load or a playtest is not the file on disk.
+	_art.build(_bridge.GetGrid(), _bridge.GridCols, _bridge.GridRows, _bridge.LevelTheme)
 	# A new level means a new world size, so the camera must not keep easing
 	# toward a point that belonged to the last one.
 	_cam_ready = false
@@ -1355,6 +1438,7 @@ func _physics_process(_delta: float) -> void:
 		# conjured, so it needs no identify dwell if you put it down again.
 		_loot.mark_known(spawn)
 	_consume_events()
+	_observe_footsteps()
 
 	# The visibility polygon is 400 raycasts against every wall rect. It depends
 	# only on the player's position, so it belongs on the sim clock — computing
@@ -1392,6 +1476,7 @@ func _physics_playback() -> void:
 	if Input.is_action_just_pressed("restart"):
 		_bridge.SeekTo(0)
 		_consume_events()
+		_steps.reset()
 		return
 
 	# Single-stepping while paused is the actual debugging affordance.
@@ -1399,6 +1484,7 @@ func _physics_playback() -> void:
 		_pb_playing = false
 		_bridge.StepPlayback()
 		_consume_events()
+		_observe_footsteps()
 		return
 	if Input.is_action_just_pressed("move_left"):
 		_pb_playing = false
@@ -1415,6 +1501,7 @@ func _physics_playback() -> void:
 		if _bridge.ReplayFinished:
 			break
 	_consume_events()
+	_observe_footsteps()
 
 
 func _save_replay() -> void:
@@ -1572,9 +1659,12 @@ func _restart() -> void:
 	_flashes.clear()
 	_pops.clear()
 	_arcs.clear()
+	_steps.reset()
 	_shake = Vector2.ZERO
 	_cam_ready = false
 	_over_code = 0
+	_victory = false
+	_playtest_run = false
 	_saved_this_run = false
 	# Anything the dev menu queued belonged to the run that just ended. Carrying
 	# it over would conjure items into a run the player never asked for them in,
@@ -1656,10 +1746,15 @@ func _draw_loot_prompt() -> void:
 	if door_pick_for(true, false, door, t,
 			_bridge.LootTargetDist(t[4]) if t.size() >= 5 else -1) > 0:
 		var dpos := Vector2(door[1] / FX, door[2] / FX)
+		var is_switch: bool = door.size() >= 6 and door[5] == 1
+		var verb: String
+		if is_switch:
+			verb = "G  lights off" if door[3] == 1 else "G  lights on"
+		else:
+			verb = "G  close" if door[3] == 1 else "G  open"
 		_world_pass()
-		draw_string(_font, dpos + Vector2(-26, -18),
-			"G  close" if door[3] == 1 else "G  open",
-			HORIZONTAL_ALIGNMENT_LEFT, -1, 11, C_DOOR_EDGE)
+		draw_string(_font, dpos + Vector2(-26, -18), verb,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 11, C_LAMP if is_switch else C_DOOR_EDGE)
 		_screen_pass()
 		return
 
@@ -1703,12 +1798,15 @@ func _start_playtest() -> void:
 	_refresh_level_cache()
 	_playback = false
 	_over_code = 0
+	_victory = false
+	_playtest_run = true
 	_saved_this_run = false
 	_particles.clear()
 	_decals.clear()
 	_flashes.clear()
 	_pops.clear()
 	_arcs.clear()
+	_steps.reset()
 	_shake = Vector2.ZERO
 	_vision = _bridge.GetVisionPolygon(VISION_RAYS, VISION_RADIUS)
 	print("cognitohazard: playtesting '%s' (%d rects)" % [_bridge.EditorName, _walls.size() / 4])
@@ -1738,6 +1836,9 @@ func _settle_run(world: PackedInt32Array) -> void:
 		_stash.ensure_pack()
 		_stash.apply_to(_bridge)
 		_campaign.settle_loss(file)
+		# Dying scores zero across all three record tiers (spec §6.3); the
+		# guards you dropped on the way down still count.
+		_campaign.note_run(world[11], world[12], world[13], world[0], 0, 0, 0)
 		_campaign.save()
 		_save_stash()
 		_notice = "killed in action — everything you carried is gone"
@@ -1778,10 +1879,21 @@ func _settle_run(world: PackedInt32Array) -> void:
 
 	var paid: int = _campaign.settle(file, completed, mission_pay,
 		world[7], world[8], fenced, kept + sold)
+	_campaign.note_run(world[11], world[12], world[13], world[0],
+		world[7], world[8], world[9])
+	# THE WIN CONDITION: out of the Black Site with the objective. Recorded
+	# before the save, so the ledger knows the game was won even if the window
+	# closes on the victory screen.
+	if MISSIONS.is_victory(level_path, completed) and not _playtest_run:
+		_campaign.win()
+		_victory = true
+		_victory_rows = _mission_table()
 	_campaign.save()
 	_save_stash()
 
-	if completed:
+	if _victory:
+		_notice = "THE BLACK SITE IS BROKEN — %d earned" % paid
+	elif completed:
 		_notice = "MISSION COMPLETE — %s%d earned, %d item(s) recovered%s" % [
 			("case handed in  ·  " if handed > 0 else ""),
 			paid, kept, ("  ·  %d fenced for %d" % [sold, fenced]) if sold > 0 else ""]
@@ -1961,6 +2073,19 @@ func _consume_events() -> void:
 			EV_DOOR_BLOCKED:
 				_audio.play(AUDIO.DRY, _visual_scale)
 				_pop(pos, "doorway blocked", C_SIGNAL)
+			EV_LAMP_BROKEN:
+				# Glass's voice, higher and shorter; the floor heard it too.
+				_audio.play(AUDIO.LAMP, _visual_scale)
+				_shatter(pos, ang)
+				_sparks(pos, _rng.randf_range(0.0, TAU), 7, C_LAMP)
+			EV_LIGHTS_ON, EV_LIGHTS_OFF:
+				var by_guard2: bool = ev[i + 3] == 1
+				if not by_guard2 or pos.distance_to(_player_pos()) < DOOR_HEAR_PX:
+					_audio.play(AUDIO.SWITCH, _visual_scale)
+				# Someone else putting the lights back on is news.
+				if by_guard2 and _in_view(pos, 0.0):
+					_pop(pos, "the lights come on" if kind == EV_LIGHTS_ON else "the lights go out",
+						C_LAMP)
 			EV_WALL_PIERCED:
 				# In one side and out the other: dust back toward the shooter
 				# AND on through, so a wall the round went through never reads
@@ -2116,6 +2241,8 @@ func _step_effects(delta: float) -> void:
 		if _arcs[i]["t"] <= 0.0:
 			_arcs.remove_at(i)
 
+	_steps.step(delta)
+
 	for i in range(_pops.size() - 1, -1, -1):
 		_pops[i]["t"] -= delta
 		_pops[i]["pos"] += Vector2(0, -12.0 * delta)
@@ -2159,6 +2286,16 @@ func _draw() -> void:
 		return
 	_draw_count += 1
 
+	# Between runs there is no world to show. The base stash and the shop are
+	# translucent -- the same panels serve the field view, which sits over the
+	# mission -- so drawing the world under them put the stash over wherever the
+	# last run ended: the body, the blood, the debrief. The backdrop is the
+	# title's, so the stash after a death is the stash you reach from Continue.
+	if _between_runs_screen_up():
+		_screen_pass()
+		draw_rect(Rect2(0, 0, FIELD_W, FIELD_H + 60.0), C_BASE)
+		return
+
 	var player: PackedInt32Array = _bridge.GetPlayer()
 	var world: PackedInt32Array = _bridge.GetWorld()
 	var ppos := Vector2(player[0] / FX, player[1] / FX)
@@ -2171,15 +2308,20 @@ func _draw() -> void:
 
 	_world_pass()
 
-	# The floor is the LEVEL, not the viewport. These were the same rectangle
-	# while a level was exactly one screen; they are not any more.
-	draw_rect(Rect2(Vector2.ZERO, level_size()), C_FLOOR)
-
 	# The lit region. Everything outside it stays at the darker floor tone, so
 	# concealment reads as "the walls are hiding you", which is the only source
 	# of concealment in the game (spec §9).
-	if _vision.size() >= 3:
-		draw_colored_polygon(_vision, C_FLOOR_LIT)
+	if _art.ready:
+		# The kit's floors are drawn once, LIT, and everything outside the
+		# polygon is dimmed -- so each room keeps its own floor in the dark.
+		_art.draw_floor(self, _view_rect)
+		_art.draw_unlit(self, _vision, ppos, level_size(), C_BEYOND)
+	else:
+		# The floor is the LEVEL, not the viewport. These were the same
+		# rectangle while a level was exactly one screen; they are not any more.
+		draw_rect(Rect2(Vector2.ZERO, level_size()), C_FLOOR)
+		if _vision.size() >= 3:
+			draw_colored_polygon(_vision, C_FLOOR_LIT)
 
 	_draw_exit()
 	_draw_caches()
@@ -2192,7 +2334,15 @@ func _draw() -> void:
 	_draw_panels()
 	_draw_ground()
 	_draw_chests()
+	# Everything above is the level and what lies in it, and is darkened by
+	# the light. Everything below is lit its own way: lamps and beams glow,
+	# guards are dimmed by how well the player can make them out, and the
+	# player is always themselves.
+	_draw_darkness()
+	_draw_lamps()
+	_draw_torch_beams()
 	_draw_guards(ppos)
+	_draw_footsteps()
 	_draw_ai_debug()
 	_draw_bullets()
 	_draw_arcs()
@@ -2286,6 +2436,11 @@ func _draw_fatal() -> void:
 
 
 func _draw_walls() -> void:
+	# The kit draws walls cell by cell from the grid, props on the free-standing
+	# blocks; the merged rects below are the fallback, and stay what the sim uses.
+	if _art.ready:
+		_art.draw_structure(self, _view_rect)
+		return
 	var view: Rect2 = _view_rect.grow(4.0)
 	var i: int = 0
 	while i < _walls.size():
@@ -2354,6 +2509,9 @@ func _draw_glass(r: Rect2, broken: bool, vertical: bool) -> void:
 ## square to the wall on its hinge with the swing arc ghosted in, so an open
 ## door is recognisable as one, and not mistaken for a gap in the wall.
 func _draw_door(r: Rect2, open: bool, vertical: bool) -> void:
+	# The kit's sliding pair when there is a kit; this swing door otherwise.
+	if _art.draw_door(self, r, open, vertical):
+		return
 	# Jambs at both ends, the part of the frame that is always there.
 	var jamb: float = 3.0
 	if vertical:
@@ -2406,10 +2564,11 @@ func _draw_door(r: Rect2, open: bool, vertical: bool) -> void:
 
 
 func _draw_exit() -> void:
-	draw_rect(_exit_rect, Color(C_EXIT.r, C_EXIT.g, C_EXIT.b, 0.16))
-	draw_rect(_exit_rect, C_EXIT, false, 1.5)
-	draw_string(_font, _exit_rect.position + Vector2(4, 14), "EXIT",
-		HORIZONTAL_ALIGNMENT_LEFT, -1, 10, C_EXIT)
+	for rect: Rect2 in _exit_rects:
+		draw_rect(rect, Color(C_EXIT.r, C_EXIT.g, C_EXIT.b, 0.16))
+		draw_rect(rect, C_EXIT, false, 1.5)
+		draw_string(_font, rect.position + Vector2(4, 14), "EXIT",
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, C_EXIT)
 
 
 ## Gear chests. An emptied one still draws, as an open outline, so a floor you
@@ -2562,6 +2721,10 @@ func _draw_arcs() -> void:
 
 func _draw_guards(ppos: Vector2) -> void:
 	var g: PackedInt32Array = _bridge.GetGuards()
+	# Lighting: how well the player makes each guard out. Empty on a lit
+	# level, where every guard in line of sight is drawn plainly, as before.
+	var sight: PackedInt32Array = _bridge.GetGuardSight() if _bridge.HasLight \
+		else PackedInt32Array()
 	var i: int = 0
 	while i < g.size():
 		var pos := Vector2(g[i] / FX, g[i + 1] / FX)
@@ -2584,13 +2747,143 @@ func _draw_guards(ppos: Vector2) -> void:
 			var roll: float = g[i + 6] / 65536.0 * TAU
 			_draw_prone(pos, g[i + 5] / 65536.0 * TAU + roll, col)
 		elif visible:
-			_draw_human(pos, g[i + 2] / 65536.0 * TAU, C_GUARD, 0.0,
-				armour, armour_max)
-			_draw_armour_bar(pos, armour, armour_max)
-			_draw_awareness(pos, g[i + 4], state, afraid)
-			if task == TASK_RADIO:
-				_draw_radio(pos, radio_q8)
+			var k: int = i / GUARD_STRIDE
+			var seen: int = sight[k * 2] if k * 2 < sight.size() else 256
+			if seen >= SEE_CLEAR:
+				_draw_human(pos, g[i + 2] / 65536.0 * TAU, C_GUARD, 0.0,
+					armour, armour_max)
+				_draw_armour_bar(pos, armour, armour_max)
+				_draw_awareness(pos, g[i + 4], state, afraid)
+				if task == TASK_RADIO:
+					_draw_radio(pos, radio_q8)
+			elif seen >= SEE_OUTLINE:
+				# A shape in the gloom: dimmed toward the floor, the meter
+				# still readable, the plate not -- you cannot see what he wears.
+				var dim: float = float(seen - SEE_OUTLINE) / float(SEE_CLEAR - SEE_OUTLINE)
+				_draw_human(pos, g[i + 2] / 65536.0 * TAU,
+					C_GUARD.lerp(C_NIGHT, 0.65 - 0.35 * dim), 0.0, 0, 0)
+				_draw_awareness(pos, g[i + 4], state, afraid)
+			elif seen > 0:
+				# Pitch dark and close: an outline, nothing more.
+				draw_arc(pos, 11.0, 0.0, TAU, 18, Color(C_GUARD, 0.35), 1.0)
 		i += GUARD_STRIDE
+
+
+## The darkness overlay: the sim's light map, re-uploaded only when it changed.
+## WORLD pass; a no-op on a lit level.
+func _draw_darkness() -> void:
+	if not _bridge.HasLight:
+		return
+	var ver: int = _bridge.LightVersion
+	if ver != _dark_ver or _dark_tex == null:
+		_dark_ver = ver
+		var cols: int = _bridge.GridCols * 2
+		var rows: int = _bridge.GridRows * 2
+		var img := Image.create_from_data(cols, rows, false, Image.FORMAT_RGBA8,
+			_bridge.GetDarkness(int(C_NIGHT.r8), int(C_NIGHT.g8), int(C_NIGHT.b8), DARK_MAX))
+		if _dark_tex == null:
+			_dark_tex = CanvasTexture.new()
+			_dark_tex.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		_dark_tex.diffuse_texture = ImageTexture.create_from_image(img)
+		dark_uploads += 1
+	draw_texture_rect(_dark_tex, Rect2(Vector2.ZERO, level_size()), false)
+
+
+## Lamps and switches over the darkness: the kit's fixture if there is one
+## (level_art.draw_lamp, with its own emission), a drawn one otherwise.
+## Cosmetic only -- the light that MEANS something is already in the overlay.
+func _draw_lamps() -> void:
+	var lamps: PackedInt32Array = _bridge.GetLamps()
+	var i: int = 0
+	while i + 3 <= lamps.size():
+		var pos := Vector2(lamps[i] / FX, lamps[i + 1] / FX)
+		var lit: bool = (lamps[i + 2] & 1) != 0
+		var broken: bool = (lamps[i + 2] & 2) != 0
+		i += 3
+		if not _in_view(pos, 60.0):
+			continue
+		# The pool of light itself is the overlay's; this is only the fitting.
+		if _art.draw_lamp(self, pos, lit, broken, false):
+			continue
+		if broken:
+			draw_arc(pos, 4.0, 0.0, TAU, 10, Color(0.45, 0.45, 0.48), 1.0)
+			draw_line(pos + Vector2(-3, -2), pos + Vector2(2, 3), Color(0.55, 0.55, 0.6), 1.0)
+		elif lit:
+			draw_circle(pos, 7.0, Color(C_LAMP, 0.18))
+			draw_circle(pos, 4.0, C_LAMP)
+			draw_circle(pos, 2.0, Color(1, 1, 0.95))
+		else:
+			draw_circle(pos, 4.0, Color(0.30, 0.30, 0.34))
+			draw_arc(pos, 4.0, 0.0, TAU, 10, Color(0.5, 0.5, 0.55), 1.0)
+	var sw: PackedInt32Array = _bridge.GetSwitches()
+	i = 0
+	while i + 3 <= sw.size():
+		var spos := Vector2(sw[i] / FX, sw[i + 1] / FX)
+		var on: bool = sw[i + 2] == 1
+		i += 3
+		if not _in_view(spos, 20.0):
+			continue
+		draw_rect(Rect2(spos - Vector2(3.5, 5), Vector2(7, 10)), Color(0.20, 0.21, 0.24))
+		draw_rect(Rect2(spos - Vector2(3.5, 5), Vector2(7, 10)), Color(0.55, 0.55, 0.6), false, 1.0)
+		draw_rect(Rect2(spos + Vector2(-1.5, -3.5 if on else 0.5), Vector2(3, 3)),
+			C_LAMP if on else Color(0.35, 0.36, 0.40))
+
+
+## Guard torches as soft fans, clipped by walls, drawn WHETHER OR NOT the guard
+## can be seen: a beam on a far wall is how you learn a search is coming.
+func _draw_torch_beams() -> void:
+	if not _bridge.HasLight:
+		return
+	const RAYS: int = 9
+	var pts: PackedVector2Array = _bridge.GetTorchBeams(RAYS)
+	var i: int = 0
+	while i + RAYS + 1 <= pts.size():
+		if _in_view(pts[i], 320.0):
+			draw_colored_polygon(pts.slice(i, i + RAYS + 1), C_TORCH)
+			draw_circle(pts[i], 2.0, C_LAMP)
+		i += RAYS + 1
+
+
+## Feed the post-tick guard snapshot to the footstep listener. Only while the
+## run is live: after a death or an escape there is nobody left to listen.
+func _observe_footsteps() -> void:
+	if _over_code != 0:
+		return
+	var player: PackedInt32Array = _bridge.GetPlayer()
+	if player[3] != 1:
+		return
+	_steps.observe(_bridge.GetGuards(), GUARD_STRIDE,
+		Vector2(player[0] / FX, player[1] / FX), player[19])
+
+
+## Footsteps heard through walls: two thin rings per footfall, the second a
+## beat behind the first, easing out and fading. Drawn AFTER the walls, since
+## the whole point is that the wall does not hide them, and deliberately faint
+## -- a sound, not a sighting. No guard figure is ever drawn: where he is is
+## yours to infer, and which way he is going is in the zig-zag of his feet.
+func _draw_footsteps() -> void:
+	var life: float = FOOTSTEPS.LIFE
+	var lag: float = 0.18
+	for r in _steps.ripples:
+		var pos: Vector2 = r["pos"]
+		if not _in_view(pos, 30.0):
+			continue
+		var t: float = r["t"]
+		var size: float = r["size"]
+		var peak: float = r["alpha"]
+		for k in range(2):
+			var local: float = (t - lag * k) / (life - lag)
+			if local <= 0.0 or local >= 1.0:
+				continue
+			var rad: float = size * (1.0 - pow(1.0 - local, 3.0)) * (1.0 - 0.3 * k)
+			var col := C_STEP
+			col.a = peak * pow(1.0 - local, 1.6) * (1.0 - 0.35 * k)
+			draw_arc(pos, maxf(rad, 0.5), 0.0, TAU, 28, col, 1.4 - 0.4 * k)
+		# The footfall itself, a moment long.
+		if t < 0.25:
+			var dot := C_STEP
+			dot.a = peak * (1.0 - t / 0.25)
+			draw_circle(pos, 1.8, dot)
 
 
 ## Guards who are actively coming for you, but are off screen.
@@ -2810,6 +3103,8 @@ func _draw_hud(player: PackedInt32Array, world: PackedInt32Array) -> void:
 	_hud_exposure(_hud.pos_of("exposure"), world[5])
 	_hud_score(_hud.pos_of("score"), world)
 	_hud_movement(_hud.pos_of("movement"), player)
+	if _bridge.HasLight:
+		_hud_light(_hud.pos_of("light"), _bridge.PlayerVisQ8)
 
 	# A kit was equipped but the run it belongs to has not started. Persistent
 	# rather than a fading notice: the whole failure this fixes is a player
@@ -2835,7 +3130,10 @@ func _draw_hud(player: PackedInt32Array, world: PackedInt32Array) -> void:
 	# Not behind the stash or the title: going back replaces the debrief rather
 	# than stacking a second panel under it.
 	if _over_code != 0 and not _playback and not _any_screen_open():
-		_draw_end_card(world)
+		if _victory:
+			_draw_victory_card(world)
+		else:
+			_draw_end_card(world)
 
 
 ## A small caps label above a value, which is the shape every readout in the bar
@@ -2952,6 +3250,24 @@ func _hud_exposure(at: Vector2, exposure_tenths: int) -> void:
 	draw_rect(bar, C_HUD_TROUGH)
 	draw_rect(Rect2(bar.position, Vector2(bar.size.x * frac, bar.size.y)),
 		C_SIGNAL if frac > 0.65 else (C_AMBER if frac > 0.3 else C_COLD))
+
+
+## How visible you are RIGHT NOW (lighting plan §7.3): the sim's own VisQ8 at
+## the player, which is what every guard's eye is scaled by this tick, and
+## nothing else -- the meter cannot disagree with perception. A jewel that goes
+## from dim to bright, a word, and a bar.
+func _hud_light(at: Vector2, vis_q8: int) -> void:
+	var w: float = _hud.size_of("light").x
+	var f: float = clampf(vis_q8 / 256.0, 0.0, 1.0)
+	var word: String = "HIDDEN" if vis_q8 < 110 else ("IN SHADOW" if vis_q8 < 200 else "LIT")
+	var jewel: Color = Color(0.20, 0.24, 0.32).lerp(C_LAMP, f)
+	draw_circle(at + Vector2(8, 11), 7.0, Color(jewel, 0.25))
+	draw_circle(at + Vector2(8, 11), 4.5, jewel)
+	_hud_label(at + Vector2(22, 9), "LIGHT", w - 22, HORIZONTAL_ALIGNMENT_RIGHT)
+	draw_string(_font, at + Vector2(22, 10), word, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, jewel)
+	var bar := Rect2(at + Vector2(22, 17), Vector2(w - 22, 5))
+	draw_rect(bar, C_HUD_TROUGH)
+	draw_rect(Rect2(bar.position, Vector2(bar.size.x * f, bar.size.y)), jewel)
 
 
 func _hud_score(at: Vector2, world: PackedInt32Array) -> void:
@@ -3238,5 +3554,138 @@ func _draw_end_card(world: PackedInt32Array) -> void:
 		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, 11, Color(0.42, 0.46, 0.52))
 
 	draw_string(_font, Vector2(panel.position.x, panel.end.y - 18),
+		"ENTER  back to the stash          F5  run it again",
+		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, 13, Color(0.82, 0.86, 0.92))
+
+
+## Every shipped mission as [title, runs, completions, best payout], in mission
+## select's order, for the victory screen's table.
+func _mission_table() -> Array:
+	var rows: Array = []
+	for path in LEVELS.list():
+		var rec: Dictionary = _campaign.mission_record(path.get_file())
+		rows.append([_bridge.LevelTitle(LEVELS.read(path)), int(rec["runs"]),
+			int(rec["completions"]), int(rec["best"])])
+	return rows
+
+
+## Seconds of play as h:mm:ss, or m:ss under an hour. `ticks` is the sim's
+## tick count, which runs on the 60 Hz physics clock whatever dilation does to
+## the world.
+static func play_time_text(ticks: int) -> String:
+	var secs: int = maxi(0, ticks) / 60
+	if secs >= 3600:
+		return "%d:%02d:%02d" % [secs / 3600, (secs / 60) % 60, secs % 60]
+	return "%d:%02d" % [secs / 60, secs % 60]
+
+
+## One label/value line of the victory screen: label left, value right, in a
+## column `w` wide.
+func _stat_line(x: float, y: float, w: float, label: String, value: String,
+		col: Color = Color(0.82, 0.86, 0.92)) -> void:
+	draw_string(_font, Vector2(x, y), label, HORIZONTAL_ALIGNMENT_LEFT, w, 12,
+		Color(0.50, 0.55, 0.63))
+	draw_string(_font, Vector2(x, y), value, HORIZONTAL_ALIGNMENT_RIGHT, w, 12, col)
+
+
+## The debrief for the run that WON: the final mission, completed. This run on
+## the left, the whole campaign on the right, every mission beneath. ENTER and
+## F5 do what they do on the ordinary debrief -- winning does not end the
+## campaign, it only says that it has been won.
+func _draw_victory_card(world: PackedInt32Array) -> void:
+	draw_rect(Rect2(0, 0, FIELD_W, FIELD_H + HUD_H), Color(0.02, 0.03, 0.04, 0.9))
+
+	var panel := Rect2(FIELD_W * 0.5 - 360, 28, 720, FIELD_H + HUD_H - 56)
+	draw_rect(panel, Color(0.043, 0.051, 0.063, 0.97))
+	draw_rect(panel, C_OBJECTIVE, false, 1.5)
+
+	var x0: float = panel.position.x
+	var y: float = panel.position.y + 50
+	draw_string(_font, Vector2(x0, y), "VICTORY",
+		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, 34, C_OBJECTIVE)
+	y += 26
+	draw_string(_font, Vector2(x0, y),
+		"you walked out of the Black Site with the objective — the game is won",
+		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, 13, Color(0.72, 0.76, 0.82))
+	y += 18
+	var c: RefCounted = _campaign
+	var won: String = "won on run %d" % c.won_on_run
+	if c.victories > 1:
+		won += "  ·  victory #%d" % c.victories
+	draw_string(_font, Vector2(x0, y), won,
+		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, 11, Color(0.5, 0.54, 0.6))
+
+	# Two columns of figures.
+	var colw: float = 300.0
+	var lx: float = x0 + 40.0
+	var rx: float = panel.end.x - 40.0 - colw
+	y += 34
+	var head := Color(0.72, 0.76, 0.82)
+	draw_string(_font, Vector2(lx, y), "THIS RUN", HORIZONTAL_ALIGNMENT_LEFT, colw, 12, head)
+	draw_string(_font, Vector2(rx, y), "THE CAMPAIGN", HORIZONTAL_ALIGNMENT_LEFT, colw, 12, head)
+	draw_line(Vector2(lx, y + 6), Vector2(lx + colw, y + 6), C_HUD_TROUGH, 1.0)
+	draw_line(Vector2(rx, y + 6), Vector2(rx + colw, y + 6), C_HUD_TROUGH, 1.0)
+
+	var run: Array = [
+		["time in the field", play_time_text(world[0])],
+		["guards killed", str(world[11])],
+		["guards subdued", str(world[12])],
+		["shots fired", str(world[13])],
+		["records provable", str(world[7])],
+		["records unprovable", str(world[8])],
+		["records destroyed", str(world[9])],
+		["items recovered", str(c.last_items)],
+		["luck", luck_text(_bridge.Luck).trim_prefix("luck ")],
+		["earned", "%d" % c.total_of_last()],
+	]
+	var camp: Array = [
+		["time in the field", play_time_text(c.ticks)],
+		["runs", str(c.runs)],
+		["extractions  ·  deaths", "%d  ·  %d" % [c.extractions, c.deaths()]],
+		["missions completed", str(c.completions())],
+		["guards killed", str(c.kills)],
+		["guards subdued", str(c.subdues)],
+		["shots fired", str(c.shots)],
+		["records out  (prov · unprov)", "%d · %d" % [c.provable, c.unprovable]],
+		["items recovered", str(c.recovered)],
+		["earned  ·  on hand", "%d  ·  %d" % [c.earned, c.money]],
+	]
+	var line_h: float = 17.0
+	for i in range(maxi(run.size(), camp.size())):
+		var ly: float = y + 24 + i * line_h
+		if i < run.size():
+			var v: Color = C_EXIT if i == run.size() - 1 else Color(0.82, 0.86, 0.92)
+			_stat_line(lx, ly, colw, run[i][0], run[i][1], v)
+		if i < camp.size():
+			_stat_line(rx, ly, colw, camp[i][0], camp[i][1])
+	y += 24 + maxi(run.size(), camp.size()) * line_h + 14
+
+	# Every mission, in mission select's order.
+	var tx: float = lx
+	var tw: float = panel.end.x - 40.0 - lx
+	draw_string(_font, Vector2(tx, y), "MISSIONS", HORIZONTAL_ALIGNMENT_LEFT, 200, 12, head)
+	draw_string(_font, Vector2(tx + tw - 300, y), "runs", HORIZONTAL_ALIGNMENT_RIGHT, 80, 11,
+		C_HUD_LABEL)
+	draw_string(_font, Vector2(tx + tw - 200, y), "completed", HORIZONTAL_ALIGNMENT_RIGHT, 90, 11,
+		C_HUD_LABEL)
+	draw_string(_font, Vector2(tx + tw - 100, y), "best", HORIZONTAL_ALIGNMENT_RIGHT, 100, 11,
+		C_HUD_LABEL)
+	draw_line(Vector2(tx, y + 6), Vector2(tx + tw, y + 6), C_HUD_TROUGH, 1.0)
+	# Room for what fits above the footer; mission select is the full list.
+	var room: int = int((panel.end.y - 44 - (y + 22)) / 15.0) + 1
+	for i in range(mini(_victory_rows.size(), room)):
+		var r: Array = _victory_rows[i]
+		var ry: float = y + 22 + i * 15.0
+		var done: bool = int(r[2]) > 0
+		var col: Color = Color(0.82, 0.86, 0.92) if done else Color(0.5, 0.54, 0.6)
+		draw_string(_font, Vector2(tx, ry), r[0], HORIZONTAL_ALIGNMENT_LEFT, tw - 310, 12, col)
+		draw_string(_font, Vector2(tx + tw - 300, ry), str(r[1]),
+			HORIZONTAL_ALIGNMENT_RIGHT, 80, 12, col)
+		draw_string(_font, Vector2(tx + tw - 200, ry), str(r[2]),
+			HORIZONTAL_ALIGNMENT_RIGHT, 90, 12, C_EXIT if done else col)
+		draw_string(_font, Vector2(tx + tw - 100, ry), str(r[3]),
+			HORIZONTAL_ALIGNMENT_RIGHT, 100, 12, col)
+
+	draw_string(_font, Vector2(x0, panel.end.y - 18),
 		"ENTER  back to the stash          F5  run it again",
 		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x, 13, Color(0.82, 0.86, 0.92))

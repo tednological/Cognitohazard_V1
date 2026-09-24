@@ -44,6 +44,11 @@ Editor: `$G --editor --path .`
   the whole run and asserts it is put back BYTE FOR BYTE; any new test that
   opens a stash screen is covered by that one guard.
 - Game-layer fuzz: `$G --headless --path . --script res://tests/fuzz_check.gd`
+- Level art harness (map kits; see "Level art"):
+  `$G --headless --path . --script res://tests/level_art_check.gd`
+- Render every level in its kit to PNG for a look (NOT headless, needs a
+  renderer; touches nothing in user://):
+  `$G --path . --script res://tools/render_level_art.gd -- --out /abs/dir [--level name]`
 
 # Shipping a build
 `tools/ship.sh` is the whole release: every harness, then the export, then the
@@ -155,11 +160,15 @@ R rotates, H flips, ESC backs out one layer at a time.
   (and keeps the redo). Undo no longer re-fits the view unless the size changed.
 - `press(cell, erase, shift)`/`drag_to`/`release` take CELLS so
   `editor_check.gd:_check_editor_tools` drives every tool with no cursor.
-- Tool codes 0-11 are taken. Index = EditorPaint code EXCEPT the sweep node:
+- Tool codes 0-13 are taken. Index = EditorPaint code UP TO the sweep node:
   10 = objective (shift+chest, no palette entry), so the sweep node is palette
-  index 10 (`T_SWEEP`) sending code 11 (`SWEEP_CODE`), mapped in `paint_code`.
-  A new tool appends code 12 and needs a letter key. Editor letters in use:
-  A C F G H I K L M N O R S V X Y Z.
+  index 10 (`T_SWEEP`) sending code 11 (`SWEEP_CODE`), and EVERY palette entry
+  after it sits one code past its index (`paint_code`): Lamp (B) is index 11,
+  code 12; Switch (P) index 12, code 13. A new tool appends code 14 and needs a
+  letter key. Editor letters in use:
+  A B C D F G H I K L M N O P R S T U V X Y Z. (T / shift+T cycles the level's
+  map-kit THEME, one undo step; the header names it. B lamp, P switch,
+  D / shift+D ambient, U light preview: see "Lighting".)
 - SWEEP NODES (`*`, Guard_AI.md §6.3.1) are an ACTOR tool, one per click, not
   `EditorStampable`: they mark places, so brushes and paste must not spray
   them. Floor to everything but the sweep; they never knock through a wall.
@@ -215,6 +224,9 @@ by kind, up/down or WHEEL choose, ENTER spawns, F8/ESC closes. Where it lands,
 which the screen states rather than making you infer:
 - MID-RUN → the MISSION PACK, on the next tick.
 - OTHERWISE (title, stash, after a death) → the STASH, at once.
+Decided by `main.gd:_in_mission()`, NOT `RunLive` alone: a world is loaded
+behind the title and base stash at launch, so RunLive is true before any
+deploy, and the first spawns were queued for a pack `_restart()` then cleared.
 
 The mid-run half is RECORDED INTENT. `InputFrame.SpawnItem` is 0 for none, else
 a GearCatalog ITEM ID (an id, not a catalogue index — ids are fixed forever),
@@ -493,6 +505,17 @@ the half of it that decides where gear ends up. The bag is emptied on the way
 out: what was in it has just been banked, and a carry list left standing would
 deploy the next run with a copy of all of it.
 
+THE GAME IS WON by completing the final mission: extracting WITH the objective
+from `missions.gd:FINAL_PATH` (the SHIPPED `res://levels/zz_black_site.txt`, so
+an edited copy in user://levels does not count; nor does an editor playtest,
+`main.gd:_playtest_run`). `_settle_run` calls `campaign.win()` and the debrief
+becomes `_draw_victory_card`: this run, the lifetime campaign, every mission's
+runs/completions/best. Winning ends nothing -- ENTER and F5 work as ever.
+The lifetime figures (`campaign.STAT_KEYS`: kills, subdues, shots, ticks,
+records, earned, recovered, victories, won_on_run) are added by `note_run` on
+EVERY settled run, deaths included, one `key N` save line each; an older
+ledger loads them as zero. New Game wipes them with the money.
+
 KEPT GEAR PAYS NO CASH. Paying shop value for salvage AND keeping the item made
 one chest buy a rifle and ended the economy in a run. The item IS the reward;
 only overflow is fenced, at `SALVAGE_RATE_Q8` (~35%).
@@ -529,9 +552,17 @@ The multiplier applies to mission payout and record rates ONLY. It must never
 touch salvage: an item's fence value is already its own worth.
 
 # Guards
-Glyph range 'a'-'z' (`Level.GuardFirst`/`GuardLast`, `MaxGuards` 26). Eight
-capped how dangerous ANY level could be and made the guard term constant on the
-threat scale.
+The guard ALPHABET is `Level.GuardGlyphs`: 'a'-'z', then the 62 Latin-1 letters
+'À'-'ÿ' (U+00C0..U+00FF without × and ÷), so `MaxGuards` is 88. Eight, then
+twenty-six, capped how dangerous ANY level could be. It stays inside ONE BYTE
+on purpose: the grid crosses to game/ as a byte per cell (`GetGrid`), so a
+wider alphabet needs that boundary changed first. Level files are UTF-8
+('Ä' is two bytes on disk, one char in the sim); `levelkit.py` writes UTF-8 and
+has the same alphabet as `GUARD_GLYPHS`. Records key off `Level.GuardSlot`
+(the place in the alphabet), not `Id - 'a'`. game/ asks
+`SimBridge.IsGuardGlyph(int)` -- never a 97..122 range test -- and the editor's
+issue links match `guard \S`. Loot index space: guards + chests + ground piles
+must stay under 255 (`InputFrame.LootPick` is a byte); the Black Site uses 121.
 
 Every level carries TEN. A guard with no route line is a stationary sentry by
 design: patrollers set the rhythm on corridors, sentries hold the rooms worth
@@ -593,6 +624,15 @@ in `sim/GuardNet.cs`.
   floor being compromised are always told as notices -- that is the fairness
   line. main.gd mirrors `ST_*`/`TASK_*` by hand, and `editor_check.gd`
   asserts them against `SimBridge.GuardStateNames/GuardTaskNames`.
+- FOOTSTEPS THROUGH WALLS: `game/footsteps.gd`, PRESENTATION ONLY -- read
+  from `GetGuards()` after each tick (`main.gd:_observe_footsteps`), never
+  fed back, no hash, no replay token. A guard the player CANNOT see (`visible`
+  0) who WALKS lands a ripple every `STRIDE_PX` of distance, alternating feet
+  (the zig-zag gives his heading). Earshot `HEAR_PX` × posture loudness,
+  shrunk by `TIER_MASK` only while the player is MOVING. A standing sentry is
+  silent -- that surprise is the stealth game. Pinned by
+  `editor_check.gd:_check_footsteps`, including a real run whose hash matches
+  an unlistened one.
 - F3 AI DEBUG OVERLAY: `game/ai_debug_overlay.gd`, a pure function of
   `SimBridge.GetAiDebug()` (a sectioned int snapshot). Shows hidden guards, so
   it is off by default and never saved. `editor_check.gd` draws it inside a
@@ -756,6 +796,34 @@ Q opens it. Up/down pick a row, left/right change it, E or ENTER stages the kit
 and closes — it does NOT restart; F5 deploys with it. Weapon, armour and six
 attachment slots; slots the equipped weapon lacks are greyed, not hidden.
 
+# Guards fire their own guns
+A DELIBERATE DEVIATION, on request: guards used to fire a flat rifle (50
+damage, 2200 px/s, one aimed round per 0.8 s, `Tune.GuardDamage` et al, all
+deleted). Now `Actor.Weapon` is the gun his loot roll bought
+(`SimWorld.ArmGuard`, from the first weapon in his kit, Glock if none), and
+`SimWorld.GuardFire` fires it through the player's machinery: damage, pierce,
+pellets and choke, bullet speed and life (his shots still call no
+GunshotHeard, as before), heat and its own decay, magazine and reload, the Vulcan's spin-up,
+AWM wall pierce, Tesla bolts (lethal on a hit; a grounded strike arcs to a
+player within `ArcPlayerReach`, never along guards), and FRAGS (thrown from
+his centre, fragments hit everyone).
+- BURSTS: as many rounds as the weapon cycles in `Tune.GuardBurstTicks` (0.4 s)
+  -- AK 3, MP7 6, Vulcan 12, bolt/pump 1 -- then `EngageCooldownTicks` and a
+  re-aim. `SimWorld.GuardBurst(spec)`.
+- CONE: the weapon's own three terms plus `Tune.GuardSpreadPenalty` (625), set
+  so a cold AK guard draws exactly the old flat 938-BRAD cone.
+- A grenadier never throws inside `Tune.GuardGrenadeMinDist` (260 px, past the
+  ~230 px fragment reach) and holds his engage band out beyond it.
+- `StepGuardWeapon` runs every tick after behaviour: heat, reload, spin-down,
+  burst reset, and a top-up reload out of combat. `NormaliseGuard` repairs an
+  out-of-range weapon, magazine, burst, reload or spin.
+- `GuardShot` carries the weapon ordinal in Value. Weapon and BurstShots are
+  hashed (goldens re-baked). `tests/GuardWeapons.cs` pins all of it, every
+  weapon through a real guard.
+- Guard MOVEMENT ignores weapon weight (`SpeedDelta`), and guards get no
+  headshots or aim lock. Tests that drive a round into the player directly use
+  a local fixture round (Health.cs), not a guard constant.
+
 # Guards, health and armour
 Guards spawn on `Tune.GuardHealth` (60), NOT `Tune.BaseHealth` (the player's
 100): the interesting question about a guard is whether he wears a plate, not
@@ -850,12 +918,33 @@ text. Clamped to `Level.MinDim`/`MaxDim`/`MaxCells`; the parser stays total.
   every room is behind a door, stacks make two-cell aisles, and there is ONE
   window: the vault supervisor watching the antechamber. The objective is
   behind a three-cell vault door. `python3 tools/gen_vault_row.py`.
+- `zz_black_site.txt` 168x128 (exactly `Level.MaxCells`): Cognitohazard Black
+  Site, the FINAL level -- `zz_` because mission select sorts by filename. A
+  complex dug into a mountain: the surface building is open to the west, south
+  and east yards, and the vault sits at the back of the carved deep site with
+  solid rock behind it. Three ways in (two service tunnels, the portal), all
+  meeting in the gallery before the antechamber, vault hall and cage. FOUR
+  exits, 78 guards (the 26 letters plus 52 past 'z', mostly mirrored pairs),
+  `loot: 1000000` over 42 chests (~75% of chest items legendary) and
+  `guard_loot: 7000` (every guard a legendary gun -- Tesla, AWM, Arc Lance,
+  Vulcan -- which he FIRES; ~60% plated), officers more via `kit:`. `python3 tools/gen_black_site.py`.
 - New generators build on `tools/levelkit.py`, which REFUSES to write a level
   that fails its checks: every door 2-3 cells and set in a wall with floor on
   both faces, every window set in a wall, every guard and waypoint on a clear
   3x3 (a guard is 22 px, a cell 20), and spawn, exit, objective, chests and
   caches reachable WITHOUT breaking glass. Both levels are in `Fuzz` and
   `Navigation`'s level lists.
+
+SEVERAL EXITS: `Level.Exits` is one rect per 8-connected blob of 'X' (row-major
+by first cell, capped at `MaxExits` 8; blobs past it are floor and the editor
+warns). Reaching ANY ends the run. `Level.Exit` is the first, which on a
+one-exit level is exactly the old bounding box, so no golden moved and the grid
+(already hashed) is the only state. The sweep's exit group keeps to
+`Level.WatchedExit`, the exit nearest the objective. `ExitReachable(which:)`
+asks one exit; the validator warns per sealed exit. game/ reads
+`SimBridge.GetExits()` (stride 4); `level_art.gd` frames each blob.
+`levelkit.write` takes `loot=`, `guard_loot=`, `kits=` and writes them where
+`Level.ToText` would. Tests: `Systems` "multiple exits", `level_art_check`.
 
 `-- --level res://levels/foo.txt` overrides the exported level, like --replay.
 
@@ -879,6 +968,54 @@ second. Consequences:
   velocities fly off screen during the one mechanic built around watching them.
 - Guards in COMBAT get an off-screen edge marker (red when engaging).
   Relaxed, curious and hunting guards get nothing — that asymmetry is the stealth game.
+
+# Level art — the Astra map kits
+`game/level_art.gd` dresses the level in a kit from `assets/tilesets/`
+(`Astra Assets/TILESETS.md`): `industrial` or `scientific`, chosen by the
+level's `theme:` line. PRESENTATION ONLY and DERIVED: built from the live grid
+(`SimBridge.GetGrid`) in `main.gd:_refresh_level_cache`, it ADDS NO SHAPE.
+`tests/level_art_check.gd` asserts the contract over every shipped level and
+300 fuzzed grids:
+- Whatever LOOKS solid is drawn only on '#', and every '#' looks solid. Walls
+  are one tile per cell by N=1 E=2 S=4 W=8 connection mask (doors and panes
+  count as connected), over a fill of the kit's rim tone -- the tiles are 14 px
+  wide and a wall blocks 20 -- with the notch between arms patched inside solid
+  masses (`CORNER_PATCH` 5: the notch AND its bevel, or masses show a grid).
+- FREE-STANDING BLOCKS become equipment: a '#' component touching neither the
+  border nor a door/pane, an exact rectangle with even sides (2x2 props), or a
+  one-deep bench 2 or 4 long (`NARROW_PROPS`). On a plinth covering the whole
+  footprint, so the collision is the box you see. Odd blocks stay wall.
+- Walkable cells get only flat things: a floor per ROOM (cores >= 2 cells from
+  any wall, so doorways split them; long thin rooms get corridor floors),
+  corridor LANES (3-5 wide, straight runs of `LANE_MIN` 6+), exit brackets.
+  A conduit runs the border ring.
+- NO DECORATIVE LIGHT FIXTURES, ever: light is a stealth axis (lighting plan).
+  `draw_lamp(canvas, pos, lit, broken, vertical)` draws the kit's strip light
+  where the SIM has a lamp; the harness fails on any `light_*` command.
+- The floor is drawn once LIT; `draw_unlit` then darkens everything outside the
+  vision polygon with one triangle array (the quads between consecutive rays
+  out to `UNLIT_FAR`, possible because the polygon is an even fan), and repaints
+  C_BEYOND past the level edge. `UNLIT_ALPHA` 0.42 keeps the old ~0.59
+  unlit/lit ratio. Walls, props and the conduit draw AFTER it, at constant
+  tone, as walls always have.
+- Textures: `get_image()` off the imported PNGs, turned/flipped variants built
+  on first use, mipmapped, each wrapped in a CanvasTexture so filter and repeat
+  are PER TEXTURE (main's canvas item also draws HUD text). Emission maps
+  become GLOW textures (hue at full brightness, brightness as alpha, half res):
+  alpha blending approximating TILESETS.md's "add after diffuse" on a canvas
+  item with one blend mode. Normal maps are unused until something lights them.
+- `ready` false (no kit, headless dummy renderer) -> main.gd's procedural floor,
+  walls and swing doors draw instead. Glass and the EXIT stay procedural
+  (art pipeline §0.2). The kit's doors are a SLIDING pair, so a 3-cell door
+  is its 2-cell art stretched 1.5x.
+- `theme:` is `Level.Theme`, cleaned by `Level.CleanTheme`, written after
+  `name:` only when set (older levels round-trip byte for byte), and NOT
+  HASHED. Unknown or missing -> `DEFAULT_THEME` industrial. Generators pass
+  `theme=` to `levelkit.write`. Shipped: substation_4, terminal_twelve,
+  vault_row industrial; relay_nine, meridian_glasshouse, zz_black_site
+  scientific.
+- The manifests are JSON, NOT resources: `export_presets.cfg` includes
+  `*assets/tilesets/*.json`, or a shipped build silently draws primitives.
 
 # Editor view
 Levels no longer fit one screen, so the editor has its own view: arrows or
@@ -949,7 +1086,7 @@ That bit is now FREE.
 WASD move, mouse aim, click fire, SCROLL WHEEL move speed, space dilate,
 F subdue, R reload, F5 restart, F9 save replay, F11 fullscreen, Q loadout,
 TAB editor, G hold to loot a body/chest/floor gear OR tap to open/close the
-door in reach (the nearer of the two wins), X swap weapon, E inventory
+door or flip the light switch in reach (the nearer wins), X swap weapon, E inventory
 (FIELD VIEW during a mission, full stash + mission select outside one), B shop,
 F4 HUD layout editor, F8 dev menu, F3 AI debug overlay. `I` is unbound.
 Function keys: F2 rename (editor only), F3, F4, F5, F8, F9, F11. The `sneak` action was
@@ -1130,14 +1267,101 @@ multiplier, per-mission history) is BUILT; §2.1 was decided in favour of
 deriving from the level. UNBUILT: §1's selling from the stash and stash
 capacity as a purchase, and §2.4's carrying-too-little warning.
 
-# Lighting plan
-`cognitohazard_lighting_plan.md`, PLAN ONLY. It makes light a stealth axis: an
-integer light map in sim/ (ambient header, `L` lamps shadowcast against
-`Opaque`, so glass passes light and shut doors stop it), a light factor with a
-floor on the sight stimulus, symmetric dimming of guards, muzzle-flash pulses,
-lamps that shatter through the glass path, the flashlight as a toggled cone,
-and guard torches. A level with no `ambient:` and no lamps reduces to today
-EXACTLY (goldens and the §8.6 curve do not move). Read §0's decisions first.
+# Lighting — `cognitohazard_lighting_plan.md`, L0-L3, L5, L6 BUILT
+Light is a STEALTH AXIS: a dark corner hides you, a lit corridor exposes you,
+and the player can change which is which. A DELIBERATE DEVIATION from spec §9
+("concealment comes from walls only"), on request. Every constant is in
+`Tune`'s "lighting" block, marked NEW NUMBERS. NOT built: L4 (the player's own
+torch as a toggled cone; the flashlight rail is still the old flat
+`DetectionMul`) and the sweep scoring dark nodes higher (§8).
+- THE IDENTITY RULE. A level with no `ambient:` line (or `ambient: 100`) has
+  `SimWorld.Light == null`, and every lighting branch sits behind that null, so
+  a lit level runs exactly the code it ran before: goldens and the §8.6 curve
+  did not move. `Lighting.Identity` pins it. Hashing follows the panels' rule:
+  lamps hashed only when there are any, the flash only when `Light != null`.
+- LEVEL FORMAT: `ambient: N` (percent, clamped 0-100; garbage is "not
+  authored"), recognised in any mode like `loot:`, and written only when
+  authored. `L` lamp, `S` light switch: both FLOOR to everything (walls, nav,
+  sight, rounds); `Level.Lamps`/`Switches` are row-major and that index is
+  their identity. The HeaderComment gained "L lamp  S switch" and every level
+  file's header line with it.
+- `sim/LightMap.cs`: Q8 per cell = ambient + every lit lamp, each lamp's disc
+  (`LampRadius` 140 px, linear falloff) CAST WITH `Geometry.ClearLine` AGAINST
+  `Opaque` from the lamp to each cell centre, so light goes exactly where sight
+  goes: glass passes it, a shut door keeps it in. DERIVED, never hashed. Opaque
+  cells hold 0 and are left out of `LightAt`'s bilinear sample (walls must not
+  bleed light through to their far side). Rebuilt on events only:
+  `RebuildBlockers` -> `SyncLight` re-casts just the lamps near a cell whose
+  opacity flipped; a lamp breaking or switching only re-sums.
+  `SimWorld.FreshLight()` builds one from scratch; `Lighting` and `Fuzz` assert
+  the incremental map always equals it.
+- PERCEPTION (`Perception.InLight`/`DarkReach`/`VisQ8`, all the identity at
+  light 256). `PlayerLightQ8` is computed ONCE a tick before the guards look
+  (map, raised by the player's own flash and by any guard torch beam they stand
+  in). Then: inside `DarkSeeRange` (60 px) light is ignored; beyond the range
+  shortened toward `DarkSightRange` (180 px in pitch dark) he cannot make you
+  out AT ALL (this is what lets a lost fight be broken off in the dark);
+  between, q is scaled by `VisFloor` (0.28) up to 1 BEFORE the movement /
+  stance / alert multipliers. Snap sight's range shrinks the same way to
+  DarkSeeRange; a body is found within `BodyRange` shortened to `BodyDarkRange`.
+- THE MUZZLE FLASH (`MuzzleFlash`): firing on a lighting level lights the
+  player for `FlashTicks`, and every non-Combat guard facing it (±90°) with a
+  line to the muzzle within min(2 x report, `FlashSeenRange` 700) gets a
+  Notice at `FlashAwareness` there. Scaled by the report, so a suppressor hides
+  the flash as it hides the bang (a Welrod's reaches 260 px).
+- LAMPS ARE GLASS WITH A BULB IN IT: appended to the breakables array after the
+  panes (`RebuildBreakables`; `_glassPanel` holds -(lamp+1)), so one `Glass`
+  impact kind covers both. A grenade ROLLING is passed only the panes (`panes`
+  argument) and goes under a lamp; its fragments do break them. `BreakLamp`:
+  never relights, heard at `LampNoiseRadius` (220, a window is 340).
+- SWITCHES share `InputFrame.DoorPick` and its `u` token: pick =
+  Panels.Count + switch index + 1, so no new field, no 11th Step argument, and
+  a level without switches draws the same streams. `NearestUse()` is doors
+  and switches; `GetDoorTarget` gained field [5] (0 door, 1 switch). A switch
+  controls every lamp in its ROOM (`Level.RoomOf`: 4-connected, bounded by
+  walls, glass and doors), no wiring. It darkens the room if anything is lit,
+  lights it otherwise, clicks (`SwitchNoiseRadius`), and anyone in the room or
+  with a line to one of its lamps comes to look (`LightsNoticed`) -- and on
+  arriving turns it back ON (`TryRestoreLights`, from `Behave_Investigate`).
+  Only a shot-out lamp stays dark.
+- GUARD TORCHES (`TorchOn`, derived from posture, so unhashed): lit in Combat
+  and Hunting on any lighting level, and ALWAYS on a level at or below
+  `GuardTorchAmbient` (40%). A 0.35 rad, 300 px cone; standing in any beam
+  lights you (`TorchLightQ8`). Beams are drawn even for guards you cannot see.
+- WHAT THE PLAYER SEES follows the guards' rule (`SimWorld.PlayerSeesQ8`, sight
+  430 + flashlight): 0 is not drawn; below `SEE_OUTLINE` an outline; below
+  `SEE_CLEAR` dimmed, meter shown, plate hidden. A torch or a shot gives a guard
+  away. Read through `SimBridge.GetGuardSight()` (stride 2: seen, torch), a
+  SEPARATE array: GetGuards' stride 13 is indexed by hand in footsteps and the
+  AI overlay and did not move.
+- PRESENTATION (main.gd). `_draw_darkness` draws `GetDarkness` (RGBA8 at TWO
+  texels per cell: a wall's texels take the light of the floor they FACE, so
+  a lit room does not glow through its walls) as a night-blue overlay whose
+  alpha rises as light falls, capped at `DARK_MAX` (display floor: pitch dark to
+  the sim is still a readable floor). At alpha a a normal blend IS a multiply
+  by (1 - a), so no material and no node. LINEAR via a `CanvasTexture`, whatever
+  the canvas filter. Uploaded only when `LightVersion` moves; that version is
+  salted per world, since every restart's map starts again at 1. Order: level
+  and items, DARKNESS, lamps (`_art.draw_lamp` or primitives), beams, guards,
+  player. HUD element `light` (default 716,464): `PlayerVisQ8` and nothing else.
+  Audio `LAMP` (scales with time) and `SWITCH`. Events APPENDED: `LampBroken`,
+  `LightsOn`, `LightsOff` (Heading 1 = a guard threw it). Mission select says
+  "dark, N% light" (`LevelSummary` [11] ambient, [12] lamps); threat ignores light.
+- EDITOR: B lamp, P switch (fixtures, one per click, never stamped, never
+  through a wall), D / shift+D ambient in tens (past 90 removes the line:
+  fully lit), U toggles the preview -- the edit buffer through the sim's own
+  `LightMap.AtRest`. The validator warns about lamps on a lit level and a
+  switch with no lamp in its room, and says when the exit or objective is
+  pitch dark.
+- `vault_row_night.txt` (`tools/gen_vault_row_night.py`, which imports
+  gen_vault_row's grid -- that script now writes only when run): Vault Row at
+  25% with 20 lamps and 8 switches, so every guard carries a torch. It is in
+  the Fuzz, Loot and Navigation level lists. `levelkit.write(..., ambient=N)`
+  refuses lamps on a lit level and a switch that is not against a wall or
+  wired to nothing.
+- Tests: `tests/Lighting.cs` (every rule above), `Fuzz` (map equals a fresh
+  build, broken lamps dark, light in range; asserts it reached a lit level),
+  `editor_check.gd:_check_lighting`, `audio_check.gd`.
 
 # Camera plan
 `cognitohazard_camera_plan.md` — BUILT, phases 1-8, except phase 2 was

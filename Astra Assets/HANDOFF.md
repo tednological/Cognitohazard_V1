@@ -6,8 +6,8 @@ Industrial and scientific map kits are now built: 55 assets each, with 330
 color/normal/emission PNGs and two editable Blender libraries. See
 [TILESETS.md](TILESETS.md) for files, rebuild commands and lighting conventions.
 All 330 PNGs and both manifests reproduce byte-for-byte. The original 115
-sprites are unchanged. The map kits are an asset delivery, not yet connected
-to the live map renderer or level editor. Review the assembled rooms and
+sprites are unchanged. The map kits are now drawn in game by
+`game/level_art.gd`, selected per level by `theme:` (industrial or scientific). Review the assembled rooms and
 interactive lighting viewer in `previews/tilesets/`.
 
 ## Current status — Linux continuation, 2026-09-23

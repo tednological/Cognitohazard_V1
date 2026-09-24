@@ -87,3 +87,21 @@ static func multiplier_text(summary: PackedInt32Array) -> String:
 ## mission difficulty pays twice for one thing.
 static func mission_payout(summary: PackedInt32Array) -> int:
 	return (MISSION_BASE * multiplier_q8(summary)) >> 8
+
+
+## The last mission. Completing it -- extracting WITH the objective -- wins the
+## game. Keyed by FILE NAME, like the per-mission history, because titles can be
+## renamed and file names are what mission select sorts by (hence the `zz_`).
+const FINAL_LEVEL: String = "zz_black_site.txt"
+
+
+## Where the final level ships. The SHIPPED file only: the editor saves to
+## user://levels in an exported build, and an edited copy under the same name
+## must not win the game.
+const FINAL_PATH: String = "res://levels/" + FINAL_LEVEL
+
+
+## Whether a settled run wins the game. Pure, so the harness can pin it without
+## a run: only the shipped final level counts, and only a completed run of it.
+static func is_victory(level_path: String, completed: bool) -> bool:
+	return completed and level_path == FINAL_PATH

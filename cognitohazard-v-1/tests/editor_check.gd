@@ -96,6 +96,8 @@ func _process(_delta: float) -> bool:
 	_check_step_arity()
 	_check_format_strings()
 	_check_guard_ai_mirror(bridge_script)
+	_check_footsteps(bridge_script)
+	_check_lighting(bridge_script)
 	_start_overlay_probe(bridge_script)
 	return false
 
@@ -855,7 +857,7 @@ func _check_panels(bridge_script: Script, b: RefCounted) -> void:
 	# The palette: ten tools on ten number keys, the last three new, and
 	# shift+chest the objective. Codes are palette order, so they must match
 	# what EditorPaint switches on.
-	_eq("the palette has eleven tools", EDITOR.TOOLS.size(), 11)
+	_eq("the palette has thirteen tools", EDITOR.TOOLS.size(), 13)
 	_eq("tool 8 is the chest", EDITOR.TOOLS[T_CHEST]["glyph"], "C")
 	_eq("tool 9 is glass", EDITOR.TOOLS[T_GLASS]["glyph"], "=")
 	_eq("tool 0 is the door", EDITOR.TOOLS[T_DOOR]["glyph"], "+")
@@ -1068,23 +1070,43 @@ func _check_guards_and_routes(b: RefCounted) -> void:
 	b.EditorRouteClear("a".unicode_at(0))
 	_eq("clear route empties it", b.EditorGetRoute("a".unicode_at(0)).size(), 0)
 
-	# Twenty-six guards is the cap ('a'..'z'). It was eight, which capped how
-	# dangerous ANY level could be regardless of its size.
+	# Eighty-eight guards is the cap: 'a'..'z', then the Latin-1 letters
+	# 'À'..'ÿ' (Level.GuardGlyphs). It was eight, then twenty-six, and each
+	# capped how dangerous ANY level could be regardless of its size.
 	b.EditorBeginBlank()
-	var cap: int = "z".unicode_at(0) - "a".unicode_at(0) + 1
-	_eq("the cap is the whole lowercase alphabet", cap, 26)
+	var alphabet: String = b.GuardGlyphs
+	var cap: int = alphabet.length()
+	_eq("the cap is a..z and the 62 Latin-1 letters", cap, 88)
 	for i in range(cap + 4):
 		b.EditorPaint(2 + (i % 20) * 2, 4 + (i / 20) * 3, T_GUARD, false)
-	_eq("at most twenty-six guards", b.EditorGuardIds().size(), cap)
+	_eq("at most eighty-eight guards", b.EditorGuardIds().size(), cap)
 	_eq("and the next placement is refused", b.EditorNextGuardId(), 0)
 
-	# The letters really do run a..z, with no gaps.
+	# The letters run through the alphabet in order, with no gaps.
 	var letters: PackedByteArray = b.EditorGuardIds()
-	var contiguous: bool = true
+	var in_order: bool = letters.size() == cap
 	for i in range(letters.size()):
-		if letters[i] != "a".unicode_at(0) + i:
-			contiguous = false
-	_check("and they are a..z in order", contiguous)
+		if letters[i] != alphabet.unicode_at(i):
+			in_order = false
+	_check("and they are the alphabet in order", in_order)
+	_check("every one of them is a guard to the editor",
+		Array(letters).all(func(ch: int) -> bool: return b.IsGuardGlyph(ch)))
+	_check("and nothing outside it is", not b.IsGuardGlyph("A".unicode_at(0))
+		and not b.IsGuardGlyph(0xD7) and not b.IsGuardGlyph(0x100))
+
+	# A guard past 'z' round-trips through the text format, route and kit
+	# lines included, and its issue line is a link.
+	var last: int = alphabet.unicode_at(cap - 1)
+	b.EditorSelectGuard(last)
+	b.EditorPaint(30, 22, T_WAYPOINT, false)
+	var last_route: PackedInt32Array = b.EditorGetRoute(last)
+	_check("fixture: the last guard has a route", last_route.size() >= 4, str(last_route))
+	var text: String = b.EditorToText()
+	b.EditorBeginFrom(text)
+	_eq("a level of 88 guards survives a save and load", b.EditorGuardIds().size(), cap)
+	_eq("and so does the route of the last one", b.EditorGetRoute(last), last_route)
+	_check("an issue naming a Latin-1 guard is a link",
+		EDITOR.issue_links("info: guard %s has no route" % char(alphabet.unicode_at(30))))
 
 
 # ------------------------------------------------------------- round-trip
@@ -1767,6 +1789,120 @@ static func _synthetic_ai_snapshot() -> PackedInt32Array:
 
 ## The probe node is built from source here rather than shipped as a file:
 ## it exists only to give the overlay a real _draw to run in.
+# ------------------------------------------------------------- footsteps
+#
+# game/footsteps.gd: hidden guards' footfalls, drawn as ripples through walls.
+# Presentation, so it is pinned here and not in the sim harness. Hand-built
+# snapshots pin the rules; a real run pins that it reads GetGuards' layout.
+
+const FOOTSTEPS := preload("res://game/footsteps.gd")
+const FS_STRIDE: int = 13   # main.gd GUARD_STRIDE
+
+
+## One guard snapshot at (x, y) px, in GetGuards' stride and fixed point.
+func _fs_guard(x: float, y: float, state: int, visible: int) -> PackedInt32Array:
+	var g := PackedInt32Array()
+	g.resize(FS_STRIDE)
+	g[0] = int(x * 256.0)
+	g[1] = int(y * 256.0)
+	g[3] = state
+	g[7] = visible
+	return g
+
+
+## Walk one guard `px` pixels east from (x, y) in 2 px ticks, the player parked
+## at `player`. Returns the listener, so ripples can be inspected.
+func _fs_walk(x: float, y: float, px: float, state: int, visible: int,
+		player: Vector2, tier: int = 1, player_step: Vector2 = Vector2.ZERO) -> RefCounted:
+	var fs: RefCounted = FOOTSTEPS.new()
+	var p: Vector2 = player
+	fs.observe(_fs_guard(x, y, state, visible), FS_STRIDE, p, tier)
+	var walked: float = 0.0
+	while walked < px:
+		walked += 2.0
+		p += player_step
+		fs.observe(_fs_guard(x + walked, y, state, visible), FS_STRIDE, p, tier)
+	return fs
+
+
+func _check_footsteps(bridge_script: Script) -> void:
+	var near := Vector2(100, 150)   # 50 px south of the walk
+
+	var fs: RefCounted = _fs_walk(100, 100, 200, 0, 0, near)
+	_eq("footsteps: a hidden guard walking 200 px lands one step per stride",
+		fs.ripples.size(), int(200.0 / FOOTSTEPS.STRIDE_PX))
+	if fs.ripples.size() >= 2:
+		var a: Vector2 = fs.ripples[0]["pos"]
+		var b: Vector2 = fs.ripples[1]["pos"]
+		_check("footsteps: consecutive feet land on opposite sides of his line",
+			signf(a.y - 100.0) == -signf(b.y - 100.0) and a.y != 100.0,
+			"%s then %s" % [a, b])
+
+	_eq("footsteps: a guard in plain sight is not a ripple",
+		_fs_walk(100, 100, 200, 0, 1, near).ripples.size(), 0)
+	_eq("footsteps: out of earshot is silent",
+		_fs_walk(100, 100, 200, 0, 0, Vector2(100, 100 + FOOTSTEPS.HEAR_PX + 40)).ripples.size(), 0)
+	_eq("footsteps: a dead guard walks nowhere",
+		_fs_walk(100, 100, 200, 5, 0, near).ripples.size(), 0)
+
+	# A sentry makes no sound: standing still for a second is not footsteps.
+	var sentry: RefCounted = FOOTSTEPS.new()
+	for i in range(60):
+		sentry.observe(_fs_guard(100, 100, 0, 0), FS_STRIDE, near, 1)
+	_eq("footsteps: a guard standing still is silent", sentry.ripples.size(), 0)
+
+	# A respawn / restart / seek moves a guard in one jump. Not a step.
+	var tp: RefCounted = FOOTSTEPS.new()
+	tp.observe(_fs_guard(100, 100, 0, 0), FS_STRIDE, near, 1)
+	tp.observe(_fs_guard(100 + FOOTSTEPS.TELEPORT_PX + 1, 100, 0, 0), FS_STRIDE, near, 1)
+	_eq("footsteps: a teleport is not a footfall", tp.ripples.size(), 0)
+
+	# Earshot: louder in a fight, shorter while you are moving fast, and the
+	# movement tier costs nothing while you stand still. The last pair walks
+	# the player alongside the guard, so only the tier differs.
+	_check("footsteps: a guard in combat carries further than one on his rounds",
+		FOOTSTEPS.hear_radius(2, false, 1) > FOOTSTEPS.hear_radius(0, false, 1))
+	_check("footsteps: sprinting hears less than sneaking",
+		FOOTSTEPS.hear_radius(0, true, 3) < FOOTSTEPS.hear_radius(0, true, 0))
+	_eq("footsteps: standing still at sprint tier hears in full",
+		FOOTSTEPS.hear_radius(0, false, 3), FOOTSTEPS.hear_radius(0, false, 0))
+	var edge := Vector2(100, 100 + FOOTSTEPS.HEAR_PX * 0.8)
+	_check("footsteps: the same step is heard standing and lost sprinting",
+		_fs_walk(100, 100, 200, 0, 0, edge, 3).ripples.size() > 0
+		and _fs_walk(100, 100, 200, 0, 0, edge, 3, Vector2(2.0, 0.0)).ripples.size() == 0)
+
+	# Ripples age out on the render clock, and the list is capped.
+	fs.step(FOOTSTEPS.LIFE + 0.01)
+	_eq("footsteps: ripples expire", fs.ripples.size(), 0)
+	var long: RefCounted = _fs_walk(100, 100, FOOTSTEPS.STRIDE_PX * (FOOTSTEPS.MAX_RIPPLES + 20), 0, 0,
+		Vector2(100 + FOOTSTEPS.STRIDE_PX * (FOOTSTEPS.MAX_RIPPLES + 20) * 0.5, 100))
+	_check("footsteps: never more than MAX_RIPPLES alive",
+		long.ripples.size() <= FOOTSTEPS.MAX_RIPPLES, "%d" % long.ripples.size())
+
+	# Against the REAL bridge: patrollers on the reference level, heard from the
+	# spawn with the player stood still. Reads GetGuards' own layout, so a
+	# widened stride or a moved `visible` field shows up here.
+	var b: RefCounted = bridge_script.new()
+	b.Load(FileAccess.get_file_as_string("res://levels/substation_4.txt"), 1)
+	var real: RefCounted = FOOTSTEPS.new()
+	var heard: int = 0
+	for i in range(900):
+		b.Step(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+		var g: PackedInt32Array = b.GetGuards()
+		var p: PackedInt32Array = b.GetPlayer()
+		heard += real.observe(g, FS_STRIDE, Vector2(p[0] / 256.0, p[1] / 256.0), p[19])
+		real.step(1.0 / 60.0)
+	_check("footsteps: a real run on substation_4 hears patrollers through walls",
+		heard > 0, "0 ripples in 900 ticks")
+	# Listening is reading: a second world stepped identically without a
+	# listener must hash the same.
+	var c: RefCounted = bridge_script.new()
+	c.Load(FileAccess.get_file_as_string("res://levels/substation_4.txt"), 1)
+	for i in range(900):
+		c.Step(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+	_eq("footsteps: listening never moves the state hash", b.StateHash(), c.StateHash())
+
+
 func _start_overlay_probe(bridge_script: Script) -> void:
 	var b: RefCounted = bridge_script.new()
 	b.Load(FileAccess.get_file_as_string("res://levels/substation_4.txt"), 1)
@@ -1796,3 +1932,96 @@ func _report_overlay_probe(results: Array) -> void:
 		str(syn))
 	_eq("intel age comes back for the header", syn["intel_age"], 90)
 	_eq("and the compromised flag", syn["compromised"], true)
+
+
+# -------------------------------------------------------------- lighting
+#
+# cognitohazard_lighting_plan.md: the editor's lamp, switch and ambient
+# controls, its preview, and the bridge readers main.gd draws the dark from.
+# The rules themselves are pinned in the sim harness (tests/Lighting.cs).
+
+func _check_lighting(bridge_script: Script) -> void:
+	print("  -- lighting --")
+	var L: int = "L".unicode_at(0)
+	var S: int = "S".unicode_at(0)
+
+	# The palette: lamp and switch appended, one code past their index like
+	# every entry after the sweep node.
+	_eq("the lamp tool paints L", EDITOR.TOOLS[EDITOR.T_LAMP]["glyph"], "L")
+	_eq("the switch tool paints S", EDITOR.TOOLS[EDITOR.T_SWITCH]["glyph"], "S")
+	_eq("the sweep node is still code 11", EDITOR.paint_code(EDITOR.T_SWEEP, false), 11)
+	_eq("the lamp is code 12", EDITOR.paint_code(EDITOR.T_LAMP, false), 12)
+	_eq("the switch is code 13", EDITOR.paint_code(EDITOR.T_SWITCH, false), 13)
+
+	var b: RefCounted = bridge_script.new()
+	b.EditorBeginBlank()
+	b.EditorPaint(6, 6, 12, false)
+	_eq("a lamp goes on floor", b.EditorGetCell(6, 6), L)
+	b.EditorPaint(6, 6, 12, false)
+	_eq("and clicking it again takes it off", b.EditorGetCell(6, 6), ".".unicode_at(0))
+	b.EditorPaint(0, 6, 12, false)
+	_eq("a lamp never knocks through a wall", b.EditorGetCell(0, 6), "#".unicode_at(0))
+	b.EditorPaint(1, 6, 13, false)
+	_eq("a switch goes on floor", b.EditorGetCell(1, 6), S)
+	_check("lamps are not structure: a brush cannot spray them", not b.EditorStampable(L))
+
+	_eq("a new level is fully lit", b.EditorAmbient, -1)
+	_eq("and has nothing to preview", b.EditorLightPreview().size(), 0)
+	var warned: bool = false
+	for line in b.EditorValidate():
+		if String(line).contains("fully lit level"):
+			warned = true
+	_check("a lamp on a lit level is warned about", warned)
+
+	b.EditorAmbient = 25
+	_check("ambient is saved", b.EditorToText().contains("ambient: 25"))
+	_eq("the preview is two texels a cell",
+		b.EditorLightPreview().size(), b.EditorCols * 2 * b.EditorRows * 2)
+	_eq("and the darkness overlay four bytes a texel",
+		b.EditorDarkness(0, 0, 0, 200).size(), b.EditorCols * 2 * b.EditorRows * 2 * 4)
+	b.EditorAmbient = 400
+	_eq("ambient clamps as the parser does", b.EditorAmbient, 100)
+
+	# The editor node's D key walks the ambient in tens, and lightening past 90
+	# removes the line: fully lit, never a redundant `ambient: 100`.
+	var host := Node.new()
+	root.add_child(host)
+	var b2: RefCounted = bridge_script.new()
+	b2.Load(FileAccess.get_file_as_string("res://levels/substation_4.txt"), 1)
+	var ed: Node2D = load("res://game/editor.gd").new()
+	ed.bridge = b2
+	host.add_child(ed)
+	ed.open_editor()
+	ed.adjust_ambient(-10)
+	_eq("D from lit is 90%", b2.EditorAmbient, 90)
+	ed.adjust_ambient(10)
+	_eq("shift+D past 90 is fully lit again", b2.EditorAmbient, -1)
+	_check("which writes no line", not b2.EditorToText().contains("ambient"))
+	ed.close_editor()
+	host.queue_free()
+
+	# The game side. A lit level has no lighting at all; the dark one does.
+	var g: RefCounted = bridge_script.new()
+	g.Load(FileAccess.get_file_as_string("res://levels/substation_4.txt"), 1)
+	_check("a lit level has no light", not g.HasLight)
+	_eq("and nothing to beam", g.GetTorchBeams(9).size(), 0)
+	_eq("and the player is fully visible", g.PlayerVisQ8, 256)
+
+	var night: String = FileAccess.get_file_as_string("res://levels/vault_row_night.txt")
+	g.Load(night, 1)
+	_check("the night level has light", g.HasLight)
+	var summary: PackedInt32Array = g.LevelSummary(night)
+	_check("its summary carries ambient and lamps",
+		summary.size() >= 13 and summary[11] == 25 and summary[12] == g.GetLamps().size() / 3)
+	_eq("guard sight is two ints a guard", g.GetGuardSight().size(),
+		g.GetGuards().size() / MAIN.GUARD_STRIDE * 2)
+	_eq("the darkness is four bytes a texel", g.GetDarkness(3, 5, 11, 200).size(),
+		g.GridCols * 2 * g.GridRows * 2 * 4)
+	_check("the visibility meter is in range", g.PlayerVisQ8 >= 0 and g.PlayerVisQ8 <= 256)
+	var v1: int = g.LightVersion
+	_eq("the light version holds still while nothing changes", g.LightVersion, v1)
+	g.Restart(2)
+	_check("and moves for a new world, even at the same map version", g.LightVersion != v1)
+	var beams: int = g.GetTorchBeams(9).size()
+	_check("at 25% ambient every guard's torch is lit", beams == (g.GetGuards().size() / MAIN.GUARD_STRIDE) * 10,
+		"%d points" % beams)

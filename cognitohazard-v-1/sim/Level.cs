@@ -96,20 +96,50 @@ public sealed class Level
 	/// lands outside the level.
 	/// </summary>
 	/// <summary>
-	/// The guard glyph range. 'a' to 'z', not the 'a' to 'h' this shipped with:
-	/// eight was the cap on how dangerous ANY level could be, whatever its size,
-	/// and it made every floor rate the same on the mission-threat scale
-	/// (missions.gd) because the guard term was constant across all of them.
+	/// The guard ALPHABET, in order: 'a' to 'z', then the 62 Latin-1 letters
+	/// 'À' to 'ÿ' (U+00C0..U+00FF without × and ÷). One glyph is one guard: his
+	/// route line, his kit line and his records are keyed by it.
+	///
+	/// Twenty-six was the cap on how dangerous ANY level could be, as eight
+	/// was before it. The extension stays inside ONE BYTE on purpose: the grid
+	/// crosses to game/ as a byte per cell (SimBridge.GetGrid), and every glyph
+	/// the level art and editor read is a byte value. Level files are UTF-8, so
+	/// 'Ä' is two bytes on disk and one char here.
 	/// </summary>
-	public const char GuardFirst = 'a';
-	public const char GuardLast = 'z';
+	public static readonly string GuardGlyphs = BuildGuardGlyphs();
+
+	private static string BuildGuardGlyphs()
+	{
+		var sb = new StringBuilder();
+		for (char c = 'a'; c <= 'z'; c++) sb.Append(c);
+		for (int c = 0xC0; c <= 0xFF; c++)
+			if (c != 0xD7 && c != 0xF7) sb.Append((char)c);
+		return sb.ToString();
+	}
+
+	/// <summary>Glyph -> slot in GuardGlyphs, -1 for anything that is not a
+	/// guard. 256 entries: no guard glyph is wider than a byte.</summary>
+	private static readonly int[] GuardSlots = BuildGuardSlots();
+
+	private static int[] BuildGuardSlots()
+	{
+		var slots = new int[256];
+		for (int i = 0; i < slots.Length; i++) slots[i] = -1;
+		for (int i = 0; i < GuardGlyphs.Length; i++) slots[GuardGlyphs[i]] = i;
+		return slots;
+	}
+
 	/// <summary>
 	/// The most guards one level may hold. ENFORCED by FromText, which skips
 	/// glyphs past it — the count is otherwise bounded only by MaxCells.
 	/// </summary>
-	public const int MaxGuards = GuardLast - GuardFirst + 1;
+	public static int MaxGuards => GuardGlyphs.Length;
 
-	public static bool IsGuardGlyph(char ch) => ch >= GuardFirst && ch <= GuardLast;
+	public static bool IsGuardGlyph(char ch) => ch < 256 && GuardSlots[ch] >= 0;
+
+	/// <summary>A guard glyph's place in the alphabet ('a' is 0, 'z' 25, 'À'
+	/// 26), or -1. What Tune.GuardRecordEvery counts in.</summary>
+	public static int GuardSlot(char ch) => ch < 256 ? GuardSlots[ch] : -1;
 
 	/// <summary>Glass pane and door glyphs. '=' reads as a window in a wall and
 	/// '+' is the door every roguelike already taught the reader.</summary>
@@ -122,6 +152,20 @@ public sealed class Level
 	/// walls, nav, movement and sight all ignore it.
 	/// </summary>
 	public const char SweepGlyph = '*';
+
+	/// <summary>
+	/// A ceiling lamp over this cell (cognitohazard_lighting_plan.md §5.1).
+	/// FLOOR for walking, nav, sight and rounds; it only lights. A round that
+	/// passes within Tune.LampHitRadius shatters it.
+	/// </summary>
+	public const char LampGlyph = 'L';
+
+	/// <summary>
+	/// A light switch on this floor cell (lighting plan §5.2). G in reach flips
+	/// every lamp in its ROOM: the 4-connected region of floor bounded by walls,
+	/// glass and doors. No wiring to author; see <see cref="RoomOf"/>.
+	/// </summary>
+	public const char SwitchGlyph = 'S';
 
 	/// <summary>
 	/// Longest run of glass that is ONE pane. A round shatters the pane it
@@ -148,6 +192,22 @@ public sealed class Level
 	public int HeightFx => H * CellFx;
 
 	public string Name = "untitled";
+
+	/// <summary>
+	/// <c>theme: industrial</c>. Which map kit game/level_art.gd dresses the
+	/// floor in. PRESENTATION ONLY and deliberately not hashed (see HashInto):
+	/// it names art, never a rule, so re-theming a level moves no golden hash
+	/// and replays recorded under another theme still verify. Empty means "not
+	/// authored" and writes nothing on save, so an older level round-trips byte
+	/// for byte; game/ picks its default. The sim only carries it so the editor
+	/// can save it back.
+	/// </summary>
+	public string Theme = "";
+
+	/// <summary>Longest theme token kept. The parser stays total: anything
+	/// longer, or any character outside [a-z0-9_], is cut rather than refused.</summary>
+	public const int MaxThemeLength = 32;
+
 	public readonly char[] Grid;
 
 	public Level() : this(GW, GH) { }
@@ -171,7 +231,31 @@ public sealed class Level
 	// Derived by Build().
 	public Rect[] Walls = System.Array.Empty<Rect>();
 	public int SpawnX, SpawnY;
+
+	/// <summary>The FIRST exit (see <see cref="Exits"/>). On a level with one
+	/// exit this is the rect it always was: the bounding box of every 'X'.</summary>
 	public Rect Exit;
+
+	/// <summary>
+	/// Every way out: one rect per 8-connected blob of 'X' cells, its bounding
+	/// box, in row-major order of the blob's first cell. Reaching ANY of them
+	/// ends the run. Derived from the grid, which is hashed, so the list needs
+	/// no hashing of its own. Capped at <see cref="MaxExits"/>: the parser is
+	/// total, and a grid sprayed with X must not become thousands of rects the
+	/// player is tested against every tick. Blobs past the cap are floor to
+	/// every rule, and the editor says so.
+	/// </summary>
+	public List<Rect> Exits = new();
+
+	public const int MaxExits = 8;
+
+	/// <summary>
+	/// The exit the sweep's exit group keeps to (Guard_AI.md §6.3): the one
+	/// nearest the first objective site as the crow flies, since that is the way
+	/// out someone carrying it is likeliest to take. Ties go to the earlier
+	/// exit. With one exit, or no objective, it is <see cref="Exit"/>.
+	/// </summary>
+	public Rect WatchedExit;
 	public List<CacheDef> Caches = new();
 	public List<GuardDef> Guards = new();
 
@@ -191,6 +275,72 @@ public sealed class Level
 	/// <summary>How many objective sites this level has, glyph '!'. Zero means
 	/// a level with no objective, which extracts successfully on its own.</summary>
 	public int Objectives;
+
+	// ------------------------------------------------------------ lighting
+	//
+	// cognitohazard_lighting_plan.md. -1 means "not authored", which is FULLY
+	// LIT and writes nothing on save: every level made before lighting existed
+	// is lit everywhere, and round-trips byte for byte.
+
+	/// <summary><c>ambient: N</c>, percent 0..100. The level's base light.</summary>
+	public int Ambient = -1;
+
+	/// <summary>Ambient as the sim uses it: Q8, 0..256. Not authored is 256.</summary>
+	public int AmbientQ8 => Ambient < 0 ? Fx.One : Ambient * Fx.One / 100;
+
+	/// <summary>Lamps ('L'), as cells, row-major: that index is the lamp's
+	/// identity in the state hash and the snapshot.</summary>
+	public List<(int C, int R)> Lamps = new();
+
+	/// <summary>Light switches ('S'), as cells, row-major. A switch's pick is
+	/// Panels.Count + its index + 1 in InputFrame.DoorPick (the `u` token).</summary>
+	public List<(int C, int R)> Switches = new();
+
+	/// <summary>
+	/// A cell light and sight cannot pass: wall, or a door as authored (shut).
+	/// Panels are resolved per run by SimWorld; this is the level at rest.
+	/// </summary>
+	public bool OpaqueAtRest(int c, int r)
+	{
+		char ch = At(c, r);
+		return ch == '#' || ch == DoorGlyph;
+	}
+
+	/// <summary>
+	/// The ROOM a cell stands in, for a light switch: the 4-connected region of
+	/// cells that are neither wall, glass nor door. Row-major BFS, so the result
+	/// is a pure function of the grid. Returns a W*H mask; empty for a cell that
+	/// is itself a boundary.
+	/// </summary>
+	public bool[] RoomOf(int c, int r)
+	{
+		var seen = new bool[W * H];
+		if (!InBounds(c, r) || BoundsRoom(Grid[r * W + c])) return seen;
+		var queue = new Queue<int>();
+		seen[r * W + c] = true;
+		queue.Enqueue(r * W + c);
+		while (queue.Count > 0)
+		{
+			int cur = queue.Dequeue();
+			int cc = cur % W, rr = cur / W;
+			RoomPush(queue, seen, cc + 1, rr);
+			RoomPush(queue, seen, cc - 1, rr);
+			RoomPush(queue, seen, cc, rr + 1);
+			RoomPush(queue, seen, cc, rr - 1);
+		}
+		return seen;
+	}
+
+	private static bool BoundsRoom(char ch) => ch == '#' || ch == GlassGlyph || ch == DoorGlyph;
+
+	private void RoomPush(Queue<int> queue, bool[] seen, int c, int r)
+	{
+		if (!InBounds(c, r)) return;
+		int i = r * W + c;
+		if (seen[i] || BoundsRoom(Grid[i])) return;
+		seen[i] = true;
+		queue.Enqueue(i);
+	}
 
 	// ------------------------------------------------------------- loot
 	//
@@ -266,6 +416,16 @@ public sealed class Level
 			}
 			return true;
 		}
+		// Lighting shares the rule: a header line with a colon, any mode.
+		if (StartsWithNoCase(line, "ambient:"))
+		{
+			if (L != null)
+			{
+				int a = ParseAmount(line.Substring(8));
+				L.Ambient = a < 0 ? -1 : (a > 100 ? 100 : a);
+			}
+			return true;
+		}
 		return false;
 	}
 
@@ -327,6 +487,11 @@ public sealed class Level
 		foreach (string line in lines)
 		{
 			if (ParseLootLine(L, line)) continue;
+			if (StartsWithNoCase(line, "theme:"))
+			{
+				L.Theme = CleanTheme(line.Substring(6));
+				continue;
+			}
 			if (StartsWithNoCase(line, "name:"))
 			{
 				string n = line.Substring(5).Trim();
@@ -370,6 +535,7 @@ public sealed class Level
 		foreach (string line in lines)
 		{
 			if (StartsWithNoCase(line, "name:")) continue;
+			if (StartsWithNoCase(line, "theme:")) continue;
 			if (ParseLootLine(null, line)) continue;
 			if (StartsWithNoCase(line, "grid:"))
 			{
@@ -396,6 +562,26 @@ public sealed class Level
 
 		w = widest;
 		h = lastContentRow;
+	}
+
+	/// <summary>A theme token as the parser keeps it: trimmed, lower case,
+	/// [a-z0-9_] only, at most MaxThemeLength. Garbage becomes "", which is
+	/// "not authored", never an exception.</summary>
+	public static string CleanTheme(string? raw)
+	{
+		if (raw == null) return "";
+		var sb = new StringBuilder();
+		foreach (char ch0 in raw.Trim())
+		{
+			char ch = char.ToLowerInvariant(ch0);
+			if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '_')
+			{
+				sb.Append(ch);
+				if (sb.Length >= MaxThemeLength) break;
+			}
+			else break;
+		}
+		return sb.ToString();
 	}
 
 	private static bool StartsWithNoCase(string s, string prefix)
@@ -430,14 +616,16 @@ public sealed class Level
 	/// editor explains itself.</summary>
 	public const string HeaderComment =
 		"# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records"
-		+ "  C chest  ! objective  a-z guard start  * sweep node";
+		+ "  C chest  ! objective  a-z guard start  * sweep node  L lamp  S switch";
 
 	public string ToText()
 	{
 		var sb = new StringBuilder();
 		sb.Append("name: ").Append(Name).Append('\n');
+		if (Theme.Length > 0) sb.Append("theme: ").Append(Theme).Append('\n');
 		if (LootBudget >= 0) sb.Append("loot: ").Append(LootBudget).Append('\n');
 		if (GuardLoot >= 0) sb.Append("guard_loot: ").Append(GuardLoot).Append('\n');
+		if (Ambient >= 0) sb.Append("ambient: ").Append(Ambient).Append('\n');
 		sb.Append(HeaderComment).Append('\n');
 		sb.Append("grid:\n");
 		for (int r = 0; r < H; r++)
@@ -575,8 +763,9 @@ public sealed class Level
 		Chests = new List<ChestDef>();
 		Objectives = 0;
 		SweepNodes = new List<(int C, int R)>();
+		Lamps = new List<(int C, int R)>();
+		Switches = new List<(int C, int R)>();
 
-		int ex0 = int.MaxValue, ey0 = int.MaxValue, ex1 = int.MinValue, ey1 = int.MinValue;
 		bool gotSpawn = false;
 
 		for (int r = 0; r < H; r++)
@@ -589,13 +778,8 @@ public sealed class Level
 
 				if (ch == '@') { SpawnX = px; SpawnY = py; gotSpawn = true; }
 				else if (ch == SweepGlyph) SweepNodes.Add((c, r));
-				else if (ch == 'X')
-				{
-					if (c * CellFx < ex0) ex0 = c * CellFx;
-					if (r * CellFx < ey0) ey0 = r * CellFx;
-					if (c * CellFx + CellFx > ex1) ex1 = c * CellFx + CellFx;
-					if (r * CellFx + CellFx > ey1) ey1 = r * CellFx + CellFx;
-				}
+				else if (ch == LampGlyph) Lamps.Add((c, r));
+				else if (ch == SwitchGlyph) Switches.Add((c, r));
 				else if (ch == '$')
 				{
 					Caches.Add(new CacheDef { X = px, Y = py,
@@ -613,7 +797,7 @@ public sealed class Level
 					Chests.Add(new ChestDef { X = px, Y = py, Objective = true });
 					Objectives++;
 				}
-				else if (ch >= GuardFirst && ch <= GuardLast)
+				else if (IsGuardGlyph(ch))
 				{
 					// CAPPED. The glyph range allows 26 distinct guards but
 					// nothing stopped a file from repeating them: MaxGuards was
@@ -630,9 +814,23 @@ public sealed class Level
 
 		if (!gotSpawn) { SpawnX = CellFx * 3 / 2; SpawnY = CellFx * 3 / 2; }
 
-		Exit = ex1 > int.MinValue
-			? new Rect(ex0, ey0, ex1 - ex0, ey1 - ey0)
-			: new Rect((W - 3) * CellFx, (H - 3) * CellFx, CellFx * 2, CellFx * 2);
+		Exits = FindExits();
+		if (Exits.Count == 0)
+			Exits.Add(new Rect((W - 3) * CellFx, (H - 3) * CellFx, CellFx * 2, CellFx * 2));
+		Exit = Exits[0];
+		WatchedExit = Exit;
+		foreach (var ch in Chests)
+		{
+			if (!ch.Objective) continue;
+			long best = long.MaxValue;
+			foreach (var e in Exits)
+			{
+				long dx = e.X + e.W / 2 - ch.X, dy = e.Y + e.H / 2 - ch.Y;
+				long d = dx * dx + dy * dy;
+				if (d < best) { best = d; WatchedExit = e; }
+			}
+			break;
+		}
 
 		// Tier sets are derived from the guard letter, and a guard with no
 		// matching route line is a stationary sentry by design (prototype
@@ -643,7 +841,7 @@ public sealed class Level
 		// body being empty of evidence is the main way that is felt.
 		foreach (var g in Guards)
 		{
-			int slot = g.Id - 'a';
+			int slot = GuardSlot(g.Id);
 			if (slot >= 0 && slot % Tune.GuardRecordEvery == 0)
 			{
 				var ladder = new[] { 2, 1, 3 };
@@ -668,8 +866,51 @@ public sealed class Level
 	}
 
 	/// <summary>
+	/// The 'X' blobs, 8-connected, as bounding rects in row-major order of
+	/// each blob's first cell; at most MaxExits. The fill order inside a blob
+	/// cannot matter: a bounding box is the same whichever cell is seen first.
+	/// </summary>
+	private List<Rect> FindExits()
+	{
+		var outp = new List<Rect>();
+		var seen = new bool[W * H];
+		var stack = new Stack<int>();
+		for (int i = 0; i < Grid.Length && outp.Count < MaxExits; i++)
+		{
+			if (Grid[i] != 'X' || seen[i]) continue;
+			int c0 = i % W, r0 = i / W, c1 = c0, r1 = r0;
+			seen[i] = true;
+			stack.Push(i);
+			while (stack.Count > 0)
+			{
+				int cur = stack.Pop();
+				int c = cur % W, r = cur / W;
+				if (c < c0) c0 = c;
+				if (c > c1) c1 = c;
+				if (r < r0) r0 = r;
+				if (r > r1) r1 = r;
+				for (int dr = -1; dr <= 1; dr++)
+				{
+					for (int dc = -1; dc <= 1; dc++)
+					{
+						int nc = c + dc, nr = r + dr;
+						if (!InBounds(nc, nr)) continue;
+						int n = nr * W + nc;
+						if (seen[n] || Grid[n] != 'X') continue;
+						seen[n] = true;
+						stack.Push(n);
+					}
+				}
+			}
+			outp.Add(new Rect(c0 * CellFx, r0 * CellFx, (c1 - c0 + 1) * CellFx, (r1 - r0 + 1) * CellFx));
+		}
+		return outp;
+	}
+
+	/// <summary>
 	/// Four-way flood fill from spawn across every non-wall cell, asking whether
-	/// the exit is reachable at all. Used by the editor to catch a sealed-off
+	/// ANY exit is reachable at all (<paramref name="which"/> -1), or one exit by
+	/// its index in <see cref="Exits"/>. Used by the editor to catch a sealed-off
 	/// exit at authoring time, and by the harness to assert the reference level
 	/// is completable. Guards steer rather than path-find (spec §10.1), so this
 	/// is a lower bound on playability, not a guarantee.
@@ -679,14 +920,21 @@ public sealed class Level
 	/// shot out, so a level whose only route is through a window IS completable,
 	/// just loudly. The editor asks both ways and says which it is.
 	/// </summary>
-	public bool ExitReachable(bool glassBlocks = false)
+	public bool ExitReachable(bool glassBlocks = false, int which = -1)
 	{
 		int sc = SpawnX / CellFx, sr = SpawnY / CellFx;
 		if (!InBounds(sc, sr)) return false;
 		if (Grid[sr * W + sc] == '#') return false;
 
-		int ec0 = Exit.X / CellFx, er0 = Exit.Y / CellFx;
-		int ec1 = (Exit.X + Exit.W) / CellFx, er1 = (Exit.Y + Exit.H) / CellFx;
+		var goal = new bool[W * H];
+		for (int k = 0; k < Exits.Count; k++)
+		{
+			if (which >= 0 && k != which) continue;
+			var e = Exits[k];
+			for (int r = e.Y / CellFx; r < e.Y1 / CellFx; r++)
+				for (int c = e.X / CellFx; c < e.X1 / CellFx; c++)
+					if (InBounds(c, r)) goal[r * W + c] = true;
+		}
 
 		var seen = new bool[W * H];
 		var queue = new Queue<int>();
@@ -697,8 +945,8 @@ public sealed class Level
 		while (queue.Count > 0)
 		{
 			int cur = queue.Dequeue();
+			if (goal[cur]) return true;
 			int c = cur % W, r = cur / W;
-			if (c >= ec0 && c < ec1 && r >= er0 && r < er1) return true;
 
 			TryPush(queue, seen, c + 1, r, glassBlocks);
 			TryPush(queue, seen, c - 1, r, glassBlocks);
@@ -718,6 +966,8 @@ public sealed class Level
 		queue.Enqueue(i);
 	}
 
+	/// <summary>Theme is NOT hashed: it is art, and a level re-dressed in the
+	/// other kit is the same level to every rule.</summary>
 	public void HashInto(ref Hash64 h)
 	{
 		for (int i = 0; i < Grid.Length; i++) h.Add(Grid[i]);

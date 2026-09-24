@@ -233,7 +233,8 @@ assert all(m in seen for m in CHESTS), "a chest is walled in"
 
 floor = sum(1 for r in range(H) for c in range(W) if g[r][c] != WALL)
 out = ["name: Terminal Twelve",
-       "# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records  C chest  ! objective  a-z guard start  * sweep node",
+       "theme: industrial",
+       "# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records  C chest  ! objective  a-z guard start  * sweep node  L lamp  S switch",
        "grid:"]
 out += ["".join(row) for row in g]
 for gid in sorted(ROUTES):

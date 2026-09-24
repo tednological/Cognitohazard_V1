@@ -1,5 +1,6 @@
 name: Substation 4
-# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records  C chest  ! objective  a-z guard start  * sweep node
+theme: industrial
+# glyphs  # wall  . floor  = glass  + door  @ spawn  X exit  $ records  C chest  ! objective  a-z guard start  * sweep node  L lamp  S switch
 grid:
 ################################################
 ################................#..............#

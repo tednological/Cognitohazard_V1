@@ -796,9 +796,84 @@ public static class Systems
 
 	// ------------------------------------------------------------------ run
 
+	/// <summary>
+	/// A level may have several exits (Level.Exits): one per 8-connected blob
+	/// of 'X', reaching ANY ends the run. The first is Level.Exit, which on a
+	/// one-exit level is exactly the rect it always was.
+	/// </summary>
+	private static void MultipleExits()
+	{
+		H.Group("multiple exits");
+
+		Rect CellRect(int c, int r, int w, int h)
+			=> new Rect(c * Level.CellFx, r * Level.CellFx, w * Level.CellFx, h * Level.CellFx);
+		bool Same(Rect a, Rect b) => a.X == b.X && a.Y == b.Y && a.W == b.W && a.H == b.H;
+
+		// One blob, however drawn, is one exit with the bounding box it always had.
+		var one = Room();
+		Put(one, 3, 3, '@');
+		Put(one, 40, 20, 'X'); Put(one, 41, 21, 'X');      // diagonal: still one blob
+		var oneLvl = Level.FromText(Text(one));
+		H.Eq("a diagonal blob is one exit", oneLvl.Exits.Count, 1);
+		H.Check("and its rect is the bounding box of every X",
+			Same(oneLvl.Exit, CellRect(40, 20, 2, 2)));
+		H.Check("with one exit, the watched exit is the exit", Same(oneLvl.WatchedExit, oneLvl.Exit));
+
+		// Two blobs are two exits, in row-major order of their first cell.
+		var two = Room();
+		Put(two, 3, 3, '@');
+		for (int r = 4; r <= 5; r++) for (int c = 40; c <= 41; c++) Put(two, c, r, 'X');
+		for (int r = 20; r <= 22; r++) for (int c = 5; c <= 7; c++) Put(two, c, r, 'X');
+		var twoLvl = Level.FromText(Text(two));
+		H.Eq("two blobs are two exits", twoLvl.Exits.Count, 2);
+		H.Check("the first in row-major order is Level.Exit",
+			Same(twoLvl.Exit, CellRect(40, 4, 2, 2)) && Same(twoLvl.Exits[0], twoLvl.Exit));
+		H.Check("the second is its own rect, not a box round both",
+			Same(twoLvl.Exits[1], CellRect(5, 20, 3, 3)));
+
+		// Reaching the SECOND exit ends the run, and standing between them does not.
+		var w = new SimWorld(twoLvl, 7);
+		w.Player.X = 24 * Level.CellFx; w.Player.Y = 12 * Level.CellFx;
+		w.Step(new InputFrame(0, 0, 0, 0));
+		H.Check("between the exits the run goes on", w.Over == null, w.Over ?? "");
+		w.Player.X = 6 * Level.CellFx + Level.CellFx / 2; w.Player.Y = 21 * Level.CellFx + Level.CellFx / 2;
+		w.Step(new InputFrame(0, 0, 0, 0));
+		H.Check("the second exit extracts", w.Over == "out", w.Over ?? "null");
+
+		// Reachability: ANY exit makes the level completable; each can be asked.
+		var half = Room();
+		Put(half, 3, 3, '@');
+		for (int c = 1; c < GW - 1; c++) Put(half, c, 12, '#');     // seal the south
+		Put(half, 40, 4, 'X'); Put(half, 41, 4, 'X');
+		Put(half, 20, 20, 'X'); Put(half, 21, 20, 'X');
+		var halfLvl = Level.FromText(Text(half));
+		H.Check("one reachable exit makes the level completable", halfLvl.ExitReachable());
+		H.Check("and it is that one", halfLvl.ExitReachable(which: 0));
+		H.Check("the sealed one is reported as such", !halfLvl.ExitReachable(which: 1));
+
+		// The guards' exit group watches the exit nearest the objective.
+		var obj = Room();
+		Put(obj, 3, 3, '@');
+		Put(obj, 40, 4, 'X'); Put(obj, 41, 4, 'X');
+		Put(obj, 5, 22, 'X'); Put(obj, 6, 22, 'X');
+		Put(obj, 8, 20, '!');
+		var objLvl = Level.FromText(Text(obj));
+		H.Check("the watched exit is the one nearest the objective",
+			Same(objLvl.WatchedExit, objLvl.Exits[1]), $"{objLvl.WatchedExit.X / Level.CellFx},{objLvl.WatchedExit.Y / Level.CellFx}");
+
+		// The parser stays total: a grid sprayed with X is capped, not a list
+		// the player is tested against every tick without bound.
+		var spray = Room();
+		Put(spray, 3, 3, '@');
+		for (int k = 0; k < 20; k++) Put(spray, 6 + (k % 10) * 4, 8 + (k / 10) * 6, 'X');
+		var sprayLvl = Level.FromText(Text(spray));
+		H.Eq("exits are capped at MaxExits", sprayLvl.Exits.Count, Level.MaxExits);
+	}
+
 	public static void Run()
 	{
 		Playable();
+		MultipleExits();
 		TimeAuthorityTests();
 		BurnLadder();
 		FuelSelection();

@@ -62,6 +62,52 @@ public static class Perception
 		return (centre * near) >> Fx.Shift;
 	}
 
+	// ------------------------------------------------------------ light
+	// cognitohazard_lighting_plan.md §3. Every function here is the IDENTITY at
+	// full light (256), exactly, so a lit level and the spec §8.6 curve are
+	// untouched: a test pins it.
+
+	/// <summary>
+	/// How visible a figure standing in <paramref name="lightQ8"/> is, Q8:
+	///   vis = VisFloor + (256 - VisFloor) * light / 256
+	/// Pitch dark is VisFloor (0.28), never zero.
+	/// </summary>
+	public static int VisQ8(int lightQ8)
+	{
+		if (lightQ8 >= Fx.One) return Fx.One;
+		if (lightQ8 < 0) lightQ8 = 0;
+		return Tune.VisFloor + (((Fx.One - Tune.VisFloor) * lightQ8) >> Fx.Shift);
+	}
+
+	/// <summary>
+	/// A sight range shortened by darkness at the target: linear from
+	/// <paramref name="range"/> in full light down to <paramref name="darkRange"/>
+	/// in none. A range already inside the dark one is left alone.
+	/// </summary>
+	public static int DarkReach(int range, int lightQ8, int darkRange)
+	{
+		if (lightQ8 >= Fx.One || range <= darkRange) return range;
+		if (lightQ8 < 0) lightQ8 = 0;
+		return darkRange + (int)(((long)(range - darkRange) * lightQ8) >> Fx.Shift);
+	}
+
+	/// <summary>
+	/// A sight quality from <see cref="SeesPoint"/>, corrected for the light
+	/// at the target. Inside DarkSeeRange light does not matter. Beyond the
+	/// darkness-shortened range he cannot make the figure out at all. Between,
+	/// the quality is scaled by VisQ8, before the movement, stance and alert
+	/// multipliers, so creeping through a dark room compounds with the stealth
+	/// tier the way a player expects. Never rounds a sighting down to nothing.
+	/// </summary>
+	public static int InLight(int q, int dist, int range, int lightQ8)
+	{
+		if (q <= 0 || lightQ8 >= Fx.One) return q;
+		if (dist <= Tune.DarkSeeRange) return q;
+		if (dist > DarkReach(range, lightQ8, Tune.DarkSightRange)) return 0;
+		int v = (q * VisQ8(lightQ8)) >> Fx.Shift;
+		return v < 1 ? 1 : v;
+	}
+
 	/// <summary>A guard already looking for something confirms it 1.9x faster
 	/// (spec §8.2). Any posture above Relaxed is looking.</summary>
 	public static bool IsAlerted(GuardState s)

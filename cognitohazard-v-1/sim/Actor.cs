@@ -166,6 +166,20 @@ public sealed class Actor
 	/// </summary>
 	public int SpinMt;
 
+	/// <summary>
+	/// The weapon a GUARD fires: the gun his loot roll bought, the one you strip
+	/// off his body (SimWorld.ArmGuard). Every figure of his fire -- damage,
+	/// pierce, cadence, magazine, cone, pellets, report, spin-up, and the
+	/// specialists' traits -- is that weapon's WeaponSpec. The player's weapon
+	/// is the Loadout's; this field is unused on the player.
+	/// </summary>
+	public WeaponId Weapon = WeaponId.Glock;
+
+	/// <summary>Rounds a guard has fired in his current BURST. A burst is as
+	/// many rounds as his weapon cycles in Tune.GuardBurstTicks, then a pause
+	/// to re-aim (SimWorld.GuardFire).</summary>
+	public int BurstShots;
+
 	/// <summary>Moving as quietly as the player can. Derived, so it cannot
 	/// disagree with the tier.</summary>
 	public bool Sneaking => MoveTier == InputFrame.TierStealth;
@@ -324,5 +338,6 @@ public sealed class Actor
 		for (int i = 0; i < NavX.Count; i++) { h.Add(NavX[i]); h.Add(NavY[i]); }
 		h.Add(Carried.Count);
 		for (int i = 0; i < Carried.Count; i++) Carried[i].HashInto(ref h);
+		h.Add((int)Weapon); h.Add(BurstShots);
 	}
 }
