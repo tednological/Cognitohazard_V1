@@ -9,9 +9,11 @@ namespace Cognitohazard.Tests;
 /// Milestone 8: health, armour and damage (RPG extension plan §2, §3).
 ///
 /// The headline assertion is the shots-to-kill table. It is the number the
-/// project owner specified — 1-2 rounds unarmoured, 4-5 in the best armour —
-/// and it is the one thing in this milestone that is a design commitment rather
-/// than an implementation detail.
+/// project owner specifies, and it is the one thing in this milestone that is a
+/// design commitment rather than an implementation detail. The plan's was 1-2
+/// rounds unarmoured and 4-5 in the best armour, at a 100 pool; the owner then
+/// DOUBLED the player's health, which makes it 3-4 and 5-7, and the table below
+/// was re-pinned to that on purpose.
 /// </summary>
 public static class Health
 {
@@ -121,7 +123,7 @@ public static class Health
 	// --------------------------------------------- the shots-to-kill table
 
 	/// <summary>
-	/// Rounds needed to drop a target at (100 + armour) effective health.
+	/// Rounds needed to drop a target at (BaseHealth + armour) effective health.
 	/// Pure arithmetic against the catalogue, so a tuning change that breaks the
 	/// design brief fails here rather than being discovered in play.
 	/// </summary>
@@ -150,10 +152,10 @@ public static class Health
 		// weapon -> expected shots at none / light / medium / heavy
 		var table = new (string Name, int Damage, int[] Want)[]
 		{
-			("glock", WeaponCatalog.Get(WeaponId.Glock).Damage, new[] { 2, 3, 4, 5 }),
-			("mp7", WeaponCatalog.Get(WeaponId.Mp7).Damage, new[] { 2, 3, 4, 5 }),
-			("ak47", WeaponCatalog.Get(WeaponId.Ak47).Damage, new[] { 2, 3, 3, 4 }),
-			("saw", WeaponCatalog.Get(WeaponId.Saw).Damage, new[] { 2, 3, 4, 5 }),
+			("glock", WeaponCatalog.Get(WeaponId.Glock).Damage, new[] { 4, 5, 6, 7 }),
+			("mp7", WeaponCatalog.Get(WeaponId.Mp7).Damage, new[] { 4, 5, 6, 7 }),
+			("ak47", WeaponCatalog.Get(WeaponId.Ak47).Damage, new[] { 3, 4, 5, 5 }),
+			("saw", WeaponCatalog.Get(WeaponId.Saw).Damage, new[] { 4, 5, 6, 7 }),
 		};
 
 		Console.WriteLine();
@@ -174,15 +176,19 @@ public static class Health
 
 		// The brief, asserted directly rather than inferred from the table.
 		int pistol = WeaponCatalog.Get(WeaponId.Glock).Damage;
-		H.Check("unarmoured dies in 1-2 rounds", ShotsToKill(pistol, 0) <= 2);
-		H.Check("best armour survives to 4-5 rounds",
-			ShotsToKill(pistol, 150) >= 4 && ShotsToKill(pistol, 150) <= 5);
+		int bare = ShotsToKill(pistol, 0), plated = ShotsToKill(pistol, 150);
+		H.Check("unarmoured dies in 3-4 rounds", bare >= 3 && bare <= 4, $"{bare}");
+		H.Check("best armour survives to 6-7 rounds", plated >= 6 && plated <= 7,
+			$"{plated}");
 
-		// A full shotgun connection is lethal through anything short of heavy.
+		// A full shotgun connection USED to kill an unarmoured player outright
+		// (100 pool). At 200 it takes most of one, and the second kills.
 		int pellet = WeaponCatalog.Get(WeaponId.Remington).Damage;
 		int pellets = WeaponCatalog.Get(WeaponId.Remington).Pellets;
-		H.Check("a full shotgun blast kills an unarmoured target outright",
-			pellet * pellets >= Tune.BaseHealth, $"{pellet * pellets} damage");
+		H.Check("a full shotgun blast takes most of an unarmoured target",
+			pellet * pellets * 4 >= Tune.BaseHealth * 3, $"{pellet * pellets} damage");
+		H.Check("and two kill it", 2 * pellet * pellets >= Tune.BaseHealth,
+			$"{2 * pellet * pellets} damage");
 		H.Check("but a single stray pellet barely scratches",
 			ShotsToKill(pellet, 0) >= 5, $"{ShotsToKill(pellet, 0)} pellets");
 	}
@@ -302,8 +308,8 @@ public static class Health
 		H.Eq("armour breaking is reported exactly once", broke, 1);
 		H.Eq("and death is reported once", died, 1);
 
-		// 50 armour + 100 health against 50-damage rounds is exactly three.
-		H.Eq("light weave survives two rounds and dies on the third", hurt, 2);
+		// 50 armour + 200 health against 50-damage rounds is exactly five.
+		H.Eq("light weave survives four rounds and dies on the fifth", hurt, 4);
 	}
 
 	// ------------------------------------------------------------- hashing

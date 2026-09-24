@@ -639,8 +639,8 @@ public sealed partial class SimWorld
 
 		// Coming out of a sprint the weapon is not on target yet, so there is
 		// nothing to hold a lock with. This is what "you have to re-aim" means
-		// in practice: the 0.5 s lock clock cannot even start until the 0.45 s
-		// recovery has run.
+		// in practice: the lock clock cannot even start until the 0.45 s
+		// recovery has run -- which now takes longer than the lock itself.
 		if (!input.Aim || p.ReadyMt > 0)
 		{
 			if (previous >= 0) Log.Add(SimEventKind.AimLost, p.X, p.Y);

@@ -117,16 +117,18 @@ func _check_camera(bridge_script: Script) -> void:
 	var view := Vector2(960, 560)
 
 	# Zoom. The camera plays at a FIXED magnification and scrolls, rather than
-	# backing off until the whole floor fits -- which is the change that made
-	# the reference level scroll for the first time.
+	# backing off until the whole floor fits.
 	_eq("a one-screen level plays at the play zoom",
 		MAIN.zoom_for(view, view), MAIN.PLAY_ZOOM)
 	_eq("so does a level nine times the size",
 		MAIN.zoom_for(Vector2(2880, 1680), view), MAIN.PLAY_ZOOM)
 	_eq("and one merely twice the size",
 		MAIN.zoom_for(Vector2(1920, 1120), view), MAIN.PLAY_ZOOM)
-	_check("the play zoom is a real magnification, not 1:1",
-		MAIN.PLAY_ZOOM >= 1.25 and MAIN.PLAY_ZOOM <= 1.5, str(MAIN.PLAY_ZOOM))
+	# About 1:1, on request: it was 1.35, which showed too little round the
+	# player. Not below it by much, either -- 0.6 was the fit-the-floor zoom
+	# that was too far out to read a fight.
+	_check("the play zoom shows the design resolution at about 1:1",
+		MAIN.PLAY_ZOOM >= 0.9 and MAIN.PLAY_ZOOM <= 1.1, str(MAIN.PLAY_ZOOM))
 
 	# A level SMALLER than the view is pulled in further rather than left
 	# sitting in a letterbox, but only as far as the art holds up.

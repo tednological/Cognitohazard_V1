@@ -25,13 +25,15 @@ public static class Tune
 
 	/// <summary>
 	/// How long the crosshair must stay on ONE target before the next round is
-	/// a headshot. 0.5 s at 60 Hz.
+	/// a headshot. 0.1 s at 60 Hz.
 	///
 	/// DEVIATES FROM THE SPEC, deliberately and on request: the browser build
-	/// tuned this to 1.5 s (90 ticks). Changed to 0.5 s, which makes a locked
-	/// headshot a far more available answer in a firefight than it was.
+	/// tuned this to 1.5 s (90 ticks). Changed to 0.5 s, which made a locked
+	/// headshot a far more available answer in a firefight, then to a fifth of
+	/// that, 0.1 s: with aim held on a guard, the next round is very nearly
+	/// always a headshot, and a headshot ignores armour.
 	/// </summary>
-	public const int AimLockTicks = 30;
+	public const int AimLockTicks = 6;
 
 	/// <summary>Half-angle the target must stay inside to hold the lock. 0.08 rad
 	/// — forgiving enough to track a walking guard, tight enough that it has to
@@ -44,11 +46,16 @@ public static class Tune
 	// ------------------------------------------- health and armour (RPG §2)
 
 	/// <summary>Base health for every actor. Not gear; armour is the gear.
-	/// This is the PLAYER's pool; guards have their own, below.</summary>
-	public const int BaseHealth = 100;
+	/// This is the PLAYER's pool; guards have their own, below.
+	///
+	/// DEVIATES FROM RPG PLAN §2, deliberately and on request: 100 there, and
+	/// doubled to 200. Every hit the player takes costs half what it did, so
+	/// the plan's "1-2 shots unarmoured" is now roughly twice that. The Tesla's
+	/// arc to its own shooter stays lethal (ArcSelfDamage is 999).</summary>
+	public const int BaseHealth = 200;
 
 	/// <summary>
-	/// What a guard starts with, and deliberately well under the player's 100.
+	/// What a guard starts with, and deliberately well under the player's 200.
 	///
 	/// A guard is not a second player. The interesting question when you round a
 	/// corner should be "is he wearing a plate", not "how deep is his health

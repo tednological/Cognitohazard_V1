@@ -153,7 +153,7 @@ public static class Aiming
 			if (w.Player.HeadshotReady) { lockedAt = i + 1; break; }
 		}
 		H.Check("holding aim eventually locks", lockedAt > 0, "never locked");
-		H.Eq("the lock takes exactly 1.5s", lockedAt, Tune.AimLockTicks);
+		H.Eq("the lock takes exactly AimLockTicks", lockedAt, Tune.AimLockTicks);
 		H.Eq("and it is the guard that is targeted", w.Player.AimTarget, 0);
 
 		// Releasing aim drops it immediately.
