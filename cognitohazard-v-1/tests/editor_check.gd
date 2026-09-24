@@ -553,6 +553,43 @@ func _check_recording(bridge_script: Script) -> void:
 	_check("an empty replay is refused", not b4.LoadReplay(""))
 	_check("a garbage replay is refused", not b4.LoadReplay("nonsense\nframes:\nzz"))
 
+	# The CLOSING checkpoint. Step writes one on the tick a run ends, which is
+	# rarely a multiple of the interval, and playback only checked multiples:
+	# a run shorter than the interval played back with nothing verified.
+	var room := PackedStringArray(["name: dash", "grid:"])
+	for r in range(12):
+		var row: String = ""
+		for c in range(12):
+			var edge: bool = r == 0 or r == 11 or c == 0 or c == 11
+			row += "#" if edge else ("@" if r == 5 and c == 1 else \
+				("X" if r == 5 and c == 4 else "."))
+		room.append(row)
+	var b5: RefCounted = bridge_script.new()
+	b5.Load("\n".join(room), 3)
+	var ends: int = 0
+	for i in range(120):
+		b5.Step(1, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+		if b5.GetWorld()[6] != 0:
+			ends = b5.RecordedTicks
+			break
+	_check("fixture: a dash to the exit ends between checkpoints",
+		ends > 0 and ends % 60 != 0, "ended at %d" % ends)
+	var closing: String = "hash: %d " % ends
+	var text5: String = b5.GetReplayText()
+	var at5: int = text5.find(closing)
+	_check("fixture: the closing checkpoint is recorded", at5 >= 0)
+	if at5 >= 0:
+		# Flip the first digit of its value.
+		var digit: int = at5 + closing.length()
+		var flipped: String = "1" if text5[digit] != "1" else "2"
+		text5 = text5.substr(0, digit) + flipped + text5.substr(digit + 1)
+		var b6: RefCounted = bridge_script.new()
+		b6.Load("\n".join(room), 3)
+		b6.LoadReplay(text5)
+		while not b6.ReplayFinished:
+			b6.StepPlayback()
+		_eq("playback checks the closing checkpoint", b6.DivergedTick, ends)
+
 
 ## A bare walled room with a spawn top-left and an exit bottom-right, and
 ## nothing whatsoever in between.

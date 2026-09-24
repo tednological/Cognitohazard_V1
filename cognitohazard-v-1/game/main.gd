@@ -1232,7 +1232,11 @@ func _physics_process(_delta: float) -> void:
 			_shop.move(1)
 		elif Input.is_action_just_pressed("ui_accept"):
 			if _shop.buy():
+				# BOTH halves of the trade, now. The ledger used to be written
+				# only when the shop closed, so quitting with it open kept the
+				# item (the stash is saved here) and never charged for it.
 				_save_stash()
+				_campaign.save()
 		elif Input.is_action_just_pressed("shop") or Input.is_action_just_pressed("ui_cancel"):
 			_shop.close_screen()
 		return
@@ -1898,7 +1902,10 @@ func _settle_run(world: PackedInt32Array) -> void:
 			("case handed in  ·  " if handed > 0 else ""),
 			paid, kept, ("  ·  %d fenced for %d" % [fenced_n, fenced]) if fenced_n > 0 else ""]
 	else:
-		_notice = "extracted without the objective — no pay, but %d item(s) kept" % kept
+		# No fence either (the fence is part of the pay), so what the stash had
+		# no room for is gone -- say so, rather than a count that hides it.
+		_notice = "extracted without the objective — no pay, but %d item(s) kept%s" % [
+			kept, ("  ·  %d lost, no room in the stash" % fenced_n) if fenced_n > 0 else ""]
 	_notice_t = 9.0
 	print("cognitohazard: %s — mission %d, records %d, salvage %d = %d  (balance %d)"
 		% ["COMPLETE" if completed else "no objective",

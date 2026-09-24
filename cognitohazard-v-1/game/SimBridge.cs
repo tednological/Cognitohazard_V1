@@ -105,18 +105,19 @@ public partial class SimBridge : RefCounted
 
 	// ----------------------------------------------------------------- tick
 
-	/// <summary>Advance exactly one tick from live input, recording as it goes.</summary>
 	/// <summary>
-	/// One tick. `lootPick` is 0 for none, else the index into the kit of the
-	/// body in reach PLUS ONE -- the item the player clicked. It is recorded
-	/// with the rest of the frame, so a replay takes the same thing.
+	/// Advance exactly one tick from live input, recording as it goes.
+	/// `lootPick` is 0 for none, else the index into the kit of the loot target
+	/// in reach PLUS ONE -- the item the player clicked. It is recorded with the
+	/// rest of the frame, so a replay takes the same thing.
 	/// </summary>
 	/// <remarks>
 	/// The C# default on lootPick does NOT reach GDScript: Godot registers the
 	/// method with every parameter required, so a four-argument call from a .gd
 	/// file stops resolving the moment a fifth is added and fails at runtime
-	/// with "Nonexistent function 'Step'". Every GDScript caller passes all
-	/// five. The default is here for the C# side only.
+	/// with "Nonexistent function 'Step'". Every GDScript caller passes every
+	/// argument, and editor_check.gd:_check_step_arity counts them at each call
+	/// site. The defaults are here for the C# side only.
 	/// </remarks>
 	/// <param name="moveTier">
 	/// 0 stealth, 1 walk, 2 fast walk, 3 sprint. Defaults to -1, which derives
@@ -214,7 +215,12 @@ public partial class SimBridge : RefCounted
 		_snap = _world.Snapshot();
 
 		int tick = (int)_world.Tick;
-		if (tick % Replay.HashEvery != 0) return;
+		// The periodic checkpoints, and the CLOSING one Step writes on the tick
+		// the run ends -- rarely a multiple of HashEvery, so a gate on the
+		// modulo alone skipped it, and a run shorter than the interval was
+		// played back with nothing checked at all.
+		bool last = _playbackIndex == _playback.Inputs.Count;
+		if (tick % Replay.HashEvery != 0 && !last) return;
 		if (!_playback.TryGetHash(tick, out ulong want)) return;
 
 		ulong got = _world.StateHash();
@@ -248,13 +254,14 @@ public partial class SimBridge : RefCounted
 
 	// ------------------------------------------------------------ static geometry
 
-	/// <summary>Wall rects, stride 4: x, y, w, h. Fetch once.</summary>
 	/// <summary>
 	/// What is in a level file, without loading it: cols, rows, guards, caches,
 	/// merged wall rects, chests, objectives, glass panes, doors, then the loot:
-	/// the chests' dollar budget and every guard's points summed. Parsed through the REAL parser on a throwaway Level so
-	/// the start screen's summary cannot drift from what actually deploys — a
-	/// second glyph-counter written in GDScript would be exactly that drift.
+	/// the chests' dollar budget and every guard's points summed, then the
+	/// ambient light and the lamp count. Parsed through the REAL parser on a
+	/// throwaway Level so the start screen's summary cannot drift from what
+	/// actually deploys — a second glyph-counter written in GDScript would be
+	/// exactly that drift.
 	/// Touches no live state.
 	/// </summary>
 	public int[] LevelSummary(string text)
@@ -275,6 +282,7 @@ public partial class SimBridge : RefCounted
 	/// <summary>The `name:` a level file declares, for listing it by title.</summary>
 	public string LevelTitle(string text) => Level.FromText(text).Name;
 
+	/// <summary>Wall rects, stride 4: x, y, w, h. Fetch once.</summary>
 	public int[] GetWalls()
 	{
 		var w = _level.Walls;
@@ -1148,9 +1156,9 @@ public partial class SimBridge : RefCounted
 		};
 	}
 
-	/// <summary>Stride 8: x, y, facing, state, awareness, deadFacing, deadRoll, visible.</summary>
-	/// <summary>Stride 10: x, y, facing, state, awareness, deadFacing, deadRoll,
-	/// visible, armour, armourMax.</summary>
+	/// <summary>Stride 13: x, y, facing, state, awareness, deadFacing, deadRoll,
+	/// visible, armour, armourMax, task, radioQ8, afraid. Indexed by hand in
+	/// main.gd, footsteps.gd and the AI overlay: append, never reorder.</summary>
 	public int[] GetGuards()
 	{
 		const int Stride = 13;   // mirrored by main.gd GUARD_STRIDE
