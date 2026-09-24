@@ -7,7 +7,7 @@ namespace Cognitohazard.Sim;
 /// </summary>
 public static class Geometry
 {
-	/// <summary>Stand-in for "no hit". Larger than any distance on a 960x560 field.</summary>
+	/// <summary>Stand-in for "no hit". Larger than any distance on any level.</summary>
 	public const int Far = int.MaxValue;
 
 	/// <summary>

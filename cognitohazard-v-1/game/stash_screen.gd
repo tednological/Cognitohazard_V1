@@ -540,6 +540,19 @@ func release_at(m: Vector2) -> void:
 		_cancel_drag()
 		return
 
+	# The bag is the one slot whose change depends on something else: what is
+	# packed in it. Say so, rather than the generic refusal below.
+	if not mission_mode and to_slot == CAT.SLOT_BACKPACK and _drag == 1 \
+			and not stash.bag_would_hold(_drag_item):
+		_say("what is packed will not fit a %s" % bridge.GearName(_drag_item))
+		_cancel_drag()
+		return
+	if to_cell.x >= 0 and _drag == 2 and _drag_slot == CAT.SLOT_BACKPACK \
+			and not stash.bag_would_hold(STASH.NONE):
+		_say("unpack the bag before taking it off")
+		_cancel_drag()
+		return
+
 	if to_slot != -1:
 		ok = _drop_on_slot(to_slot)
 	elif to_sub != -1:
@@ -1181,7 +1194,7 @@ func _draw_slots() -> void:
 			CAT.rarity_colour(bridge, worn) if worn != STASH.NONE else C_DIM)
 
 
-## Only four of the eight slots have a reader in sim/. The rest are carried and
+## Only four of the nine slots have a reader in sim/. The rest are carried and
 ## saved and change nothing, and the screen should not imply otherwise.
 func _slot_reaches_sim(slot: int) -> bool:
 	return slot == CAT.SLOT_PRIMARY or slot == CAT.SLOT_SECONDARY \

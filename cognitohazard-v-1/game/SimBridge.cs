@@ -540,15 +540,9 @@ public partial class SimBridge : RefCounted
 	}
 
 	/// <summary>
-	/// The body the player is close enough to strip, or an empty array. Five
-	/// entries: x, y, items left, whether anything on them would fit the pack,
-	/// and the guard's index, so a caller can ask what is still on them.
-	/// Mirrors the sim's own choice of target, so the prompt cannot disagree
-	/// with what holding the key would actually do.
-	/// </summary>
-	/// <summary>
-	/// The body or CHEST in reach: x, y, item count, whether anything fits the
-	/// pack, the loot index, and 1 when it is a chest rather than a body.
+	/// The body, chest or ground pile in reach, or an empty array: x, y, item
+	/// count, whether anything fits the pack, the loot index, and 1 when it is
+	/// not a body.
 	/// Resolved by the sim so the panel and the pick can never disagree about
 	/// which thing is being rummaged.
 	/// </summary>
@@ -721,11 +715,6 @@ public partial class SimBridge : RefCounted
 		}
 	}
 
-	/// <summary>
-	/// A run is under way and the player could still receive an item: alive, not
-	/// finished, and carrying a pack at all. What the developer menu asks before
-	/// offering to spawn into the pack rather than into the stash.
-	/// </summary>
 	/// <summary>
 	/// Build an InputFrame.EquipPick from a pack placement and a GearSlot. The
 	/// packing lives in the sim so game/ never has to know it.

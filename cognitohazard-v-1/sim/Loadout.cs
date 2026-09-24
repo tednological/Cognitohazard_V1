@@ -845,14 +845,6 @@ public static class ArmourCatalog
 }
 
 /// <summary>
-/// What the player brought into the mission (RPG plan §1, §3A). Produced by the
-/// campaign layer in game/, consumed here; sim/ never learns that an inventory
-/// or a save file exists.
-///
-/// default(Loadout) is a bare Glock with no armour, so any call site that does
-/// not pass one gets a sane, fully-specified weapon.
-/// </summary>
-/// <summary>
 /// ONE WEAPON'S attachment rails: the six slots, as option ids.
 ///
 /// A struct rather than six loose ints on the Loadout, because there are now
@@ -902,7 +894,14 @@ public readonly struct AttachSet
 		slot == AttachSlot.Stock ? id : _stock);
 }
 
-
+/// <summary>
+/// What the player brought into the mission (RPG plan §1, §3A). Produced by the
+/// campaign layer in game/, consumed here; sim/ never learns that an inventory
+/// or a save file exists.
+///
+/// default(Loadout) is a bare Glock with no armour, so any call site that does
+/// not pass one gets a sane, fully-specified weapon.
+/// </summary>
 public readonly struct Loadout
 {
 	/// <summary>The primary weapon. Still named Weapon so every existing call

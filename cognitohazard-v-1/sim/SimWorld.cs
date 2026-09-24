@@ -786,10 +786,11 @@ public sealed partial class SimWorld
 	}
 
 	/// <summary>
-	/// Bodies and chests in ONE index space: guards first, then chests. Both are
-	/// looted through the same panel and the same InputFrame.LootPick, so giving
-	/// them one addressing scheme means the loot path has no idea which it is
-	/// working on — and no second copy of itself for the other case.
+	/// Bodies, chests and ground piles in ONE index space: guards first, then
+	/// chests, then piles. All are looted through the same panel and the same
+	/// InputFrame.LootPick, so giving them one addressing scheme means the loot
+	/// path has no idea which it is working on — and no second copy of itself
+	/// for the other cases.
 	/// </summary>
 	public int LootTargetCount => Guards.Count + Chests.Count + Ground.Count;
 
@@ -821,8 +822,9 @@ public sealed partial class SimWorld
 		return true;
 	}
 
-	/// <summary>The nearest body or chest within reach that still holds
-	/// something, or -1.</summary>
+	/// <summary>The nearest body, chest or ground pile within reach that still
+	/// holds something and is not behind a shut door or a whole pane, or -1.
+	/// Ties go to the lower index.</summary>
 	public int NearestLootTarget()
 	{
 		var p = Player;

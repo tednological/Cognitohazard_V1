@@ -545,6 +545,15 @@ func _check_stash_text(b: RefCounted) -> void:
 	_eq("unknown gear and rubbish are counted", skipped, 2)
 	_eq("and the known part survived", odd.equipped_in(CAT.SLOT_PRIMARY), 100)
 
+	# ...and gear in a slot it does not belong in. apply_to resolves a weapon
+	# slot through GearSimA, so a vest saved into the primary deployed as
+	# whatever weapon shares its ordinal.
+	var wrong: RefCounted = STASH.new(b, 1, 1)
+	_eq("gear saved into the wrong slot or rail is refused", wrong.from_text(
+		"stash 2\ngrid 3 3\nequip 6 201\nequip 0 102\nattach 0 311\nattach2 1 311\n"), 3)
+	_eq("the vest is not deployed as a weapon", wrong.equipped_in(CAT.SLOT_PRIMARY), STASH.NONE)
+	_eq("a grip on its own rail still loads", wrong.attached_at(1, 1), 311)
+
 
 ## First placement holding an item id, or GRID.NONE.
 func _find(s: RefCounted, item_id: int) -> int:
@@ -2914,6 +2923,26 @@ func _check_carrying(b: RefCounted) -> void:
 	b.Restart(1)
 	_eq("and Restart puts every one of them in the pack",
 		PackedInt32Array(b.GetPackItems()).size(), stash.carried.size())
+
+	# ---- the bag cannot change under what is packed in it ----
+	# A smaller bag, or none, was accepted with the bag packed, and the next
+	# apply_to pushed what it refused back into the grid -- or, with the grid
+	# full, nowhere at all.
+	var carried_before: int = stash.carried.size()
+	var satchel: int = stash.add(501)
+	_check("fixture: a satchel in the stash", satchel != GRID.NONE)
+	_check("a packed bag cannot be swapped for one too small to hold it",
+		not stash.equip_from_grid(satchel, CAT.SLOT_BACKPACK))
+	_eq("the big bag stays on", stash.equipped_in(CAT.SLOT_BACKPACK), 503)
+	_eq("the satchel stays in the stash", stash.grid.item_of(satchel), 501)
+	_eq("and nothing packed moved", stash.carried.size(), carried_before)
+	_check("nor can a packed bag be taken off", not stash.unequip(CAT.SLOT_BACKPACK))
+	_eq("and asking left the sim on the bag that is worn", b.CurrentBackpackId, 503)
+	while stash.carried.size() > 0 and stash.uncarry(0):
+		pass
+	_eq("fixture: the bag is unpacked", stash.carried.size(), 0)
+	_check("an empty bag can be swapped for any other",
+		stash.equip_from_grid(ss_find(stash, 501), CAT.SLOT_BACKPACK))
 
 	# ---- a smaller bag cannot hold the kit packed for a bigger one ----
 	var small: RefCounted = STASH.new(b)
