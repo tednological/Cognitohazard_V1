@@ -978,12 +978,16 @@ second. Consequences:
 - ANY world-space mouse read goes through `world_mouse()`. Screen-space panels
   (loot, menus) keep `get_local_mouse_position()`. Getting this wrong aims at
   where the cursor used to be, and only once you scroll.
-- Fixed `PLAY_ZOOM` (1.0, the design resolution 1:1; it was 1.35 and was
-  zoomed out on request), scrolling to cover the level; it does not back off
-  to fit the floor, which at 0.6 was too far out to read a fight. The reference
-  level is exactly one view, so it no longer scrolls; everything larger does.
-  A level SMALLER than the view is pulled in up to `MAX_ZOOM` 2.0; `MIN_ZOOM`
-  0.6 is a floor nothing reaches.
+- Fixed `PLAY_ZOOM` (0.7; it was 1.35, then 1.0, zoomed out on request both
+  times), scrolling to cover the level; it does not back off to fit the floor,
+  which at 0.6 was too far out to read a fight. The reference level is exactly
+  one design screen, smaller than the view at 0.7, so it is shown whole and
+  centred; everything larger scrolls. Only a level smaller than ONE SCREEN AT
+  1:1 is pulled in to fill the view (up to `MAX_ZOOM` 2.0) -- not merely one
+  smaller than the view, or the reference level would play at 1.0 beside every
+  other mission at 0.7 (`editor_check` "every level on disk plays at the same
+  zoom"). `MIN_ZOOM` 0.6 is a floor nothing reaches; there is little room left
+  above it.
 - Dilation pulls the view back (`DILATE_ZOOM`), or rounds at the retuned muzzle
   velocities fly off screen during the one mechanic built around watching them.
 - Guards in COMBAT get an off-screen edge marker (red when engaging).

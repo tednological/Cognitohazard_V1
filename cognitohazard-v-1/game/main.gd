@@ -249,10 +249,11 @@ var _shake: Vector2 = Vector2.ZERO
 ## fitted the screen, which on a one-screen level meant 1.0 and on a large one
 ## meant 0.6 -- correct for reading a map, too far away for reading a firefight.
 ## It now holds a fixed magnification and SCROLLS to cover the level instead.
-## 1.0 -- the design resolution, 1:1 -- ON REQUEST, zoomed out from 1.35: a
-## wider look round the player. The reference level (48x28, one screen) now
-## fits the view exactly and no longer scrolls; every larger level still does.
-const PLAY_ZOOM: float = 1.0
+## 0.7 ON REQUEST: zoomed out from 1.35 to 1.0, then 30% further, for a wider
+## look round the player. The reference level (48x28, one screen) is now
+## smaller than the view and is shown whole, centred; every larger level still
+## scrolls. Close to MIN_ZOOM -- there is not much further out to go.
+const PLAY_ZOOM: float = 0.7
 
 ## Floors and ceilings on that. MIN_ZOOM is where the 22px actors and the 26px
 ## bars stop being readable; MAX_ZOOM stops a level smaller than the view from
@@ -1542,14 +1543,21 @@ func _save_replay() -> void:
 
 ## The magnification to play `level` at.
 ##
-## PLAY_ZOOM unless the level is SMALLER than the view at that magnification, in
-## which case it is pulled in further so a small test level fills the screen
-## rather than sitting in a letterbox. Never backs off below PLAY_ZOOM to fit a
-## large floor -- that was the old behaviour and it kept the camera too far out
-## to read a fight.
+## PLAY_ZOOM unless the level is smaller than ONE SCREEN at 1:1, in which case
+## it is pulled in further so a small test level fills the screen rather than
+## sitting in a letterbox. Never backs off below PLAY_ZOOM to fit a large floor
+## -- that was the old behaviour and it kept the camera too far out to read a
+## fight.
+##
+## One screen, not "the view at PLAY_ZOOM": with PLAY_ZOOM under 1 the
+## reference level is smaller than the view, and pulling it in would play it
+## at 1.0 while every larger level plays at PLAY_ZOOM -- moving between
+## missions would change how big everything looks. At PLAY_ZOOM 1 or above the
+## two rules are the same rule.
 static func zoom_for(level: Vector2, view: Vector2) -> float:
 	var fit: float = minf(view.x / maxf(1.0, level.x), view.y / maxf(1.0, level.y))
-	return clampf(maxf(PLAY_ZOOM, fit), MIN_ZOOM, MAX_ZOOM)
+	var want: float = maxf(PLAY_ZOOM, fit) if fit > 1.0 else PLAY_ZOOM
+	return clampf(want, MIN_ZOOM, MAX_ZOOM)
 
 
 ## Where the view wants to be: on the player, leaning toward what they are

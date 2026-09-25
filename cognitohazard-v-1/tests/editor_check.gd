@@ -124,17 +124,22 @@ func _check_camera(bridge_script: Script) -> void:
 		MAIN.zoom_for(Vector2(2880, 1680), view), MAIN.PLAY_ZOOM)
 	_eq("and one merely twice the size",
 		MAIN.zoom_for(Vector2(1920, 1120), view), MAIN.PLAY_ZOOM)
-	# About 1:1, on request: it was 1.35, which showed too little round the
-	# player. Not below it by much, either -- 0.6 was the fit-the-floor zoom
-	# that was too far out to read a fight.
-	_check("the play zoom shows the design resolution at about 1:1",
-		MAIN.PLAY_ZOOM >= 0.9 and MAIN.PLAY_ZOOM <= 1.1, str(MAIN.PLAY_ZOOM))
+	# Zoomed OUT past 1:1, on request: 1.35, then 1.0, then 0.7. Still above
+	# the readable floor -- 0.6 was the fit-the-floor zoom that was too far out
+	# to read a fight.
+	_check("the play zoom is zoomed out past 1:1, above the readable floor",
+		MAIN.PLAY_ZOOM > MAIN.MIN_ZOOM and MAIN.PLAY_ZOOM < 1.0, str(MAIN.PLAY_ZOOM))
 
 	# A level SMALLER than the view is pulled in further rather than left
 	# sitting in a letterbox, but only as far as the art holds up.
 	_check("a small level is magnified to fill the screen",
 		MAIN.zoom_for(view * 0.5, view) > MAIN.PLAY_ZOOM,
 		str(MAIN.zoom_for(view * 0.5, view)))
+	# ...but a one-screen level is not "small": at a play zoom under 1 it is
+	# smaller than the VIEW, and pulling it in would play the reference level
+	# bigger than every other mission.
+	_eq("a level of exactly one screen is not pulled in",
+		MAIN.zoom_for(view, view), MAIN.PLAY_ZOOM)
 	_eq("but never past the ceiling",
 		MAIN.zoom_for(Vector2(60, 40), view), MAIN.MAX_ZOOM)
 	_check("and never below the readable floor",
