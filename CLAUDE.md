@@ -844,7 +844,7 @@ his centre, fragments hit everyone).
 
 # Guards, health and armour
 Guards spawn on `Tune.GuardHealth` (60), NOT `Tune.BaseHealth` (the player's
-100): the interesting question about a guard is whether he wears a plate, not
+200): the interesting question about a guard is whether he wears a plate, not
 how deep his pool is.
 
 The vest in a guard's rolled kit is the vest he is WEARING — `RollGuardKits`
@@ -978,10 +978,12 @@ second. Consequences:
 - ANY world-space mouse read goes through `world_mouse()`. Screen-space panels
   (loot, menus) keep `get_local_mouse_position()`. Getting this wrong aims at
   where the cursor used to be, and only once you scroll.
-- Fixed `PLAY_ZOOM` (1.35), scrolling to cover the level; it does not back off
-  to fit the floor, which kept it too far out to read a fight. A level SMALLER
-  than the view is pulled in up to `MAX_ZOOM` 2.0; `MIN_ZOOM` 0.6 is a floor
-  nothing reaches.
+- Fixed `PLAY_ZOOM` (1.0, the design resolution 1:1; it was 1.35 and was
+  zoomed out on request), scrolling to cover the level; it does not back off
+  to fit the floor, which at 0.6 was too far out to read a fight. The reference
+  level is exactly one view, so it no longer scrolls; everything larger does.
+  A level SMALLER than the view is pulled in up to `MAX_ZOOM` 2.0; `MIN_ZOOM`
+  0.6 is a floor nothing reaches.
 - Dilation pulls the view back (`DILATE_ZOOM`), or rounds at the retuned muzzle
   velocities fly off screen during the one mechanic built around watching them.
 - Guards in COMBAT get an off-screen edge marker (red when engaging).
@@ -1199,8 +1201,16 @@ regression test as well as by the suite that caught it:
   the legacy FSneak bit came back as stealth. (`Robustness`.)
 
 Deliberate deviations, each on request and each commented where it lives:
-- `Tune.AimLockTicks` is 30 (0.5 s), not the browser's 90, and is now exact —
-  it used to take one tick longer than the constant said.
+- `Tune.AimLockTicks` is 6 (0.1 s), not the browser's 90: 30 (0.5 s) first,
+  then a fifth of that, both on request. It is exact -- it used to take one
+  tick longer than the constant said. At 0.1 s nearly every AIMED round is a
+  headshot, and a headshot ignores armour.
+- `Tune.BaseHealth` (the player's pool) is 200, doubled on request from RPG
+  plan §2's 100. That plan's lethality brief (1-2 rounds unarmoured, 4-5 in
+  the best armour) is 3-4 and 5-7 now; `Health`'s shots-to-kill table is
+  re-pinned to it, and a full shotgun blast no longer kills an unarmoured
+  player outright (two do). The Tesla's arc to its shooter stays lethal
+  (`ArcSelfDamage` 999). Goldens re-baked; older replays diverge.
 - Muzzle velocities ~3x the browser's (840→2520 px/s player, 640→2200 guard),
   with round LIFETIMES cut in proportion so REACH is unchanged and only time of
   flight moved. `Tune.BulletSubsteps` is a floor, not the count: substeps are

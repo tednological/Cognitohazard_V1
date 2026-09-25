@@ -249,7 +249,10 @@ var _shake: Vector2 = Vector2.ZERO
 ## fitted the screen, which on a one-screen level meant 1.0 and on a large one
 ## meant 0.6 -- correct for reading a map, too far away for reading a firefight.
 ## It now holds a fixed magnification and SCROLLS to cover the level instead.
-const PLAY_ZOOM: float = 1.35
+## 1.0 -- the design resolution, 1:1 -- ON REQUEST, zoomed out from 1.35: a
+## wider look round the player. The reference level (48x28, one screen) now
+## fits the view exactly and no longer scrolls; every larger level still does.
+const PLAY_ZOOM: float = 1.0
 
 ## Floors and ceilings on that. MIN_ZOOM is where the 22px actors and the 26px
 ## bars stop being readable; MAX_ZOOM stops a level smaller than the view from

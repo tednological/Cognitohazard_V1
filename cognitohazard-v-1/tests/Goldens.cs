@@ -10,7 +10,12 @@ namespace Cognitohazard.Tests;
 /// same commit as the behaviour change, never separately. A surprise failure
 /// here is the drift detector doing its job.
 ///
-/// Rebaked when GUARDS BEGAN FIRING THE GUN THEY CARRY: Actor.Weapon (armed from
+/// Rebaked when the player's health was DOUBLED (Tune.BaseHealth 100 -> 200)
+/// and the headshot lock cut to a fifth (Tune.AimLockTicks 30 -> 6), both on
+/// request. Health is hashed from tick zero, so every checkpoint moved; replays
+/// recorded before this diverge at the first one.
+///
+/// Previously: rebaked when GUARDS BEGAN FIRING THE GUN THEY CARRY: Actor.Weapon (armed from
 /// the loot roll by SimWorld.ArmGuard) and Actor.BurstShots entered the hash, a
 /// guard's Mag is his weapon's magazine, and every figure of his fire -- damage,
 /// pierce, cadence in bursts, reload, cone, pellets, spin-up, the specialists'
@@ -151,10 +156,10 @@ public static class Goldens
 {
 	public static readonly Dictionary<int, ulong> Frames = new()
 	{
-		{ 60, 0x28EAA863E7CE619BUL },
-		{ 300, 0x46B43B22AEEAA288UL },
-		{ 900, 0x1823916C9CFDA0A4UL },
+		{ 60, 0x7342ED085ACD7877UL },
+		{ 300, 0x47DB251C9F91125CUL },
+		{ 900, 0x815761D58ABE2632UL },
 	};
 
-	public const ulong Final = 0x1823916C9CFDA0A4UL;
+	public const ulong Final = 0x815761D58ABE2632UL;
 }
