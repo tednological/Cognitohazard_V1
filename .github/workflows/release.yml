@@ -1,0 +1,176 @@
+# Pushing a version tag publishes the Windows build:
+#
+#     git tag v0.2.0 && git push origin v0.2.0
+#
+# 1. build   -- tools/ship.sh on Linux: every harness, then the export. It
+#               refuses to export if anything fails, so nothing untested ships.
+# 2. smoke   -- the .exe itself, launched on a real Windows machine. Wine cannot
+#               run Godot 4.6, and nothing else proves the embedded pack and
+#               .NET runtime load where players will run them.
+# 3. release -- the zip on the Releases page, tags only.
+#
+# A change to the pipeline itself (this file, ship.sh, the export presets) runs
+# 1 and 2 without publishing, so a broken pipeline is found before a tag needs
+# it. The tag must equal v + config/version in project.godot.
+
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+    branches: ["**"]
+    # Not evaluated for tag pushes: a tag always builds.
+    paths:
+      - .github/workflows/release.yml
+      - cognitohazard-v-1/tools/ship.sh
+      - cognitohazard-v-1/export_presets.cfg
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # The editor AND the templates must be this exact mono build (CLAUDE.md,
+  # "Shipping a build"): the standard ones cannot export C#.
+  GODOT_VERSION: 4.6.2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: cognitohazard-v-1
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Cache Godot and the Windows templates
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-${{ env.GODOT_VERSION }}-mono-windows-templates
+
+      - name: Install Godot ${{ env.GODOT_VERSION }} (.NET)
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          curl -fsSL --retry 3 -o /tmp/godot.zip "$base/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64.zip"
+          unzip -q /tmp/godot.zip -d ~/godot
+          # 1.2 GB of templates for every platform; keep only the four
+          # Windows x86_64 ones and what the exporter reads beside them.
+          curl -fsSL --retry 3 -o /tmp/templates.tpz "$base/Godot_v${GODOT_VERSION}-stable_mono_export_templates.tpz"
+          dest="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono"
+          mkdir -p "$dest"
+          unzip -q -j /tmp/templates.tpz templates/version.txt templates/icudt_godot.dat \
+            'templates/windows_*_x86_64*' -d "$dest"
+          rm /tmp/godot.zip /tmp/templates.tpz
+          ls -la "$dest"
+
+      - name: The tag names the version the game shows
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          version=$(sed -n 's/^config\/version="\(.*\)"$/\1/p' project.godot)
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::tag $GITHUB_REF_NAME, but project.godot says config/version=\"$version\""
+            exit 1
+          fi
+
+      - name: Every harness, then the export (tools/ship.sh)
+        run: |
+          export GODOT="$HOME/godot/Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64/Godot_v${GODOT_VERSION}-stable_mono_linux.x86_64"
+          tools/ship.sh "Windows Desktop"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          # ship.sh writes beside the project, at the repository root.
+          path: build/windows/Cognitohazard-*-windows.zip
+          if-no-files-found: error
+          compression-level: 0
+
+  smoke:
+    needs: build
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows
+
+      - name: Launch Cognitohazard.exe for 300 frames
+        shell: pwsh
+        run: |
+          $zip = Get-ChildItem Cognitohazard-*-windows.zip | Select-Object -First 1
+          Expand-Archive $zip.FullName -DestinationPath game
+          # A GUI-subsystem exe: nothing reaches stdout, so the verdict is the
+          # exit code and the log Godot writes to user://logs.
+          $p = Start-Process -FilePath game\Cognitohazard.exe `
+            -ArgumentList '--headless', '--quit-after', '300' -PassThru
+          $null = $p.Handle   # keeps ExitCode readable after the exit
+          if (-not $p.WaitForExit(180000)) {
+            $p.Kill()
+            Write-Output "::error::Cognitohazard.exe did not exit within 3 minutes"
+            exit 1
+          }
+          $log = Join-Path $env:APPDATA 'Godot\app_userdata\Cognitohazard_v1\logs\godot.log'
+          if (-not (Test-Path $log)) {
+            Write-Output "::error::no log at $log (exit code $($p.ExitCode))"
+            exit 1
+          }
+          Get-Content $log
+          $text = Get-Content $log -Raw
+          $bad = @()
+          if ($p.ExitCode -ne 0) { $bad += "exit code $($p.ExitCode)" }
+          # Printed on the way out, and only after the sim (C#, in the pack)
+          # has run: its absence means the bridge or a script failed to load.
+          if ($text -notmatch 'cognitohazard: ran \d+ ticks') { $bad += 'no "ran N ticks" line' }
+          if ($text -match '(?m)SCRIPT ERROR|^ERROR:|Unhandled exception') { $bad += 'errors in the log' }
+          if ($bad.Count -gt 0) {
+            Write-Output "::error::smoke test failed: $($bad -join '; ')"
+            exit 1
+          }
+          Write-Output "smoke test passed"
+
+  release:
+    needs: [build, smoke]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows
+
+      - name: Publish on the Releases page
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          zip=$(ls Cognitohazard-*-windows.zip)
+          cat > notes.md <<EOF
+          ## Download and play (Windows 10/11, 64-bit)
+
+          1. Download **$zip** below.
+          2. Unzip it and double-click **Cognitohazard.exe**. The whole game is that one file; there is nothing to install.
+          3. The first time, Windows shows "Windows protected your PC", because the file is not code-signed. Click **More info**, then **Run anyway**.
+
+          README.txt in the zip lists the keys. Your campaign and stash are saved in \`%APPDATA%\\Godot\\app_userdata\\Cognitohazard_v1\`.
+          EOF
+          # Idempotent, so a re-run replaces the zip instead of failing.
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$zip" --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$GITHUB_REF_NAME" "$zip" --repo "$GITHUB_REPOSITORY" \
+              --title "Cognitohazard $GITHUB_REF_NAME" --notes-file notes.md
+          fi

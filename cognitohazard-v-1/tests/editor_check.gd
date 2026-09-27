@@ -79,6 +79,7 @@ func _process(_delta: float) -> bool:
 	b.Load(FileAccess.get_file_as_string("res://levels/substation_4.txt"), 1)
 
 	_check_camera(bridge_script)
+	_check_dev_tools()
 	_check_resize(bridge_script)
 	_check_level_swap(bridge_script)
 	_check_staged_kit(bridge_script)
@@ -110,6 +111,20 @@ func _process(_delta: float) -> bool:
 
 const MAIN := preload("res://game/main.gd")
 const LEVELS := preload("res://game/levels.gd")
+
+func _check_dev_tools() -> void:
+	print("  -- developer tools in a release --")
+	# F8 spawns any item and F3 shows every guard: in a shipped game they are
+	# cheats, so a release export has neither unless launched with --dev.
+	_check("a debug build has the dev tools",
+		MAIN.dev_tools_allowed(true, PackedStringArray()))
+	_check("a release build does not",
+		not MAIN.dev_tools_allowed(false, PackedStringArray()))
+	_check("unless it is launched with --dev",
+		MAIN.dev_tools_allowed(false, PackedStringArray(["--dev"])))
+	_check("and no other argument turns them on",
+		not MAIN.dev_tools_allowed(false, PackedStringArray(["--seed", "4", "--level"])))
+
 
 func _check_camera(bridge_script: Script) -> void:
 	print("  -- camera --")

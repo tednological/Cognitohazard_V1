@@ -133,6 +133,9 @@ const ALARM_NAMES := ["CALM", "SUSPICIOUS", "COMBAT", "COMPROMISED"]
 ## sweep group, and the sweep map's staleness -- including guards the player
 ## cannot see, which is why it is off by default and never saved.
 var _ai_debug: bool = false
+
+## Whether F8 and F3 do anything. See dev_tools_allowed.
+var _dev_tools: bool = false
 var _task_names: PackedStringArray = PackedStringArray()
 var _state_names: PackedStringArray = PackedStringArray()
 var _dbg_intel_age: int = -1
@@ -552,6 +555,7 @@ func _ready() -> void:
 	_shop.closed.connect(_on_shop_closed)
 	add_child(_shop)
 
+	_dev_tools = dev_tools_allowed(OS.is_debug_build(), OS.get_cmdline_user_args())
 	_dev = DEV_MENU.new()
 	_dev.name = "DevMenu"
 	_dev.bridge = _bridge
@@ -617,13 +621,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		# F8 first: the dev menu opens OVER whatever is up, so it has to win the
 		# key before a screen underneath can claim it.
-		if _dev != null and event.keycode == KEY_F8:
+		if _dev_tools and _dev != null and event.keycode == KEY_F8:
 			_toggle_dev_menu()
 			get_viewport().set_input_as_handled()
 			return
 		# F3: the AI debug overlay. Presentation only -- it never reaches an
 		# InputFrame, so it cannot touch a replay or the hash.
-		if event.keycode == KEY_F3 and not (_hud_ed != null and _hud_ed.active):
+		if _dev_tools and event.keycode == KEY_F3 \
+				and not (_hud_ed != null and _hud_ed.active):
 			_ai_debug = not _ai_debug
 			_notice = "AI debug overlay on  ·  F3 to hide" if _ai_debug else "AI debug overlay off"
 			_notice_t = 2.0
@@ -1094,6 +1099,15 @@ static func luck_text(luck: int) -> String:
 	elif luck <= 88:
 		mood = "a bad day"
 	return "luck %d%%  —  %s" % [luck, mood]
+
+
+## The developer tools -- F8, which spawns any item, and F3, which draws every
+## guard whether you can see him or not -- are CHEATS in a game somebody else is
+## playing. On in a debug build (the editor, the harnesses, a debug export); off
+## in a RELEASE export unless it is launched with `-- --dev`. Pure, so the
+## harness can pin both halves without an exported build.
+static func dev_tools_allowed(debug_build: bool, args: PackedStringArray) -> bool:
+	return debug_build or args.has("--dev")
 
 
 func run_seed() -> int:
