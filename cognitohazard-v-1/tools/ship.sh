@@ -27,6 +27,16 @@ cd "$ROOT"
 VERSION=$(sed -n 's/^config\/version="\(.*\)"$/\1/p' project.godot)
 [ -n "$VERSION" ] || { echo "no config/version in project.godot"; exit 1; }
 
+# The presets repeat the version (the .exe's file version, the macOS bundle's),
+# and a build that says one number on the title and another in Properties is a
+# build nobody can match to a commit. Refuse rather than ship the mismatch.
+for want in "application/file_version=\"$VERSION.0\"" \
+		"application/product_version=\"$VERSION.0\"" \
+		"application/short_version=\"$VERSION\"" "application/version=\"$VERSION\""; do
+	grep -qxF "$want" export_presets.cfg \
+		|| { echo "export_presets.cfg does not say $want -- bump it with project.godot"; exit 1; }
+done
+
 case "$PRESET" in
 	"Windows Desktop") DIR="$OUT/windows"; FILE="Cognitohazard.exe";    TAG="windows" ;;
 	"macOS")           DIR="$OUT/macos";   FILE="Cognitohazard.app";    TAG="macos"   ;;
@@ -59,13 +69,16 @@ echo "== Cognitohazard $VERSION -> $PRESET =="
 
 step "C# build" dotnet build -v quiet
 step "sim" dotnet run --project tests/Cognitohazard.Tests.csproj
+# Import BEFORE the Godot harnesses: on a fresh checkout (a CI runner) nothing
+# has been imported yet, and the harnesses load textures and scripts.
+step "import" "$GODOT" --headless --path . --import
 for t in editor_check inventory_check fuzz_check audio_check level_art_check; do
 	step "$t" "$GODOT" --headless --path . --script "res://tests/$t.gd"
 done
-step "import" "$GODOT" --headless --path . --import
 
 mkdir -p "$DIR"
-cp tools/player_readme.txt "$DIR/README.txt"
+# The README names the version it shipped with, from the one place it lives.
+sed "s/@VERSION@/$VERSION/g" tools/player_readme.txt > "$DIR/README.txt"
 step "export" "$GODOT" --headless --path . --export-release "$PRESET" "$DIR/$FILE"
 
 ZIP="Cognitohazard-$VERSION-$TAG.zip"

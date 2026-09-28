@@ -55,9 +55,21 @@ Editor: `$G --editor --path .`
 zip. `tools/ship.sh "macOS"` / `"Linux"` for the others; no argument means
 Windows. It REFUSES to export if anything fails, and the failure is taken from
 the step itself -- `harness | tail -1` reports tail's status, which is always
-0, so a gate written that way passes every time.
+0, so a gate written that way passes every time. `GODOT=/path/to/godot` points
+it at another .NET editor (CI, Linux). It imports BEFORE the Godot harnesses,
+because a fresh checkout has nothing imported and they load textures.
 
-The Windows build is ONE self-contained `Cognitohazard.exe` (176 MB, 67 MB
+RELEASING is a tag: bump the version (below), commit, then
+`git tag vX.Y.Z && git push origin vX.Y.Z`. `.github/workflows/release.yml`
+runs `ship.sh` on Linux, LAUNCHES the exe on a windows-latest runner (300
+frames headless: exit code 0, the `cognitohazard: ran N ticks` line in
+`%APPDATA%\...\logs\godot.log`, no ERROR lines), then puts the zip on the
+Releases page. The tag must equal `v` + `config/version` or the build stops.
+A push that changes the pipeline itself (the workflow, ship.sh, the presets)
+runs build + launch WITHOUT publishing. The launch has to be on real Windows:
+Wine cannot run Godot 4.6, not even the stock template.
+
+The Windows build is ONE self-contained `Cognitohazard.exe` (187 MB, 69 MB
 zipped): `binary_format/embed_pck` puts the pack inside the executable and
 `dotnet/embed_build_outputs` puts the .NET runtime inside the pack. Nothing to
 install and nothing to lose beside it. `debug/export_console_wrapper=0` because
@@ -65,9 +77,12 @@ a second exe next to it is a second thing to send.
 
 Export templates are NOT installed by default and must be the MONO ones at the
 EXACT editor version (4.6.2.stable.mono), in
-`~/Library/Application Support/Godot/export_templates/<version>/`. Editor >
-Manage Export Templates, or unzip the `.tpz` there by hand. The standard
-templates are a different download and will not do.
+`~/Library/Application Support/Godot/export_templates/<version>/` (Linux:
+`~/.local/share/godot/export_templates/<version>/`). Editor > Manage Export
+Templates, or unzip the `.tpz` there by hand -- one platform needs only its own
+files plus `version.txt` and `icudt_godot.dat`, which is all CI extracts. The
+standard templates are a different download and will not do. Exporting Windows
+from Linux works (`application/modify_resources` needs no rcedit there).
 
 `export_presets.cfg` is committed, and two of its filters are load-bearing:
 - `include_filter="levels/*.txt"`. Levels are NOT Godot resources, so without
@@ -81,8 +96,11 @@ templates are a different download and will not do.
 
 The version is `config/version` in project.godot, ONE place: the title screen
 draws it in its corner (`inventory_check.gd` asserts the two agree, and that it
-is not empty) and the Windows preset repeats it as the exe's file version. Bump
-it there before a build you intend to hand out. `config/name` is NOT a place to
+is not empty). The presets repeat it -- Windows `file_version` and
+`product_version` as `X.Y.Z.0`, macOS `short_version` and `version` -- and
+`ship.sh` refuses to build while any of the four disagrees, so bump all five
+together before a build you intend to hand out. `player_readme.txt` says
+`@VERSION@`; ship.sh fills it in. `config/name` is NOT a place to
 tidy: it is the `user://` directory name, so renaming it orphans every player's
 campaign.
 
@@ -223,6 +241,12 @@ over must use `close_screen_silent()` — so `_on_deploy` does, and so does
 bugs; both are pinned by `inventory_check.gd:_check_screen_exits`.
 
 # Developer menu (F8)
+DEBUG BUILDS ONLY, with the F3 AI overlay: in a game somebody else is playing
+both are cheats. `main.gd:dev_tools_allowed(OS.is_debug_build(), args)` is true
+in the editor, the harnesses and a debug export, and false in a RELEASE export
+unless it is launched with `-- --dev`. Pure, so `editor_check.gd` pins both
+halves without an exported build.
+
 `dev_menu.gd`. Spawns ANY item in `sim/GearCatalog.cs` — the table UNFILTERED,
 which is the point: it reaches what the shop hides (the price-0 starter Glock
 and the mission objective, both excluded by `GetShopStock`). Left/right filter
@@ -653,7 +677,8 @@ in `sim/GuardNet.cs`.
   an unlistened one.
 - F3 AI DEBUG OVERLAY: `game/ai_debug_overlay.gd`, a pure function of
   `SimBridge.GetAiDebug()` (a sectioned int snapshot). Shows hidden guards, so
-  it is off by default and never saved. `editor_check.gd` draws it inside a
+  it is off by default, never saved, and absent from a release export (see
+  "Developer menu"). `editor_check.gd` draws it inside a
   REAL `_draw` against a hand-built snapshot with every section populated;
   that harness now waits a few frames before reporting, for that probe.
 - `sim/NavGrid.cs`: derived from the grid, cached on `Level.Nav`, dropped by
@@ -978,12 +1003,16 @@ second. Consequences:
 - ANY world-space mouse read goes through `world_mouse()`. Screen-space panels
   (loot, menus) keep `get_local_mouse_position()`. Getting this wrong aims at
   where the cursor used to be, and only once you scroll.
-- Fixed `PLAY_ZOOM` (1.0, the design resolution 1:1; it was 1.35 and was
-  zoomed out on request), scrolling to cover the level; it does not back off
-  to fit the floor, which at 0.6 was too far out to read a fight. The reference
-  level is exactly one view, so it no longer scrolls; everything larger does.
-  A level SMALLER than the view is pulled in up to `MAX_ZOOM` 2.0; `MIN_ZOOM`
-  0.6 is a floor nothing reaches.
+- Fixed `PLAY_ZOOM` (0.7; it was 1.35, then 1.0, zoomed out on request both
+  times), scrolling to cover the level; it does not back off to fit the floor,
+  which at 0.6 was too far out to read a fight. The reference level is exactly
+  one design screen, smaller than the view at 0.7, so it is shown whole and
+  centred; everything larger scrolls. Only a level smaller than ONE SCREEN AT
+  1:1 is pulled in to fill the view (up to `MAX_ZOOM` 2.0) -- not merely one
+  smaller than the view, or the reference level would play at 1.0 beside every
+  other mission at 0.7 (`editor_check` "every level on disk plays at the same
+  zoom"). `MIN_ZOOM` 0.6 is a floor nothing reaches; there is little room left
+  above it.
 - Dilation pulls the view back (`DILATE_ZOOM`), or rounds at the retuned muzzle
   velocities fly off screen during the one mechanic built around watching them.
 - Guards in COMBAT get an off-screen edge marker (red when engaging).
@@ -1108,7 +1137,8 @@ F subdue, R reload, F5 restart, F9 save replay, F11 fullscreen, Q loadout,
 TAB editor, G hold to loot a body/chest/floor gear OR tap to open/close the
 door or flip the light switch in reach (the nearer wins), X swap weapon, E inventory
 (FIELD VIEW during a mission, full stash + mission select outside one), B shop,
-F4 HUD layout editor, F8 dev menu, F3 AI debug overlay. `I` is unbound.
+F4 HUD layout editor, F8 dev menu, F3 AI debug overlay (those two debug builds
+only, or `-- --dev`). `I` is unbound.
 Function keys: F2 rename (editor only), F3, F4, F5, F8, F9, F11. The `sneak` action was
 deleted (the wheel replaced it), so SHIFT is free.
 
@@ -1127,8 +1157,8 @@ deliberately: restart is destructive and unconfirmed, so it sits away from WASD.
 `user://` is `~/Library/Application Support/Godot/app_userdata/Cognitohazard_v1`
 and holds the PLAYER'S campaign, stash and HUD layout. Launching the game WILL
 write those files, and the title menu includes New Game, which wipes the
-campaign in one keypress with no confirmation — a scripted input sequence has
-already destroyed a real save this way. Before running the game (not the
+campaign — a scripted input sequence has already destroyed a real save this way,
+back when it took one keypress. Two presses now, but a script can send two. Before running the game (not the
 harnesses — those guard themselves), copy `user://*.txt` somewhere and put it
 back afterwards.
 

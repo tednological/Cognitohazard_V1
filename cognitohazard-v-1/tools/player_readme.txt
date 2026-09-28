@@ -1,4 +1,4 @@
-COGNITOHAZARD v0.1.0
+COGNITOHAZARD v@VERSION@
 Take the evidence, and get out.
 
 RUNNING IT
@@ -11,11 +11,15 @@ RUNNING IT
 
 KEYS
   WASD          move
-  mouse         aim, click to fire
+  mouse         aim; left click fires
+  right mouse   hold to aim down the sights -- keep it on a guard for a
+                moment and the next round is a headshot, through any armour
   scroll wheel  movement speed: stealth / walk / fast / sprint
   space         dilate time (spends records)
-  F             subdue         R  reload         X  swap weapon
-  G (hold)      loot a body, a chest or a bag on the floor
+  F             subdue from behind   R  reload     X  swap weapon
+  G (hold)      search a body, a chest or a bag on the floor;
+                right-click an item to take it
+  G (tap)       open or shut a door, or flip a light switch
   E             inventory -- in a mission, what you are carrying;
                 outside one, the stash and the mission list
   B             shop           Q  loadout        TAB  level builder
@@ -24,10 +28,13 @@ KEYS
   ESC           back out
 
 THE JOB
-  Find the sealed case (the "!" room), put it in your pack, and leave the way
-  you came in. Extracting WITH the case pays. Extracting without it pays
-  nothing at all -- though you keep everything you carried out. Dying loses
-  the pack.
+  Find the sealed case (the "!" room), put it in your pack, and reach an exit.
+  Extracting WITH the case pays. Extracting without it pays nothing at all --
+  though you keep everything you carried out.
+
+  Dying loses everything you took in: what you wore, what was on your guns,
+  and what was in your bag. What you left in the stash at base is safe, so
+  what you carry is a decision.
 
   Records (the glowing "$" caches, and roughly one guard in four) are what
   time dilation spends. They are also the score. There are not many.
@@ -36,7 +43,7 @@ SAVES
   Your campaign, stash and HUD layout live in
     %APPDATA%\Godot\app_userdata\Cognitohazard_v1
   Deleting that folder resets everything. "New Game" on the title screen wipes
-  the campaign with no confirmation, so be careful with it.
+  the campaign too; with a save present it asks for ENTER twice.
 
   Every run is recorded to the "replays" folder in there. If you hit a bug,
   that file plus what you were doing is the whole bug report.

@@ -133,6 +133,9 @@ const ALARM_NAMES := ["CALM", "SUSPICIOUS", "COMBAT", "COMPROMISED"]
 ## sweep group, and the sweep map's staleness -- including guards the player
 ## cannot see, which is why it is off by default and never saved.
 var _ai_debug: bool = false
+
+## Whether F8 and F3 do anything. See dev_tools_allowed.
+var _dev_tools: bool = false
 var _task_names: PackedStringArray = PackedStringArray()
 var _state_names: PackedStringArray = PackedStringArray()
 var _dbg_intel_age: int = -1
@@ -249,10 +252,11 @@ var _shake: Vector2 = Vector2.ZERO
 ## fitted the screen, which on a one-screen level meant 1.0 and on a large one
 ## meant 0.6 -- correct for reading a map, too far away for reading a firefight.
 ## It now holds a fixed magnification and SCROLLS to cover the level instead.
-## 1.0 -- the design resolution, 1:1 -- ON REQUEST, zoomed out from 1.35: a
-## wider look round the player. The reference level (48x28, one screen) now
-## fits the view exactly and no longer scrolls; every larger level still does.
-const PLAY_ZOOM: float = 1.0
+## 0.7 ON REQUEST: zoomed out from 1.35 to 1.0, then 30% further, for a wider
+## look round the player. The reference level (48x28, one screen) is now
+## smaller than the view and is shown whole, centred; every larger level still
+## scrolls. Close to MIN_ZOOM -- there is not much further out to go.
+const PLAY_ZOOM: float = 0.7
 
 ## Floors and ceilings on that. MIN_ZOOM is where the 22px actors and the 26px
 ## bars stop being readable; MAX_ZOOM stops a level smaller than the view from
@@ -551,6 +555,7 @@ func _ready() -> void:
 	_shop.closed.connect(_on_shop_closed)
 	add_child(_shop)
 
+	_dev_tools = dev_tools_allowed(OS.is_debug_build(), OS.get_cmdline_user_args())
 	_dev = DEV_MENU.new()
 	_dev.name = "DevMenu"
 	_dev.bridge = _bridge
@@ -616,13 +621,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		# F8 first: the dev menu opens OVER whatever is up, so it has to win the
 		# key before a screen underneath can claim it.
-		if _dev != null and event.keycode == KEY_F8:
+		if _dev_tools and _dev != null and event.keycode == KEY_F8:
 			_toggle_dev_menu()
 			get_viewport().set_input_as_handled()
 			return
 		# F3: the AI debug overlay. Presentation only -- it never reaches an
 		# InputFrame, so it cannot touch a replay or the hash.
-		if event.keycode == KEY_F3 and not (_hud_ed != null and _hud_ed.active):
+		if _dev_tools and event.keycode == KEY_F3 \
+				and not (_hud_ed != null and _hud_ed.active):
 			_ai_debug = not _ai_debug
 			_notice = "AI debug overlay on  ·  F3 to hide" if _ai_debug else "AI debug overlay off"
 			_notice_t = 2.0
@@ -1095,6 +1101,15 @@ static func luck_text(luck: int) -> String:
 	return "luck %d%%  —  %s" % [luck, mood]
 
 
+## The developer tools -- F8, which spawns any item, and F3, which draws every
+## guard whether you can see him or not -- are CHEATS in a game somebody else is
+## playing. On in a debug build (the editor, the harnesses, a debug export); off
+## in a RELEASE export unless it is launched with `-- --dev`. Pure, so the
+## harness can pin both halves without an exported build.
+static func dev_tools_allowed(debug_build: bool, args: PackedStringArray) -> bool:
+	return debug_build or args.has("--dev")
+
+
 func run_seed() -> int:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	for i in range(args.size()):
@@ -1542,14 +1557,21 @@ func _save_replay() -> void:
 
 ## The magnification to play `level` at.
 ##
-## PLAY_ZOOM unless the level is SMALLER than the view at that magnification, in
-## which case it is pulled in further so a small test level fills the screen
-## rather than sitting in a letterbox. Never backs off below PLAY_ZOOM to fit a
-## large floor -- that was the old behaviour and it kept the camera too far out
-## to read a fight.
+## PLAY_ZOOM unless the level is smaller than ONE SCREEN at 1:1, in which case
+## it is pulled in further so a small test level fills the screen rather than
+## sitting in a letterbox. Never backs off below PLAY_ZOOM to fit a large floor
+## -- that was the old behaviour and it kept the camera too far out to read a
+## fight.
+##
+## One screen, not "the view at PLAY_ZOOM": with PLAY_ZOOM under 1 the
+## reference level is smaller than the view, and pulling it in would play it
+## at 1.0 while every larger level plays at PLAY_ZOOM -- moving between
+## missions would change how big everything looks. At PLAY_ZOOM 1 or above the
+## two rules are the same rule.
 static func zoom_for(level: Vector2, view: Vector2) -> float:
 	var fit: float = minf(view.x / maxf(1.0, level.x), view.y / maxf(1.0, level.y))
-	return clampf(maxf(PLAY_ZOOM, fit), MIN_ZOOM, MAX_ZOOM)
+	var want: float = maxf(PLAY_ZOOM, fit) if fit > 1.0 else PLAY_ZOOM
+	return clampf(want, MIN_ZOOM, MAX_ZOOM)
 
 
 ## Where the view wants to be: on the player, leaning toward what they are
